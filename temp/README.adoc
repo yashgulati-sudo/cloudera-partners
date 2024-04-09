@@ -1,6 +1,7 @@
-image:media/image8.png[image,width=815,height=1056]
-
 image:media/image1.png[image,width=287,height=35]
+==  [.orange]#*PARTNER HANDBOOK*#
+
+image:media/image5.png[image,width=815,height=1056]
 
 *TABLE OF CONTENT*
 
