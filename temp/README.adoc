@@ -9,7 +9,7 @@ image:media/image5.png[image,width=815,height=1056]
 link:#preface[*■ PREFACE*]
 
 link:#how-to-become-a-cloudera-partner[*■ How to become a Cloudera
-Partner ? 4*]
+Partner ? ]
 
 ____
 link:#become-a-cloudera-partner[3.1 Become a Cloudera Partner]
@@ -21,7 +21,7 @@ link:#accessing-the-partner-portal[3.3 Accessing the Partner Portal]
 ____
 
 link:#trainings-accreditation-certifications[*■ TRAININGS, ACCREDITATION
-& CERTIFICATIONS *]
+& CERTIFICATIONS ]
 
 ____
 link:#cloudera-technical-accreditation-program[4.1 Cloudera Technical
