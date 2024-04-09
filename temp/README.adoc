@@ -88,7 +88,7 @@ Cloudera Data Platform.
 
 *Welcome aboard!*
 
-== How to become a Cloudera Partner ?
+== 2. How to become a Cloudera Partner ?
 
 === 2.1 Become a Cloudera Partner
 
