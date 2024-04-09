@@ -6,62 +6,51 @@ image:media/image5.png[image,width=815,height=1056]
 
 *TABLE OF CONTENT*
 
-link:#preface[*■ PREFACE*]
+link:#preface[* PREFACE*]
 
-link:#how-to-become-a-cloudera-partner[*■ How to become a Cloudera Partner ? *]
-
+link:#how-to-become-a-cloudera-partner[* How to become a Cloudera Partner ? *]
 ____
 link:#become-a-cloudera-partner[3.1 Become a Cloudera Partner]
-
 link:#already-a-partner-register-your-username[3.2 Already a Partner ? Register your username ]
-
 link:#accessing-the-partner-portal[3.3 Accessing the Partner Portal]
 ____
-
-link:#trainings-accreditation-certifications[*■ TRAININGS, ACCREDITATION & CERTIFICATIONS *]
+link:#trainings-accreditation-certifications[* TRAININGS, ACCREDITATION & CERTIFICATIONS *]
 
 ____
-link:#cloudera-technical-accreditation-program[4.1 Cloudera Technical
-Accreditation Program ]
+link:#cloudera-technical-accreditation-program[4.1 Cloudera Technical Accreditation Program ]
 
-link:#level-1-cloudera-technical-professional-ctp[Level 1: Cloudera
-Technical Professional (CTP) ]
+link:#level-1-cloudera-technical-professional-ctp[Level 1: Cloudera Technical Professional (CTP) ]
 
-link:#level-2-cloudera-technical-specialist-cts[Level 2: Cloudera
-Technical Specialist (CTS) ]
+link:#level-2-cloudera-technical-specialist-cts[Level 2: Cloudera Technical Specialist (CTS) ]
 
-link:#level-3-cloudera-technical-expert-cte[Level 3: Cloudera Technical
-Expert (CTE) ]
+link:#level-3-cloudera-technical-expert-cte[Level 3: Cloudera Technical Expert (CTE) ]
 
-link:#enablement-framework[4.2] link:#enablement-framework[Enablement
-Framework ]
+link:#enablement-framework[4.2] link:#enablement-framework[Enablement Framework ]
 
 link:#why-this-now[4.1.1 Why this now? ]
 
 link:#the-framework[4.1.2 The Framework ]
 ____
 
-link:#cdp-partner-developer-licence[*■ CDP Partner Developer License
-*]
+link:#cdp-partner-developer-licence[* CDP Partner Developer License *]
 
-link:++#cloudera-on-boarding---cloud-todo++[*■*]
-link:++#cloudera-on-boarding---cloud-todo++[*CLOUDERA ON-BOARDING -
-CLOUD *]
+link:++#cloudera-on-boarding---cloud-todo++[**]
+link:++#cloudera-on-boarding---cloud-todo++[*CLOUDERA ON-BOARDING - CLOUD *]
 
 ____
-link:#aws[■ AWS ]
+link:#aws[ AWS ]
 
-link:#azure[■ AZURE ]
+link:#azure[ AZURE ]
 
-link:#gcp[■ GCP ]
+link:#gcp[ GCP ]
 ____
 
-link:++#cloudera-on-boarding---on-premtodo++[*■ CLOUDERA ON-BOARDING -
+link:++#cloudera-on-boarding---on-premtodo++[* CLOUDERA ON-BOARDING -
 ON-PREM *]
 
-link:#live-on-demand-sessions[*■ LIVE ON-DEMAND SESSIONS *]
+link:#live-on-demand-sessions[* LIVE ON-DEMAND SESSIONS *]
 
-link:#resources[■ RESOURCES ]
+link:#resources[ RESOURCES ]
 
 ____
 link:#customer-success-stories[Customer Success Stories ]
