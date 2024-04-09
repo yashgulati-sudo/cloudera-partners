@@ -88,9 +88,9 @@ Cloudera Data Platform.
 
 *Welcome aboard!*
 
-== How to become a Cloudera Partner ?
+== 2. How to become a Cloudera Partner ?
 
-=== 3.1 Become a Cloudera Partner
+=== 2.1 Become a Cloudera Partner
 
 ____
 Step 1 : Register your username
@@ -105,7 +105,7 @@ Step 2 : Apply to become a partner
 https://www.cloudera.com/partners/membership-application.html[+++https://www.cloudera.com/partners/membership-application.html+++]
 ____
 
-===  3.2 Already a Partner ? Register your username
+===  2.2 Already a Partner ? Register your username
 
 ____
 If your organization is already registered as a partner, all you need to
@@ -117,7 +117,7 @@ Register your username here.
 https://sso.cloudera.com/register.html[+++https://sso.cloudera.com/register.html+++]
 ____
 
-===  3.3 Accessing the Partner Portal
+===  2.3 Accessing the Partner Portal
 
 ____
 Once your username is registered and your application approved you can
@@ -126,13 +126,9 @@ access the Partner Portal using the below link.
 https://cloudera-portal.force.com/clouderapartners[+++https://cloudera-portal.force.com/clouderapartners+++]
 ____
 
-== 
+== 3. TRAININGS, ACCREDITATION & CERTIFICATIONS
 
-* {blank}
-+
-== TRAININGS, ACCREDITATION & CERTIFICATIONS
-
-===  4.1 Cloudera Technical Accreditation Program
+===  3.1 Cloudera Technical Accreditation Program
 
 ____
 We are thrilled to announce the launch of the *Cloudera Technical
@@ -189,12 +185,13 @@ domain-specific knowledge and expertise needed to deliver tailored
 solutions and address the unique data challenges of your industry.
 
 image:media/image3.png[image,width=624,height=450]
+____
 
 Why Cloudera Technical Accreditation ?
 
 By enrolling in Cloudera Technical Accreditation , you will gain access
 to a wealth of benefits, including:
-____
+
 
 * {blank}
 +
@@ -210,11 +207,7 @@ ____
 ____
 *Hands-on experience:* The accreditation is designed with a practical
 approach, providing you with ample opportunities to apply your learning
-through hands-on
-____
-
-____
-exercises and real-world use cases, ensuring that you can immediately
+through hands-on exercises and real-world use cases, ensuring that you can immediately
 start applying your knowledge in your organizations.
 ____
 
