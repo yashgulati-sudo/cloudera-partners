@@ -8,7 +8,7 @@ image:media/image5.png[image,width=815,height=1056]
 
 link:#preface[1. PREFACE]
 
-link:#how-to-become-a-cloudera-partner[2.  How to become a Cloudera Partner ? ]
+link:#2.-how-to-become-a-cloudera-partner[2. How to become a Cloudera Partner ? ]
 
 ____
 link:#become-a-cloudera-partner[2.1 Become a Cloudera Partner]
