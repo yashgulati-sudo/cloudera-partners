@@ -24,11 +24,11 @@ link:#trainings-accreditation-certifications[3. TRAININGS, ACCREDITATION & CERTI
 ____
 link:#cloudera-technical-accreditation-program[3.1 Cloudera Technical Accreditation Program ]
 
-link:#level-1-cloudera-technical-professional-ctp[Level 1: Cloudera Technical Professional (CTP) ]
+link:#level-1-cloudera-technical-professional-ctp[    Level 1: Cloudera Technical Professional (CTP) ]
 
-link:#level-2-cloudera-technical-specialist-cts[Level 2: Cloudera Technical Specialist (CTS) ]
+link:#level-2-cloudera-technical-specialist-cts[    Level 2: Cloudera Technical Specialist (CTS) ]
 
-link:#level-3-cloudera-technical-expert-cte[Level 3: Cloudera Technical Expert (CTE) ]
+link:#level-3-cloudera-technical-expert-cte[    Level 3: Cloudera Technical Expert (CTE) ]
 
 link:#enablement-framework[3.2] link:#enablement-framework[Enablement Framework ]
 
