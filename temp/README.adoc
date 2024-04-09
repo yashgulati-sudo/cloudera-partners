@@ -415,10 +415,6 @@ Learning Series+++]
 
 ==  +
 
-== 
-
-* {blank}
-+
 == *CDP Partner Developer Licence*
 
 Selected partners can get access to a Cloudera license at no cost. In
@@ -440,26 +436,17 @@ can be used. This license must not be used for any customer-related
 work, meaning it cannot be deployed on any customer site and it cannot
 hold any customer data, among other things.
 
-* {blank}
-+
+
 == CLOUDERA ON-BOARDING - CLOUD [TODO]
-* {blank}
-+
+
 === AWS
-* {blank}
-+
+
 === AZURE
-* {blank}
-+
+
 === GCP
-* {blank}
-+
-== CLOUDERA ON-BOARDING - ON-PREM[TODO] +
 
-== 
+== CLOUDERA ON-BOARDING - ON-PREM[TODO] 
 
-* {blank}
-+
 == LIVE ON-DEMAND SESSIONS
 
 ____
@@ -475,10 +462,6 @@ https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Learning
 Path+++] can be leveraged and an assessment at the end of the course
 will test you for your understanding
 
-== 
-
-* {blank}
-+
 == RESOURCES
 
 === Customer Success Stories
@@ -559,10 +542,6 @@ ____
 https://blog.cloudera.com/moving-enterprise-data-from-anywhere-to-any-system-made-easy/[+++The
 Need for a Universal Data Distribution Service+++]
 ____
-
-===  +
-
-=== 
 
 == CONTACT US
 
