@@ -65,10 +65,6 @@ ____
 
 link:#contact-us[CONTACT US ]
 
-== 
-
-* {blank}
-+
 == PREFACE
 
 Welcome to the Cloudera Data Platform (CDP) Resource Guide! As you
@@ -92,10 +88,6 @@ Cloudera Data Platform.
 
 *Welcome aboard!*
 
-== 
-
-* {blank}
-+
 == How to become a Cloudera Partner ?
 
 === 3.1 Become a Cloudera Partner
