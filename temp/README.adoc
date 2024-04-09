@@ -297,12 +297,6 @@ Partner individuals who are *_accredited_* will become *_eligible_* to
 attend our *_hands-on training_*.
 ____
 
-====  +
-
-==== 
-
-==== 
-
 ==== 4.1.2 The Framework
 
 ____
@@ -413,8 +407,6 @@ Hands-On Workshops+++]
 Learning Series+++]
 |===
 
-==  +
-
 == *CDP Partner Developer Licence*
 
 Selected partners can get access to a Cloudera license at no cost. In
@@ -435,6 +427,7 @@ which states the terms and conditions under which this type of licence
 can be used. This license must not be used for any customer-related
 work, meaning it cannot be deployed on any customer site and it cannot
 hold any customer data, among other things.
+
 
 
 == CLOUDERA ON-BOARDING - CLOUD [TODO]
