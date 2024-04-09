@@ -8,21 +8,21 @@ image:media/image5.png[image,width=815,height=1056]
 
 link:#preface[1. PREFACE]
 
-link:#how-to-become-a-cloudera-partner-[2. How to become a Cloudera Partner ? ]
+link:#2-how-to-become-a-cloudera-partner-[2. How to become a Cloudera Partner ? ]
 
 ____
-link:#become-a-cloudera-partner[2.1 Become a Cloudera Partner]
+link:#21-become-a-cloudera-partner[2.1 Become a Cloudera Partner]
 
-link:#already-a-partner-register-your-username[2.2 Already a Partner ? Register your username ]
+link:#22-already-a-partner--register-your-username[2.2 Already a Partner ? Register your username ]
 
-link:#accessing-the-partner-portal[2.3 Accessing the Partner Portal]
+link:#23-accessing-the-partner-portal[2.3 Accessing the Partner Portal]
 ____
 
 
-link:#trainings-accreditation-certifications[3. TRAININGS, ACCREDITATION & CERTIFICATIONS ]
+link:#3-trainings-accreditation--certifications[3. TRAININGS, ACCREDITATION & CERTIFICATIONS ]
 
 ____
-link:#cloudera-technical-accreditation-program[3.1 Cloudera Technical Accreditation Program ]
+link:#31-cloudera-technical-accreditation-program[3.1 Cloudera Technical Accreditation Program ]
 
 link:#level-1-cloudera-technical-professional-ctp[    Level 1: Cloudera Technical Professional (CTP) ]
 
