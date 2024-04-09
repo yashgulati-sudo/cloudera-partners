@@ -9,11 +9,16 @@ image:media/image5.png[image,width=815,height=1056]
 link:#preface[PREFACE]
 
 link:#how-to-become-a-cloudera-partner[ How to become a Cloudera Partner ? ]
+
 ____
 link:#become-a-cloudera-partner[3.1 Become a Cloudera Partner]
+
 link:#already-a-partner-register-your-username[3.2 Already a Partner ? Register your username ]
+
 link:#accessing-the-partner-portal[3.3 Accessing the Partner Portal]
 ____
+
+
 link:#trainings-accreditation-certifications[ TRAININGS, ACCREDITATION & CERTIFICATIONS ]
 
 ____
