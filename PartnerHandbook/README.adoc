@@ -379,69 +379,50 @@ ____
 |===
 | |*Sales & Marketing* |*Technical Pre-Sales*
 |Technical Basics
-|https://clouderaconnect.learnupon.com/catalog/courses/2813085[+++Just
-Enough Tech+++] a|
-https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Cloudera
-Technical Professional (CTP) Accreditation+++]
+|https://clouderaconnect.learnupon.com/catalog/courses/2813085[+++Just Enough Tech+++] a|
+https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Cloudera Technical Professional (CTP) Accreditation+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/2901490[+++CDP
-Deployment Capabilities+++]
+https://clouderaconnect.learnupon.com/catalog/courses/2901490[+++CDP Deployment Capabilities+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/3066517[+++DataFlow
-Solution Overview+++]
+https://clouderaconnect.learnupon.com/catalog/courses/3066517[+++DataFlow Solution Overview+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/3143560[+++Introduction
-to UDD with Cloudera DataFlow+++]
+https://clouderaconnect.learnupon.com/catalog/courses/3143560[+++Introduction to UDD with Cloudera DataFlow+++]
 
 |Product Sales & Value |
-|https://clouderaconnect.learnupon.com/catalog/courses/1224096[+++Cloudera
-Sales Professional (CSP) Accreditation+++]
+|https://clouderaconnect.learnupon.com/catalog/courses/1224096[+++Cloudera Sales Professional (CSP) Accreditation+++]
 
 |Product & Solution | a|
-https://clouderaconnect.learnupon.com/catalog/courses/2901491[+++CDP
-Hybrid Data Services+++]
+https://clouderaconnect.learnupon.com/catalog/courses/2901491[+++CDP Hybrid Data Services+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/2901490[+++CDP
-Deployment Capabilities+++]
+https://clouderaconnect.learnupon.com/catalog/courses/2901490[+++CDP Deployment Capabilities+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/3066517[+++DataFlow
-Solution Overview+++]
+https://clouderaconnect.learnupon.com/catalog/courses/3066517[+++DataFlow Solution Overview+++]
 
 |Company a|
-https://clouderaconnect.learnupon.com/catalog/courses/2814515[+++Telling
-the Cloudera Story+++]
+https://clouderaconnect.learnupon.com/catalog/courses/2814515[+++Telling the Cloudera Story+++]
 
-https://clouderaconnect.learnupon.com/catalog/courses/2813473[+++Competitive
-Intelligence Overview+++]
+https://clouderaconnect.learnupon.com/catalog/courses/2813473[+++Competitive Intelligence Overview+++]
 
-|https://clouderaconnect.learnupon.com/catalog/courses/2813473[+++Competitive
-Intelligence Overview+++]
+|https://clouderaconnect.learnupon.com/catalog/courses/2813473[+++Competitive Intelligence Overview+++]
 
 |Deal Mechanics
-|https://clouderaconnect.learnupon.com/catalog/courses/2835263[+++Introduction
-to Pricing & Licensing+++]
-|https://clouderaconnect.learnupon.com/catalog/courses/2835263[+++Introduction
-to Pricing & Licensing+++]
+|https://clouderaconnect.learnupon.com/catalog/courses/2835263[+++Introduction to Pricing & Licensing+++]
+
 
 |Platform Essentials
-|https://clouderaconnect.learnupon.com/catalog/courses/2826074[+++Cloudera
-Essentials for CDP+++] |
+|https://clouderaconnect.learnupon.com/catalog/courses/2826074[+++Cloudera Essentials for CDP+++] |
 
 |Platform Migration |N/A
-|https://clouderaconnect.learnupon.com/catalog/courses/2962818[+++CDP
-Migration Camp+++]
+|https://clouderaconnect.learnupon.com/catalog/courses/2962818[+++CDP Migration Camp+++]
 
 |CDP Technical Topics |
-|https://clouderaconnect.learnupon.com/forums/posts/28903?bc=topics[+++SkillUP
-Technical Learning Series ON DEMAND Catalog+++]
+|https://clouderaconnect.learnupon.com/forums/posts/28903?bc=topics[+++SkillUP Technical Learning Series ON DEMAND Catalog+++]
 
 |LIVE Enablement |CPN Partner Briefing
-|http://attend.cloudera.com/clouderadataservicesworkshops[+++Virtual
-Hands-On Workshops+++]
+|http://attend.cloudera.com/clouderadataservicesworkshops[+++Virtual Hands-On Workshops+++]
 
 | |
-|http://attend.cloudera.com/skillupclouderadataplatformess[+++SkillUP
-Learning Series+++]
+|http://attend.cloudera.com/skillupclouderadataplatformess[+++SkillUP Learning Series+++]
 |===
 
 == *CDP Partner Developer Licence*
@@ -467,15 +448,30 @@ hold any customer data, among other things.
 
 
 
-== CLOUDERA ON-BOARDING - CLOUD [TODO]
+== CLOUDERA ON-BOARDING - CLOUD
 
 === AWS
 
+    AWS quickstart (Deprecated) : https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html#mc-aws-quickstart
+
+    Deploy CDP using Terraform : https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
+
+
 === AZURE
+
+    Azure quickstart (Deprecated) : https://docs.cloudera.com/cdp-public-cloud/cloud/azure-quickstart/topics/mc-azure-quickstart.html#mc-azure-quickstart
+
+    Deploy CDP using Terraform : https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
 
 === GCP
 
-== CLOUDERA ON-BOARDING - ON-PREM[TODO] 
+    GCP Quickstart : https://docs.cloudera.com/cdp-public-cloud/cloud/gcp-quickstart/topics/mc-gcp-quickstart.html#mc-gcp-quickstart
+
+== CLOUDERA ON-BOARDING - ON-PREM
+   
+    CDP Private Cloud Base Installation Guide : https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/installation/topics/cdpdc-installation.html
+    CDP Private Cloud Data Services Guide : https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.3/installation-ecs/topics/cdppvc-requirements-ecs.html
+
 
 == LIVE ON-DEMAND SESSIONS
 
