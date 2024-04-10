@@ -271,7 +271,7 @@ and excellence in the field of data management and analytics along with
 a badge that you can flaunt.
 ____
 
-____
+
 image:media/accreditation.png[media/accreditation,width=815,height=500]
 
 Join us in this exciting journey of exploration and mastery of
@@ -280,31 +280,27 @@ Technical Accreditation. Enhance your skills, drive innovation in your
 organizations, and unlock the power of data with Cloudera.
 
 Enroll now and unlock the future of data management and analytics!
-____
+
 
 * {blank}
 +
 ____
-https://clouderaconnect.learnupon.com/catalog/courses/1224096[+++Cloudera
-Sales Accreditation+++]
+https://clouderaconnect.learnupon.com/catalog/courses/1224096[+++Cloudera Sales Accreditation+++]
 ____
 * {blank}
 +
 ____
-https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Cloudera
-Technical+++ *+++Professional+++]
+https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Cloudera Technical+++ +++Professional+++]
 ____
 * {blank}
 +
 ____
-https://clouderaconnect.learnupon.com/catalog/learning-paths/65341[+++Cloudera
-Technical+++ *+++Specialist+++]
+https://clouderaconnect.learnupon.com/catalog/learning-paths/65341[+++Cloudera Technical+++ +++Specialist+++]
 ____
 * {blank}
 +
 ____
-https://clouderaconnect.learnupon.com/catalog/learning-paths/73834[+++Cloudera
-Technical+++ *+++Expert+++]
+https://clouderaconnect.learnupon.com/catalog/learning-paths/73834[+++Cloudera Technical+++ +++Expert+++]
 ____
 
 === 4.2 Enablement Framework
