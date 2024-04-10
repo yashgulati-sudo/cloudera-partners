@@ -272,7 +272,7 @@ a badge that you can flaunt.
 ____
 
 ____
-image:media/image2.png[image,width=145,height=158]image:media/image4.png[image,width=275,height=190]
+image:media/accreditation.png[media/accreditation,width=815,height=500]
 
 Join us in this exciting journey of exploration and mastery of
 Cloudera's data management and analytics technologies with the Cloudera
