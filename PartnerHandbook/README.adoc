@@ -56,11 +56,11 @@ link:#live-on-demand-sessions[7. LIVE ON-DEMAND SESSIONS ]
 link:#resources[8. RESOURCES ]
 
 ____
-link:#customer-success-stories[9. Customer Success Stories ]
+link:#customer-success-stories[8.1 Customer Success Stories ]
 
-link:#solution-gallery[10. Solution Gallery ]
+link:#solution-gallery[8.2 Solution Gallery ]
 
-link:#blogs[11. Blogs ]
+link:#blogs[8.3 Blogs ]
 ____
 
 link:#contact-us[CONTACT US ]
