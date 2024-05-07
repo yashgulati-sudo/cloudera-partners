@@ -1,1 +1,1 @@
-# cloudera-partners
+# Cloudera Repository For Partners
