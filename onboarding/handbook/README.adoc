@@ -146,6 +146,67 @@ A partner developer license is available for the CDP platform:
 
 https://www.cloudera.com/partners/cdp-partner-developer-license.html[CDP Partner Developer License]
 
-== CLOUDERA ON-BOARDING - CLOUD
+= CLOUDERA ON-BOARDING - CLOUD
 
-image::media/image6.png[image,width=815
+image::media/image6.png[]
+
+== Introduction
+
+Welcome to the Cloudera Data Platform (CDP) On-boarding for Cloud guide. This guide is designed to provide you with a comprehensive overview of the steps involved in onboarding your organization onto the Cloudera Data Platform on the cloud. Whether you are new to CDP or transitioning from an existing deployment, this guide will walk you through the process, highlighting best practices, key considerations, and practical tips to ensure a smooth and successful onboarding experience.
+
+== Getting Started
+
+Before you begin the onboarding process, it is essential to familiarize yourself with the key concepts and components of the Cloudera Data Platform. Here are some resources to help you get started:
+
+* Cloudera Data Platform Overview: [https://www.cloudera.com/products/cloudera-data-platform.html]
+* CDP Public Cloud Documentation: [https://docs.cloudera.com/cdp/latest/index.html]
+
+== Onboarding Steps
+
+The onboarding process involves several key steps, each essential for setting up and configuring your CDP environment on the cloud. Here is an overview of the onboarding steps:
+
+1. **Prepare Your Environment:** Before you can onboard onto CDP, you need to ensure that your cloud environment meets the prerequisites and requirements for CDP deployment. This includes setting up the necessary cloud infrastructure, network configurations, and security settings.
+
+2. **Create a CDP Environment:** Once your environment is prepared, you can proceed to create a CDP environment on the cloud. This involves defining the cluster configuration, choosing the cloud provider, specifying the region and availability zones, and configuring network settings.
+
+3. **Deploy CDP Services:** With your environment created, you can now deploy the desired Cloudera Data Platform services, such as Data Warehouse, Data Hub, Machine Learning, etc. This step includes configuring service-specific settings, adding nodes, and setting up storage options.
+
+4. **Configure Security:** Security is a critical aspect of any CDP deployment. During this step, you will configure security settings, set up authentication mechanisms, manage access control, and enable encryption to ensure the confidentiality, integrity, and availability of your data.
+
+5. **Integrate with External Systems:** CDP offers seamless integration with external systems and data sources. In this step, you can integrate with existing databases, data lakes, analytics tools, and other external systems to streamline data workflows and enable cross-platform analytics.
+
+6. **Optimize Performance:** Once your CDP environment is up and running, you can optimize its performance by fine-tuning configurations, monitoring resource utilization, and implementing best practices for performance optimization. This ensures that your CDP deployment delivers optimal performance and meets your organization's data processing requirements.
+
+7. **Monitor and Manage:** Continuous monitoring and management are key to ensuring the health, availability, and performance of your CDP environment. Use Cloudera Manager and other monitoring tools to monitor cluster metrics, track resource usage, troubleshoot issues, and perform routine maintenance tasks.
+
+8. **Scale and Grow:** As your data needs evolve, you can scale your CDP environment to accommodate growing workloads, data volumes, and user requirements. Use Cloudera Manager to scale clusters, add nodes, and adjust configurations to meet changing demands and ensure scalability and agility.
+
+== Additional Resources
+
+For more detailed guidance on each step of the onboarding process, refer to the following resources:
+
+* CDP Onboarding Guide: [https://docs.cloudera.com/cdp/latest/onboarding-cdp-cloud/index.html]
+* CDP Deployment Planning Guide: [https://docs.cloudera.com/cdp/latest/deployment-planning/topics/cdp-deployment-planning.html]
+* CDP Security Guide: [https://docs.cloudera.com/cdp/latest/security/index.html]
+* CDP Performance Tuning Guide: [https://docs.cloudera.com/cdp/latest/performance-tuning/index.html]
+* CDP Management Guide: [https://docs.cloudera.com/cdp/latest/manage-clusters/topics/cdp-manage-clusters.html]
+
+== Conclusion
+
+Congratulations! You have completed the Cloudera Data Platform Onboarding for Cloud guide. By following the steps outlined in this guide and leveraging the available resources, you are well-equipped to successfully onboard your organization onto the Cloudera Data Platform on the cloud. We wish you a smooth and productive onboarding experience and look forward to supporting you on your data journey with Cloudera.
+
+image::media/image9.png[]
+
+== Appendix: Glossary
+
+* CDP: Cloudera Data Platform
+* Cloud Provider: A company that offers cloud-based services, such as infrastructure, platform, or software, over the internet.
+* Data Warehouse: A centralized repository that stores structured and organized data for querying and analysis.
+* Data Hub: A centralized platform for data ingestion, processing, and analysis, typically used for data lakes and analytics workloads.
+* Machine Learning: A branch of artificial intelligence that focuses on developing algorithms and models that can learn from data and make predictions or decisions.
+* Cloudera Manager: A comprehensive management tool for Cloudera clusters, providing monitoring, administration, and configuration capabilities.
+* Cloudera Navigator: A data governance and metadata management tool for Cloudera clusters, enabling data discovery, lineage tracking, and policy enforcement.
+* Cloudera Data Catalog: A centralized catalog for managing and discovering data assets across the enterprise, providing metadata management and data lineage capabilities.
+* Cloudera SDX (Shared Data Experience): A unified security and governance framework for Cloudera clusters, providing consistent security policies and access controls across multiple data platforms and workloads.
+
+image::media/image10.png[]
