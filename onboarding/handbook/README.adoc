@@ -9,19 +9,19 @@ image::media/image1.png[width=287,height=35]
 ** <<21-become-a-cloudera-partner, 2.1 Become a Cloudera Partner>>
 ** <<22-already-a-partner-register-your-username, 2.2 Already a Partner? Register your username>>
 ** <<accessing-the-partner-portal, 2.3 Accessing the Partner Portal>>
-* <<trainings-accreditation-certifications, 3. TRAININGS, ACCREDITATION & CERTIFICATIONS>>
-** <<cloudera-technical-accreditation-program, 3.1 Cloudera Technical Accreditation Program>>
+* <<3-trainings-accreditation--certifications, 3. TRAININGS, ACCREDITATION & CERTIFICATIONS>>
+** <<31-cloudera-technical-accreditation-program, 3.1 Cloudera Technical Accreditation Program>>
 *** <<level-1-cloudera-technical-professional-ctp, Level 1: Cloudera Technical Professional (CTP)>>
 *** <<level-2-cloudera-technical-specialist-cts, Level 2: Cloudera Technical Specialist (CTS)>>
 *** <<level-3-cloudera-technical-expert-cte, Level 3: Cloudera Technical Expert (CTE)>>
-** <<cdp-partner-developer-licence, 4. CDP Partner Developer License>>
-** <<cloudera-on-boarding-cloud, 5. CLOUDERA ON-BOARDING - CLOUD>>
+** <<4-cdp-partner-developer-license, 4. CDP Partner Developer License>>
+** <<5-cloudera-on-boarding---cloud, 5. CLOUDERA ON-BOARDING - CLOUD>>
 *** <<aws, 5.1 AWS>>
 *** <<azure, 5.2 AZURE>>
 *** <<gcp, 5.3 GCP>>
-** <<cloudera-on-boarding-on-prem, 6. CLOUDERA ON-BOARDING - ON-PREM>>
-* <<live-on-demand-sessions, 7. LIVE ON-DEMAND SESSIONS>>
-* <<resources, 8. RESOURCES>>
+** <<6-cloudera-on-boarding---on-prem, 6. CLOUDERA ON-BOARDING - ON-PREM>>
+* <<7-live-on-demand-sessions, 7. LIVE ON-DEMAND SESSIONS>>
+* <<8-resources, 8. RESOURCES>>
 ** <<customer-success-stories, 8.1 Customer Success Stories>>
 ** <<solution-gallery, 8.2 Solution Gallery>>
 ** <<blogs, 8.3 Blogs>>
