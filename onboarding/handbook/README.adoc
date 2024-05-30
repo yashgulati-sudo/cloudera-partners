@@ -5,9 +5,9 @@ image::media/image1.png[width=287,height=35]
 == TABLE OF CONTENT
 
 * <<preface, 1. PREFACE>>
-* <<how-to-become-a-cloudera-partner, 2. HOW TO BECOME A CLOUDERA PARTNER?>>
-** <<become-a-cloudera-partner, 2.1 Become a Cloudera Partner>>
-** <<already-a-partner-register-your-username, 2.2 Already a Partner? Register your username>>
+* <<2-how-to-become-a-cloudera-partner, 2. HOW TO BECOME A CLOUDERA PARTNER?>>
+** <<21-become-a-cloudera-partner, 2.1 Become a Cloudera Partner>>
+** <<22-already-a-partner-register-your-username, 2.2 Already a Partner? Register your username>>
 ** <<accessing-the-partner-portal, 2.3 Accessing the Partner Portal>>
 * <<trainings-accreditation-certifications, 3. TRAININGS, ACCREDITATION & CERTIFICATIONS>>
 ** <<cloudera-technical-accreditation-program, 3.1 Cloudera Technical Accreditation Program>>
