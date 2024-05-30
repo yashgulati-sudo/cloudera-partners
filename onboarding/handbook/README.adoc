@@ -91,9 +91,9 @@ Please make sure you carefully read, review, and accept the Cloudera Partner Dev
 
 === AWS
 
-AWS Quickstart (Deprecated): https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html#mc-aws-quickstart
+*AWS Quickstart (Deprecated)*: https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html#mc-aws-quickstart
 
-Deploy CDP using Terraform: https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
+*Deploy CDP using Terraform*: https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
 
 === AZURE
 
