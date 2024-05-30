@@ -90,9 +90,7 @@ Selected partners can get access to a Cloudera license at no cost. In order to r
 
 If you need access to multiple Cloudera products, please make sure you raise a separate request for each product you want to apply for.
 
-Please make sure you carefully read, review, and accept the Cloudera Partner Development Subscription Agreement provided at https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html
-
-https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html[+++https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html+++], which states the terms and conditions under which this type of license can be used. This license must not be used for any customer-related work, meaning it cannot be deployed on any customer site, and it cannot hold any customer data, among other things.
+Please make sure you carefully read, review, and accept the Cloudera Partner Development Subscription Agreement provided at https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html[+++https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html+++], which states the terms and conditions under which this type of license can be used. This license must not be used for any customer-related work, meaning it cannot be deployed on any customer site, and it cannot hold any customer data, among other things.
 
 == CLOUDERA ON-BOARDING - CLOUD
 
