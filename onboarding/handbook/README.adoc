@@ -1,9 +1,10 @@
 = PARTNER HANDBOOK
 
 image::media/image1.png[width=287,height=35]
+ifdef::env-github[]
 
 :toc: macro
-toc::[]
+:toc: left
 
 == PREFACE
 
@@ -157,3 +158,4 @@ https://www.cloudera.com/solutions/gallery.html[+++https://www.cloudera.com/solu
 | Dipti Dash | EMEA | dipti.dash@cloudera.com
 | Manick Mehra | APAC | mmehra@cloudera.com
 |===
+endif::[]
