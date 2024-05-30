@@ -3,6 +3,7 @@
 image::media/image1.png[width=287,height=35]
 
 :toc:
+:toc-placement!: 
 
 == PREFACE
 
