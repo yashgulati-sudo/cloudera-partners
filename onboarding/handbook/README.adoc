@@ -2,10 +2,7 @@
 
 image::media/image1.png[width=287,height=35]
 
-:toc: macro
-:toc-title:
-
-toc::[]
+:toc:
 
 == PREFACE
 
