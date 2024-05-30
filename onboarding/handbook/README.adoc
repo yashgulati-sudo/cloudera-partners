@@ -2,153 +2,162 @@
 
 image::media/image1.png[width=287,height=35]
 
-== TABLE OF CONTENT
+:toc: macro
+:toc-title:
 
-* <<preface, 1. PREFACE>>
-* <<2-how-to-become-a-cloudera-partner, 2. HOW TO BECOME A CLOUDERA PARTNER?>>
-** <<21-become-a-cloudera-partner, 2.1 Become a Cloudera Partner>>
-** <<22-already-a-partner-register-your-username, 2.2 Already a Partner? Register your username>>
-** <<accessing-the-partner-portal, 2.3 Accessing the Partner Portal>>
-* <<3-trainings-accreditation--certifications, 3. TRAININGS, ACCREDITATION & CERTIFICATIONS>>
-** <<31-cloudera-technical-accreditation-program, 3.1 Cloudera Technical Accreditation Program>>
-*** <<level-1-cloudera-technical-professional-ctp, Level 1: Cloudera Technical Professional (CTP)>>
-*** <<level-2-cloudera-technical-specialist-cts, Level 2: Cloudera Technical Specialist (CTS)>>
-*** <<level-3-cloudera-technical-expert-cte, Level 3: Cloudera Technical Expert (CTE)>>
-** <<4-cdp-partner-developer-license, 4. CDP Partner Developer License>>
-** <<5-cloudera-on-boarding---cloud, 5. CLOUDERA ON-BOARDING - CLOUD>>
-*** <<aws, 5.1 AWS>>
-*** <<azure, 5.2 AZURE>>
-*** <<gcp, 5.3 GCP>>
-** <<6-cloudera-on-boarding---on-prem, 6. CLOUDERA ON-BOARDING - ON-PREM>>
-* <<7-live-on-demand-sessions, 7. LIVE ON-DEMAND SESSIONS>>
-* <<8-resources, 8. RESOURCES>>
-** <<customer-success-stories, 8.1 Customer Success Stories>>
-** <<solution-gallery, 8.2 Solution Gallery>>
-** <<blogs, 8.3 Blogs>>
-* <<contact-us, CONTACT US>>
+toc::[]
 
 == PREFACE
 
 Welcome to the Cloudera Data Platform (CDP) Resource Guide! As you embark on your journey with the Cloudera Data Platform, we are thrilled to provide you with a comprehensive collection of resources aimed at facilitating your exploration and utilization of CDP's powerful capabilities. Within this guide, you will discover a wealth of information, including detailed guides, tutorials, best practices, and support documentation meticulously curated to assist you in harnessing the full potential of CDP. Whether you are new to CDP or seeking to deepen your expertise, our resources are tailored to empower you with the knowledge and skills necessary for success. From data collection all the way to advanced analytics, each section of this guide is designed to offer actionable insights and practical guidance, ensuring a smooth and efficient onboarding process onto the Cloudera Data Platform. Our dedicated partner team is also available to address any queries or provide further assistance as you navigate through the resources and embark on your journey with CDP. We are committed to your success and are excited to accompany you on this transformative journey with the Cloudera Data Platform.
 
-*Welcome aboard!*
+Welcome aboard!
 
-== 2. HOW TO BECOME A CLOUDERA PARTNER?
+== How to become a Cloudera Partner ?
 
-=== 2.1 Become a Cloudera Partner
+=== Become a Cloudera Partner
 
-==== Step 1: Register your username
+Step 1: Register your username
 
-https://sso.cloudera.com/register.html[Register Here]
+https://sso.cloudera.com/register.html[+++https://sso.cloudera.com/register.html+++]
 
-Once registered, apply to become a partner.
+Once the username is registered and you get a confirmation, you can now apply to be a partner.
 
-==== Step 2: Apply to become a partner
+Step 2: Apply to become a partner
 
-https://www.cloudera.com/partners/membership-application.html[Apply Here]
+https://www.cloudera.com/partners/membership-application.html[+++https://www.cloudera.com/partners/membership-application.html+++]
 
-=== 2.2 Already a Partner? Register your username
+=== Already a Partner ? Register your username
 
-If your organization is already registered as a partner, register your username using your corporate email address to access the Partner Portal:
+If your organization is already registered as a partner, all you need to do is to register your username using your corporate email address, and you are now ready to access the Partner Portal.
 
-https://sso.cloudera.com/register.html[Register Here]
+Register your username here.
 
-=== 2.3 Accessing the Partner Portal
+https://sso.cloudera.com/register.html[+++https://sso.cloudera.com/register.html+++]
 
-Once registered and approved, access the Partner Portal:
+=== Accessing the Partner Portal
 
-https://cloudera-portal.force.com/clouderapartners[Access Here]
+Once your username is registered and your application approved you can access the Partner Portal using the below link.
 
-== 3. TRAININGS, ACCREDITATION & CERTIFICATIONS
+https://cloudera-portal.force.com/clouderapartners[+++https://cloudera-portal.force.com/clouderapartners+++]
 
-=== 3.1 Cloudera Technical Accreditation Program
+== TRAININGS, ACCREDITATION & CERTIFICATIONS
 
-We are thrilled to announce the launch of the Cloudera Technical Accreditation, a cutting-edge learning path designed to equip you with the knowledge and skills to excel in the fast-evolving world of data management and analytics with Cloudera. As a trusted partner of Cloudera, this accreditation is a unique opportunity for you to gain a competitive edge and stay ahead in today's highly competitive data-driven landscape.
+=== Cloudera Technical Accreditation Program
+
+We are thrilled to announce the launch of the *Cloudera Technical Accreditation*, a cutting-edge learning path designed to equip you with the knowledge and skills to excel in the fast-evolving world of data management and analytics with Cloudera. As a trusted partner of Cloudera, this accreditation is a unique opportunity for you to gain a competitive edge and stay ahead in today's highly competitive data-driven landscape.
+
+The Cloudera Technical Accreditation *is a three-level learning path* that takes you on a journey of exploration and mastery of Cloudera's industry-leading multi-functional data management and analytical platform. Each level builds on the previous one, delving deeper into the intricacies of Cloudera's solutions and providing you with the tools and expertise needed to tackle real-world challenges and drive innovation in your organizations.
 
 ==== Level 1: Cloudera Technical Professional (CTP)
 
-The first level lays the foundation, providing a comprehensive overview of Cloudera's data management and analytics technologies.
+The first level of the accreditation lays the foundation for your journey, providing you with a comprehensive overview of Cloudera's data management and analytics technologies. You will gain a solid understanding of the core concepts, architecture, and best practices, along with hands-on experience through practical exercises and use cases. This level is designed to give you a strong foothold in Cloudera's platform, enabling you to start applying your newfound knowledge to real-world scenarios immediately.
 
 ==== Level 2: Cloudera Technical Specialist (CTS)
 
-Building on foundational knowledge, the second level covers advanced topics and use cases.
+Building on the foundational knowledge, the second level takes you to the next level of detailing, covering advanced topics and use cases. You will dive deeper into Cloudera's technologies, exploring advanced data processing, data warehousing, data engineering, and machine learning capabilities. This level is designed to expand your skill set and provide you with the expertise to tackle complex data challenges and drive innovation in your organizations.
 
 ==== Level 3: Cloudera Technical Expert (CTE)
 
-The final level explores industry-specific use cases, equipping you with domain-specific knowledge.
+The final level of the accreditation is designed to take your skills to the pinnacle of mastery by providing you with industry-specific use cases. You will explore how Cloudera's technologies are applied in various industries, such as finance, healthcare, retail, telecommunications, and more. This level will equip you with the domain-specific knowledge and expertise needed to deliver tailored solutions and address the unique data challenges of your industry.
 
-=== 4. CDP Partner Developer License
+[cols="^,^,^"]
+|===
+| CTP | CTS | CTE
 
-Selected partners can request a Cloudera license at no cost. To request your CDP Partner Developer License, fill out the form:
+| Just Enough Tech | INTRODUCING CLOUDERA PUBLIC CLOUD ADMINISTRATION | ENABLING GENERATIVE AI FOR THE ENTERPRISE
 
-https://cloudera.my.site.com/clouderapartners/s/developer-license-request[Request Here]
+| Cloudera Data Platform Technical Overview | CLOUDERA DATA SERVICES, A CDW, CDE and CDF DEEP-DIVE | SDX - ADVANCED CONCEPTS IN ENTERPRISE-GRADE SECURITY
 
-Read and accept the Cloudera Partner Development Subscription Agreement:
+| Modern Data Architectures | INTRODUCTION TO UNIVERSAL DATA DISTRIBUTION WITH CLOUDERA DATA FLOW | BUILDING A MODERN DATA LAKEHOUSE WITH APACHE ICEBERG IN CDP
 
-https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html[Agreement Terms]
+| CDP Hybrid Data Services | INTRODUCTION TO CLOUDERA MACHINE LEARNING | SIZING, LICENSING AND PRICING A CLOUDERA SOLUTION
 
-== 5. CLOUDERA ON-BOARDING - CLOUD
+| Cloudera Data Services Online Guided Tour | CLOUDERA OPERATIONAL DATABASE FUNDAMENTALS | APACHE OZONE, THE MODERN BIG DATA OBJECT STORE
+
+| | SHARED DATA EXPERIENCE (SDX) | ADVANCED CONCEPTS IN APACHE OZONE, THE MODERN BIG DATA OBJECT STORE
+
+| | CLOUDERA PRICING & LICENSING | SIMPLIFY SOLUTIONING AND BUILD REFERENCE ARCHITECTURES WITH CLOUDERA BLUEPRINTS
+
+| | | CDP PUBLIC CLOUD ARCHITECTURE AND ONBOARDING
+
+| | | INTRODUCING CLOUDERA OBSERVABILITY FOR TECHNICAL AUDIENCES
+|===
+
+=== CDP Partner Developer License
+
+Selected partners can get access to a Cloudera license at no cost. In order to request your CDP Partner Developer License, please access https://cloudera.my.site.com/clouderapartners/s/developer-license-request[+++https://cloudera.my.site.com/clouderapartners/s/developer-license-request+++], to fill out and submit the Partner Developer License request form, making sure you select the right product(s) where it says "What Cloudera product are you requesting?". The person raising this request must be registered in the Cloudera Partner Portal with a technical profile.
+
+If you need access to multiple Cloudera products, please make sure you raise a separate request for each product you want to apply for.
+
+Please make sure you carefully read, review, and accept the Cloudera Partner Development Subscription Agreement provided at https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html
+
+https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html[+++https://www.cloudera.com/partners/partner-terms-conditions/partner-development-subscription-agreement.html+++], which states the terms and conditions under which this type of license can be used. This license must not be used for any customer-related work, meaning it cannot be deployed on any customer site, and it cannot hold any customer data, among other things.
+
+== CLOUDERA ON-BOARDING - CLOUD
 
 === AWS
 
-https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html[AWS Quickstart]
+AWS Quickstart (Deprecated): https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html#mc-aws-quickstart
 
-Deploy CDP using Terraform:
-
-https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Terraform Deployment]
+Deploy CDP using Terraform: https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
 
 === AZURE
 
-https://docs.cloudera.com/cdp-public-cloud/cloud/azure-quickstart/topics/mc-azure-quickstart.html[Azure Quickstart]
+Azure Quickstart (Deprecated): https://docs.cloudera.com/cdp-public-cloud/cloud/azure-quickstart/topics/mc-azure-quickstart.html#mc-azure-quickstart
 
-Deploy CDP using Terraform:
-
-https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Terraform Deployment]
+Deploy CDP using Terraform: https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html
 
 === GCP
 
-https://docs.cloudera.com/cdp-public-cloud/cloud/gcp-quickstart/topics/mc-gcp-quickstart.html[GCP Quickstart]
+GCP Quickstart: https://docs.cloudera.com/cdp-public-cloud/cloud/gcp-quickstart/topics/mc-gcp-quickstart.html#mc-gcp-quickstart
 
-== 6. CLOUDERA ON-BOARDING - ON-PREM
+== CLOUDERA ON-BOARDING - ON-PREM
 
-Explore guides for CDP Private Cloud Base Installation and Data Services:
+CDP Private Cloud Base Installation Guide: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/installation/topics/cdpdc-installation.html
 
-https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/installation/topics/cdpdc-installation.html[Installation Guide]
+CDP Private Cloud Data Services Guide: https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.3/installation-ecs/topics/cdppvc-requirements-ecs.html
 
-== 7. LIVE ON-DEMAND SESSIONS
+== LIVE ON-DEMAND SESSIONS
 
-Reach out for hands-on workshop labs and technical accreditation:
+Please reach out to us in case you have a requirement around enablement at your end using the Hands-On workshop Labs.
 
-http://attend.cloudera.com/clouderadataservicesworkshops[Hands-On Workshop Labs]
+*A prerequisite for anyone attending this workshop is that they need to be technically accredited with Cloudera.*
 
-== 8. RESOURCES
+For this accreditation, this https://clouderaconnect.learnupon.com/catalog/learning-paths/52418[+++Learning Path+++] can be leveraged, and an assessment at the end of the course will test you for your understanding.
 
-Explore our customer success stories, solution gallery, and blogs:
+== RESOURCES
 
-* Customer Success Stories: https://www.cloudera.com/about/customers.html
-* Solution Gallery: https://www.cloudera.com/solutions/gallery.html
+=== Customer Success Stories
 
-* Blogs: 
-** Introducing Cloudera DataFlow Designer: https://blog.cloudera.com/cloudera-dataflow-designer-the-key-to-agile-data-pipeline-development/
-** Make the leap to Hybrid with Cloudera Data Engineering: https://blog.cloudera.com/introducing-cloudera-data-engineering-in-cdp-private-cloud-1-3/
-** Apache Ozone – A High-Performance Object Store for CDP Private Cloud: https://blog.cloudera.com/apache-ozone-a-high-performance-object-store-for-cdp-private-cloud/
-** Choosing Your Upgrade or Migration Path to Cloudera Data Platform: https://blog.cloudera.com/choosing-your-upgrade-or-migration-path-to-cloudera-data-platform/
-** Upgrade to CDP Private Cloud Base – A Step by Step Guide: https://blog.cloudera.com/migrate-to-cdp-private-cloud-base-a-step-by-step-guide/
-** Upgrade Companion: https://docs.cloudera.com/upgrade-companion/cdp_upgrade.html
-** A Reference Architecture for the Cloudera Private Cloud Base Data Platform: https://blog.cloudera.com/a-reference-architecture-for-the-cloudera-private-cloud-base-data-platform/
-** 5 Reasons to Use Apache Iceberg on Cloudera Data Platform (CDP): https://blog.cloudera.com/5-reasons-to-use-apache-iceberg-on-cloudera-data-platform-cdp/
-** Streaming Ingestion for Apache Iceberg With Cloudera Stream Processing: https://blog.cloudera.com/streaming-ingestion-for-apache-iceberg-with-cloudera-stream-processing/
-** Optimizing Hive on Tez Performance: https://blog.cloudera.com/optimizing-hive-on-tez-performance/
-** The Need for a Universal Data Distribution Service: https://blog.cloudera.com/moving-enterprise-data-from-anywhere-to-any-system-made-easy/
+https://www.cloudera.com/about/customers.html[+++https://www.cloudera.com/about/customers.html+++]
+
+=== Solution Gallery
+
+https://www.cloudera.com/solutions/gallery.html[+++https://www.cloudera.com/solutions/gallery.html+++]
+
+=== Blogs
+
+- https://blog.cloudera.com/cloudera-dataflow-designer-the-key-to-agile-data-pipeline-development/[+++Introducing Cloudera DataFlow Designer+++]
+- https://blog.cloudera.com/introducing-cloudera-data-engineering-in-cdp-private-cloud-1-3/[+++Make the leap to Hybrid with Cloudera Data Engineering+++]
+- https://blog.cloudera.com/apache-ozone-a-high-performance-object-store-for-cdp-private-cloud/[+++Apache Ozone – A High-Performance Object Store for CDP Private Cloud+++]
+- https://blog.cloudera.com/choosing-your-upgrade-or-migration-path-to-cloudera-data-platform/[+++Choosing Your Upgrade or Migration Path to Cloudera Data Platform+++]
+- https://blog.cloudera.com/migrate-to-cdp-private-cloud-base-a-step-by-step-guide/[+++Upgrade to CDP Private Cloud Base – A Step by Step Guide+++]
+- https://docs.cloudera.com/upgrade-companion/cdp_upgrade.html[+++Upgrade Companion+++]
+- https://blog.cloudera.com/a-reference-architecture-for-the-cloudera-private-cloud-base-data-platform/[+++A Reference Architecture for the Cloudera Private Cloud Base Data Platform+++]
+- https://blog.cloudera.com/5-reasons-to-use-apache-iceberg-on-cloudera-data-platform-cdp/[+++5 Reasons to Use Apache Iceberg on Cloudera Data Platform (CDP)+++]
+- https://blog.cloudera.com/streaming-ingestion-for-apache-iceberg-with-cloudera-stream-processing/[+++Streaming Ingestion for Apache Iceberg With Cloudera Stream Processing+++]
+- https://blog.cloudera.com/optimizing-hive-on-tez-performance/[+++Optimizing Hive on Tez Performance+++]
+- https://blog.cloudera.com/moving-enterprise-data-from-anywhere-to-any-system-made-easy/[+++The Need for a Universal Data Distribution Service+++]
 
 == CONTACT US
 
+[cols="3", options="header"]
 |===
-|*NAME* |*REGION* |*EMAIL ID*
-|Venkatesh Sellappa |EMEA / APAC |venky@cloudera.com
-|Carlos Zorzin |APAC |czorzin@cloudera.com
-|Gabriele Folchi |EMEA |gabriele.folchi@cloudera.com
-|Dipti Dash |EMEA |dipti.dash@cloudera.com
-|Manick Mehra |APAC |mmehra@cloudera.com
+| NAME | REGION | EMAIL ID
+| Venkatesh Sellappa | EMEA / APAC | venky@cloudera.com
+| Carlos Zorzin | APAC | czorzin@cloudera.com
+| Gabriele Folchi | EMEA | gabriele.folchi@cloudera.com
+| Dipti Dash | EMEA | dipti.dash@cloudera.com
+| Manick Mehra | APAC | mmehra@cloudera.com
 |===
-
