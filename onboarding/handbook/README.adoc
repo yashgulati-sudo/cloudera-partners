@@ -5,6 +5,8 @@ image::media/image1.png[width=287,height=35]
 :toc:
 :toc-placement!: 
 
+toc::[]
+
 == PREFACE
 
 Welcome to the Cloudera Data Platform (CDP) Resource Guide! As you embark on your journey with the Cloudera Data Platform, we are thrilled to provide you with a comprehensive collection of resources aimed at facilitating your exploration and utilization of CDP's powerful capabilities. Within this guide, you will discover a wealth of information, including detailed guides, tutorials, best practices, and support documentation meticulously curated to assist you in harnessing the full potential of CDP. Whether you are new to CDP or seeking to deepen your expertise, our resources are tailored to empower you with the knowledge and skills necessary for success. From data collection all the way to advanced analytics, each section of this guide is designed to offer actionable insights and practical guidance, ensuring a smooth and efficient onboarding process onto the Cloudera Data Platform. Our dedicated partner team is also available to address any queries or provide further assistance as you navigate through the resources and embark on your journey with CDP. We are committed to your success and are excited to accompany you on this transformative journey with the Cloudera Data Platform.
