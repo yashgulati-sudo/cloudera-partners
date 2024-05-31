@@ -10,18 +10,28 @@ v1.0, May 31, 2024:
 :description: Cloudera Partner Handbook
 :imagesdir: ./images
 :icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:toc:
+:toc-placement!:
 
 :toc:
 :toc-placement!:
 
 image::image1.png[width=287,height=35]
 
-== How to become a Cloudera Partner ?
-* https://www.cloudera.com/partners/membership-application.html[Join Cloudera Connect]
+== Become A Cloudera Partner
+https://www.cloudera.com/partners/membership-application.html[Join Cloudera Connect]
 
-TIP: Already a Partner , register your username using your Corporate Email Address https://sso.cloudera.com/register.html[here]
+TIP: Already a Partner , register yourself using your Corporate Email Address https://sso.cloudera.com/register.html[here]
 
-* https://cloudera-portal.force.com/clouderapartners[Accessing the Partner Portal]
+https://cloudera-portal.force.com/clouderapartners[Accessing the Partner Portal]
 
 == Partner Developer License Program
 
