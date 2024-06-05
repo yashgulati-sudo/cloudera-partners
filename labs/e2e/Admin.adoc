@@ -8,7 +8,9 @@ Version : 1.0.0 `25th May 2024` +
 == Introduction
 
 This document gives inputs on what is needed from the environment set up perspective to run this workshop.
-. CDP environment (Running on AWS) - Depending on the number of users one might want to set it up in HA or Non-HA mode. This workshop has been tested on `meta-workshop` as part of `CDP Partner Workshop` okta tile. The underlying environment is making use of `aws-se-pse-daily`. In your case it might be completely different.
+CDP environment (Running on AWS) - Depending on the number of users one might want to set it up in HA or Non-HA mode. This workshop has been tested on `meta-workshop` as part of `CDP Partner Workshop` okta tile. The underlying environment is making use of `aws-se-pse-daily`. In your case it might be completely different.
+
+*Note:* `Some part of the screenshots have been cropped out to avoid sharing of sensitive details related to the account/infrastructure.`
 
 image:images/admin/cdp.PNG[]  +
 image:images/admin/aws.PNG[]  +
