@@ -8,7 +8,7 @@ Version : 1.0.0 `25th May 2024` +
 == Introduction
 
 This document gives inputs on what is needed from the environment set up perspective to run this workshop.
-. CDP environment (Running on AWS) - Depending on the number of users one might want to set it up in HA or Non-HA mode. This workshop has been tested on `meta-workshop` as part of `CDP Partner Workshop` okta tile. The underlying environment is making use of `aws-se-pse-daily`. 
+. CDP environment (Running on AWS) - Depending on the number of users one might want to set it up in HA or Non-HA mode. This workshop has been tested on `meta-workshop` as part of `CDP Partner Workshop` okta tile. The underlying environment is making use of `aws-se-pse-daily`. In your case it might be completely different.
 
 image:images/admin/cdp.PNG[]  +
 image:images/admin/aws.PNG[]  +
@@ -28,10 +28,13 @@ image:images/admin/dataviz.PNG[]  +
 
 . Key Cloak - The keycloak is running in the Mumbai region. 
 image:images/admin/keycloak-1.PNG[]  +
-Make sure that the users can login to it using the http://3.109.161.118/auth/realms/workshop/protocol/saml/clients/samlclient[KeyCloak] url. +
+Make sure that the users can login to it using the KeyCloak url as per your environment. +
 
-So, either the security settings are set to 0.0.0.0/0 or individual IPs of workshop users.
+Also, make sure that the security settings are set to 0.0.0.0/0 or individual IPs of workshop users. +
 image:images/admin/securitygrp.PNG[]  +
+
+If the keycloak is set up properly users should be able to get the the following page by clicking on the right URL shared by the instructor. +
+image:images/admin/keycloak.PNG[]  +
 
 == Important Pointers
 
