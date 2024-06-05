@@ -2,7 +2,7 @@
 
 '''
 
-Version : 1.0.0 `07th May 2024` +
+Version : 1.0.0 `08th May 2024` +
 
 '''
 
