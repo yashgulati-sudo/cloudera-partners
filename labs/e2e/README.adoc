@@ -65,29 +65,20 @@ Your instructor will guide you through this. +
 (1) https://docs.google.com/spreadsheets/d/1s63G-iBtgS8tDZOD1ml8Gh0YdunL4MtNqNzyN7E7gaY/edit#gid=412559706[Credentials]: Participants must enter their `First Name`, `Last Name` & `Company` details and make a note of corresponding `Workshop Login Username`, `Workshop Login Password` and `CDP Workload User` to be used in this workshop. +
 (2) http://3.109.161.118/auth/realms/workshop/protocol/saml/clients/samlclient[Workshop login]: Using the details in the previous step make sure you are able to login here. +
 
-== Step 1(a): Get github project
+== Step 1(a): Download Artifacts
 
 {blank}
 
-You can use the workshop project cloning this github repository : https://github.com/DashDipti/e2e-cdp-alphavantage[e2e-cdp-alphavantage repository]
+Scroll up on this page and look for 2 files and download them.  +
+1. *`Stocks_Intraday_Alpha_Template.json`* +
+2. *`stockdatabase_2.12-1.0.jar`* +
 
-[,console]
-----
-git clone https://github.com/DashDipti/e2e-cdp-alphavantage
-----
+Click on each file and download it. +
 
-== Step 1(b): Download repository using GUI
-
-{blank}
-Scroll up the page https://github.com/DashDipti/e2e-cdp-alphavantage[here] and click on `<> Code` and then choose the option `Download ZIP`. +
-image:images/step1/1.PNG[] +
-
-Use any unzip utility to download extract the content of the `e2e-cdp-alphavantage.zip` file. +
-image:images/step1/2.PNG[] +
-
-In the extracted content just be sure that the downloaded files has a file *`Stocks_Intraday_Alpha_Template.json`* which should be around *~65* KB in size. You will need this file in later step. +
-image:images/step1/3.PNG[] +
-
+image:images/step1/4.PNG[] +
+image:images/step1/5.PNG[] +
+image:images/step1/6.PNG[] +
+image:images/step1/7.PNG[] +
 
 == Step 2: Get Alpha Vantage Key
 
