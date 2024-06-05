@@ -23,16 +23,16 @@ image:images/admin/cdw-1.PNG[]  +
 
 . CDF - This is needed to initiate a Nifi flow to collect stock data from AlphaVantage.
 
-. CDE (Spark 3.2.0) - CDE is needed for CRUD statements to function.
+. CDE (Spark 3.2.0) - CDE is needed for CRUD statements to function.  +
+image:images/admin/cde-1.PNG[]  +
+image:images/admin/cde-2.PNG[]  +
 
 . Data Viz - This is needed to build a small dashboard with the underlying stock data.
 image:images/admin/dataviz.PNG[]  +
 
 . Key Cloak - The keycloak is running in the Mumbai region. 
 image:images/admin/keycloak-1.PNG[]  +
-Make sure that the users can login to it using the KeyCloak url as per your environment. +
-
-Also, make sure that the security settings are set to 0.0.0.0/0 or individual IPs of workshop users. +
+Make sure that the users can login to it using the KeyCloak url as per your environment. Also, make sure that the security settings are set to 0.0.0.0/0 or individual IPs of workshop users. +
 image:images/admin/securitygrp.PNG[]  +
 
 If the keycloak is set up properly users should be able to get the the following page by clicking on the right URL shared by the instructor. +
@@ -43,7 +43,7 @@ image:images/admin/keycloak.PNG[]  +
 The purpose of this section is to capture the inputs that as an admin that you must be aware of while setting up the workshop and running the same.
 
 === 1. IDBroker Mapping
-*Step*: Make sure that the ID broker mapping is done appropriately as shown below. +
+*Step*: Make sure that the ID broker mapping is done appropriately as shown below. Here the user group is `workshop-users` +
 image:images/admin/Idbroker.PNG[]  +
 
 === 2. CDF Flow failing
