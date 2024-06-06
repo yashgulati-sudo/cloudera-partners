@@ -1,6 +1,8 @@
 = PARTNER HANDBOOK
 mmehra@cloudera.com
 v1.0, May 31, 2024:
+:toc:
+
 :doctype: book
 :reproducible:
 :source-highlighter: rouge
@@ -18,11 +20,6 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-:toc:
-:toc-placement!:
-
-:toc:
-:toc-placement!:
 
 image::image1.png[width=287,height=35]
 
