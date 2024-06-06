@@ -16,7 +16,7 @@ image:images/admin/cdp.PNG[]  +
 image:images/admin/aws.PNG[]  +
 
 You can set up the environment by following the guide here - 
-https://github.com/cloudera/cloudera-partners/tree/main/onboarding/handbook#aws[Setting Up CDP Environment using AWS] +
+TBD !!!![Setting Up CDP Environment using AWS] +
 
 . CDW (Impala) - This is needed to run queries to test the iceberg features. 
 image:images/admin/cdw-1.PNG[]  +
