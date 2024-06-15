@@ -1,0 +1,207 @@
+= CDP Public Cloud: Hands On Labs Infrastructure Provisioner
+:toc:
+
+Author: **Kuldeep Sahu**
+
+Email: **ksahu@cloudera.com**
+
+Author: **Avanish Tiwari**
+
+Email: **aktiwari@cloudera.com**
+
+
+
+---
+
+
+
+
+
+image::images/keycloak_login.png[kycloak_login,1000,400]
+
+== Overview
+
+Hands-on Labs play a crucial role in showcasing the capabilities of Cloudera Data Platform Public Cloud form factor to partners and customers. They offer a practical and immersive learning experience that goes beyond mere overview. Hands-on Labs facilitate participant engagement and allow them to explore and interact with different PaaS offerings of Cloudera Data Platform.
+
+
+Infrastructure components are important and play a vital role in acheieving the goal of Hands-on Labs and to give a better experience to the participants.
+
+**Hands On Labs Infrastructure Provisioner** is a container based solution which takes care of provisioning the required infrastaructure components without much manual efforts. By executing a single command it creates a **disposable** on-demand stack consists of:
+
+1. CDP Environment
+2. Datalake
+3. Data Service (Currently CDW & CDE)
+4. Keycloak Server
+5. Users 
+
+
+== Technology Stack
+**Hands On Labs Infrastructure Provisioner** employs a robust toolchain consisting of:
+
+
+1.  Ansible
+2.  Terraform
+3.  Cloudera.cloud
+4.  CDP-tf-quickstarts
+5.  CDPY
+6.  CDP CLI
+7.  AWS CLI
+8.  Shell Scripting
+
+All the above tools are integrated with each other and packaged as a Dokcer Container for use.
+
+== How To Create Docker Image for HoL-Automation
+
+=== Step 1: Clone the code and cd into the hol_automation/build directory
+
+[.shell]
+----
+
+cd hol_automation/build
+
+----
+
+---
+
+=== Step 2: Build the docker image
+
+[.shell]
+----
+
+# docker build . -t <reponame>/<imagename>:<tagname>
+docker build . -t hol:latest
+
+----
+To verify the Docker image is actually created, by image ID or Name:
+[.shell]
+----
+
+docker images
+
+----
+
+---
+
+=== Step 3: Login to Docker Hub
+The docker image is available at Docker Hub. Once the Docker is installed and ready to use pull the **cdp-public-cloud-hol-provisioner:latest** image by executing below command.
+
+
+[.shell]
+----
+
+ksahu@Kuldeeps-MacBook-Air build % docker login             
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: clouderapartners
+Password: 
+Login Succeeded
+ksahu@Kuldeeps-MacBook-Air build % 
+
+----
+
+---
+
+=== Step 4: Tag and Push the Docker Image
+The Docker image will be available at Docker Hub. Once the Docker is installed, and you are logged in to Docker Hub, push the **cdp-public-cloud-hol-provisioner:latest** image by executing below command.
+
+
+[.shell]
+----
+
+docker tag hol:latest clouderapartners/cdp-public-cloud-hol-provisioner:latest
+docker push clouderapartners/cdp-public-cloud-hol-provisioner:latest
+
+----
+
+The overall time for provisioning is nearly 80-150 minutes (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW Provisioning). 
+
+---
+
+=== The Outcome
+==== Keycloak:
+The succesful execution of image will generate a .txt file in 'userconfig' folder on your local machine. The name of the file will be <VALUE_OF_WORKSHOP_NAME>.txt
+e.g : If in the configfile the value of WORKSHOP_NAME is **accn-wrkshp** the out put file will be **accn-wrkshp.txt**
+
+This file contains details about the provisioned Keycloak Server and the SSO URL which will be used for participants for login. It will look similar like below
+
+image::images/out_put_kc.png[during_process,650,300]
+
+
+---
+
+==== CDP Environment & Datalake:
+[%header,cols="1,1"]
+|===
+|Type
+|Name
+
+
+|Environment
+|<WORKSHOP_NAME>-cdp-env; e.g : accn-workshp-cdp-env
+
+|Admin User Group
+|<WORKSHOP_NAME>-aw-cdp-admin-group; e.g: accn-workshp-aw-cdp-admin-group
+
+|User Group
+|<WORKSHOP_NAME>-aw-cdp-user-group; e.g: accn-workshp-aw-cdp-user-group
+
+|===
+
+---
+
+==== CDW
+
+Based on number of workshop users defined in configfile the provisioner will take care of deploying required number of **xsmall** warehouses of both Hive & Impala and a
+data visualization cluster of **large** size.
+[%header,cols="1,1"]
+|===
+|Type
+|Name
+
+
+|Activated CDW Environment
+|<WORKSHOP_NAME>-cdp-env; e.g : accn-workshp-cdp-env
+
+|Database Catalog
+|
+
+|Hive Warehouses(xsmall)
+|<WORKSHOP_NAME>-hive-<number>; e.g: accn-workshp-hive-01
+
+|Impala Warehouses(xsmall)
+|<WORKSHOP_NAME>-impala-<number>; e.g: accn-workshp-impala-01
+
+|Data Visualization(large)
+|<WORKSHOP_NAME>-data-viz; e.g: accn-workshp-data-viz
+
+|===
+
+---
+
+==== CDE
+Based on number of workshop users defined in configfile the provisioner will take care of activating CDE service and deploying required number of CDE Virtual clusters having **SPARK 2** configuration. Based on the scope of workshop the owner needs to grant access through Ranger manually.
+[%header,cols="1,1"]
+|===
+|Type
+|Name
+
+|Activated CDE Service
+|<WORKSHOP_NAME>-cde; e.g : accn-workshp-cde
+
+
+|Virtual Clusters
+|<WORKSHOP_NAME>-cde-vc-<number>; e.g: accn-workshp-cde-vc-01
+
+
+|===
+
+---
+
+The provisioned CDP environment will have all the Keycloak users created in CDP and assigned to the *-aw-cdp-user-group and synched to FreeIpa.
+
+[NOTE]
+During provisioning, the process creates files and hidden folder inside the local userconfig folder. Do not delete any
+files and folder as these are required for destroying the stack.
+
+---
