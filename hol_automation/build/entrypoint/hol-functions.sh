@@ -1,10 +1,10 @@
 #!/bin/bash
 # *************************************************************************************************************#
 # Setting required path and variables.
+
 USER_CONFIG_FILE="/userconfig/configfile"
 KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraform_config
 KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansible_config
-CDP_TF_CONFIG_DIR=$HOME_DIR/cdp-tf-quickstarts/
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
 USER_ACTION=$1
 validating_variables () {
@@ -198,7 +198,7 @@ aws_prereq () {
 
                if [ $remaining_buckets -le 0 ]; then
                   bucket_name="test-bucket-$(date +%s)"
-                  aws s3api create-bucket --bucket $bucket_name --region us-east-1 2>/dev/null
+                  aws s3api create-bucket --bucket $bucket_name --region us-east-1 &>/dev/null
 
                   if [ $? -eq 0 ]; then
                      aws s3api delete-bucket --bucket $bucket_name --region us-east-1
@@ -304,20 +304,39 @@ provision_cdp () {
 echo "==============================Provisioning CDP Environment==================================="
 sleep 10
 USER_NAMESPACE=$workshop_name
-cp -R $CDP_TF_CONFIG_DIR /userconfig/.$USER_NAMESPACE/
+mkdir -p /userconfig/.$USER_NAMESPACE
+git clone https://github.com/cloudera-labs/cdp-tf-quickstarts.git -b main --single-branch --depth 1 /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts &>/dev/null
+cd /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts
+git sparse-checkout init --cone
+git sparse-checkout set aws
+git checkout @ &> /dev/null
 cd /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts/aws
 cdp_cidr="\"$local_ip\""
-
 #Adding outputs in quickstart outputs.tf
-cat <<EOF >> ./outputs.tf
-   
+file="outputs.tf"
+
+# Check if the public subnet output already exists
+public_subnet=$(grep "aws_public_subnet_ids" "$file")
+
+# Check if the private subnet output already exists
+private_subnet=$(grep "aws_private_subnet_ids" "$file")
+
+# Append the public subnet output if it does not exist
+if [ -z "$public_subnet" ]; then
+     cat <<EOF >> "$file"
 output "aws_public_subnet_ids" {
   value = module.cdp_aws_prereqs.aws_public_subnet_ids
-}  
+} 
+EOF
+fi
+# Append the private subnet output if it does not exist
+if [ -z "$private_subnet" ]; then
+     cat <<EOF >> "$file"
 output "aws_private_subnet_ids" {
   value = module.cdp_aws_prereqs.aws_private_subnet_ids
-}  
+}
 EOF
+fi
 terraform init
 terraform apply --auto-approve \
         -var "env_prefix=${workshop_name}" \
@@ -442,7 +461,7 @@ ansible-playbook keycloak_hol_user_teardown.yml --extra-vars \
    "keycloak__admin_username=admin \
     keycloak__admin_password=$keycloak__admin_password \
     keycloak__domain=http://$KEYCLOAK_SERVER_IP \
-    hol_keycloak_realm=master \
+    hol_keycloak_realm=master \  
     hol_session_name=$workshop_name-aw-cdp-user-group"
 sleep 10
 echo "====================Removing IDP From CDP Tenant============================================="

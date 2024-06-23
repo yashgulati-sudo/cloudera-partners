@@ -36,21 +36,13 @@ RUN pip install --upgrade pip && \
     pip install cdpcli && \
     pip install jmespath==1.0.1 && \
     pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy && \
-    ansible-galaxy collection install community.general && \
+    ansible-galaxy collection install community.general -vv && \
     ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,main
 
 # Install Terraform
 RUN curl "https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip" -o "/tmp/terraform_1.4.6_linux_amd64.zip" && \
     unzip /tmp/terraform_1.4.6_linux_amd64.zip -d /usr/local/bin/ && \
     rm -rf /tmp/terraform_1.4.6_linux_amd64.zip
-
-## Cloning cdp quickstart for AWS only
-RUN git clone https://github.com/cloudera-labs/cdp-tf-quickstarts.git -b main --single-branch --depth 1 $HOME_DIR/cdp-tf-quickstarts && \
-    cd $HOME_DIR/cdp-tf-quickstarts && \
-    git sparse-checkout init --cone && \
-    git sparse-checkout set aws && \
-    git checkout @ && \
-    ls -ltrh
 
 COPY cdp-wrkshps-quickstarts /opt/cdp-public-cloud-automation/cdp-wrkshps-quickstarts
 COPY entrypoint/docker-entrypoint.sh /usr/local/bin/
