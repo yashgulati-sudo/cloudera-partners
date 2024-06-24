@@ -36,7 +36,9 @@ keycloak__client_protocol: saml
 keycloak__client_full_scope_allowed: true
 keycloak__client_node_re_registration_timeout: -1
 keycloak__client_surrogate_auth_required: false
-keycloak__client_authentication_flow_binding_overrides: {}
+keycloak__client_authentication_flow_binding_overrides:
+  browser: ""
+  direct_grant: ""
 
 keycloak__client_attributes: 
   saml.assertion.signature: True
