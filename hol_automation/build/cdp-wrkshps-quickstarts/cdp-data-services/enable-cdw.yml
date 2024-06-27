@@ -6,26 +6,29 @@
   tasks:
     - name: Check and print variable status
       debug:
-        msg: "env_public_subnet: {{ env_public_subnet }},\n env_private_subnet: {{ env_private_subnet }}"
+        msg: "env_lb_public_subnet: {{ env_lb_public_subnet }}, env_wrkr_private_subnet: {{ env_wrkr_private_subnet }}"
 
     - name: activating CDW cluster
       cloudera.cloud.dw_cluster:
         env: "{{ cdp_env_name }}"
-        aws_lb_subnets: "{{ env_public_subnet if env_public_subnet | length > 0 else env_private_subnet }}"
-        aws_worker_subnets: "{{ env_private_subnet if env_private_subnet | length > 0 else env_public_subnet }}"
+        aws_lb_subnets: "{{ env_lb_public_subnet }}"
+        aws_worker_subnets: "{{ env_wrkr_private_subnet }}"
+        overlay: True
+        private_load_balancer: False
+        public_worker_node: True
         wait: False
       register: dwcluster
 
     - name: Check and print cluster status
       debug:
-        msg: "Cluster is in {{ dwcluster['cluster']['status'] }} State. Usually it takes around ~18 minutes, if there are no Errors in the execution."
+        msg: "Cluster is in {{ dwcluster['cluster']['status'] }} State. If Cluster is not already Running and there are no errors in the execution, usually it takes around ~18 minutes."
 
     - name: Getting CDW cluster Status
       cloudera.cloud.dw_cluster_info:
         env: "{{ cdp_env_name }}"
       register: dw_cluster_status
       until: dw_cluster_status['clusters'][0]['status'] in ["Running","Error","Failed"]
-      retries: 40
+      retries: 45
       delay: 30
 
     - name: Check and print cluster status
@@ -37,7 +40,7 @@
         msg: "Cluster Creation Got Failed."
       when: dw_cluster_status['clusters'][0]['status'] in ["Error","Failed"]
 
-    - name: waiting for  default database catalog to be running
+    - name: waiting for default database catalog to be running
       cloudera.cloud.dw_database_catalog_info:
         cluster_id: "{{ dwcluster['cluster']['id'] }}"
       register: dbcatalogstatus

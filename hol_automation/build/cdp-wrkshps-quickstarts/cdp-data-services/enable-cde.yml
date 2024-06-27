@@ -16,6 +16,7 @@
         state: present
         wait: no
       register: deservice
+
     - name: check the cde service status
       cloudera.cloud.de_info:
         name: "{{ workshop_name }}-cde"

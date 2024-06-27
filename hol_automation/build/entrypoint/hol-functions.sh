@@ -468,15 +468,48 @@ echo "====================Removing IDP From CDP Tenant==========================
 cdp iam delete-saml-provider --saml-provider-name $workshop_name
 }
 #--------------------------------------------------------------------------------------------------#
+# Function to count elements in a JSON array variable
+count_elements() {
+    local var="$1"
+    # Remove leading and trailing '[' and ']' characters
+    local cleaned_var="${var//[[:space:]]/}"  # Remove all whitespace
+    cleaned_var="${cleaned_var#[}"
+    cleaned_var="${cleaned_var%]}"
+
+    # Count number of comma-separated elements
+    local count=$(echo "$cleaned_var" | awk -F',' '{print NF}')
+    echo "$count"
+}
+#--------------------------------------------------------------------------------------------------#
 deploy_cdw () {
-echo "==========================Deploying CDW======================================"
-number_vw_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
-ansible-playbook $DS_CONFIG_DIR/enable-cdw.yml --extra-vars \
-"cdp_env_name=$workshop_name-cdp-env \
-env_public_subnet=$ENV_PUBLIC_SUBNETS \
-env_private_subnet=$ENV_PRIVATE_SUBNETS \
-workshop_name=$workshop_name \
-number_vw_to_create=$number_vw_to_create"
+   echo "==========================Deploying CDW======================================"
+   echo "Initial values:"
+   echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
+   echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
+   
+   # Count elements in ENV_PUBLIC_SUBNETS and ENV_PRIVATE_SUBNETS
+   count_public=$(count_elements "$ENV_PUBLIC_SUBNETS")
+   count_private=$(count_elements "$ENV_PRIVATE_SUBNETS")
+   
+   echo "Counts:"
+   echo "ENV_PUBLIC_SUBNETS count: $count_public"
+   echo "ENV_PRIVATE_SUBNETS count: $count_private"
+   
+   # Using conditional expressions to assign values
+   ENV_PUBLIC_SUBNETS=$([ "$count_public" -ge 3 ] && echo "$ENV_PUBLIC_SUBNETS" || echo "$ENV_PRIVATE_SUBNETS")
+   ENV_PRIVATE_SUBNETS=$([ "$count_private" -ge 3 ] && echo "$ENV_PRIVATE_SUBNETS" || echo "$ENV_PUBLIC_SUBNETS")
+   
+   echo "Final values after assignment:"
+   echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
+   echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
+   
+   number_vw_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
+   ansible-playbook $DS_CONFIG_DIR/enable-cdw.yml --extra-vars \
+   "cdp_env_name=$workshop_name-cdp-env \
+   env_lb_public_subnet=$ENV_PUBLIC_SUBNETS \
+   env_wrkr_private_subnet=$ENV_PRIVATE_SUBNETS \
+   workshop_name=$workshop_name \
+   number_vw_to_create=$number_vw_to_create"
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cdw () {
@@ -487,13 +520,13 @@ disable_cdw () {
 #--------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------#
 deploy_cde () {
-echo "==========================Deploying CDE======================================"
-number_vc_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
-ansible-playbook $DS_CONFIG_DIR/enable-cde.yml --extra-vars \
-"cdp_env_name=$workshop_name-cdp-env \
-workshop_name=$workshop_name \
-number_vc_to_create=$number_vc_to_create"
-
+   echo "==========================Deploying CDE======================================"
+   number_vc_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
+   ansible-playbook $DS_CONFIG_DIR/enable-cde.yml --extra-vars \
+   "cdp_env_name=$workshop_name-cdp-env \
+   workshop_name=$workshop_name \
+   number_vc_to_create=$number_vc_to_create"
+   
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cde () {
