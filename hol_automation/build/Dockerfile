@@ -35,11 +35,11 @@ RUN pip install --upgrade pip && \
     pip install awscli && \
     pip install cdpcli && \
     pip install jmespath==1.0.1 && \
-    #pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy && \
-    pip install git+https://github.com/cloudera-labs/cdpy@devel#egg=cdpy && \
+    pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy && \
+    #pip install git+https://github.com/cloudera-labs/cdpy@devel#egg=cdpy && \
     ansible-galaxy collection install community.general -vv && \
-    #ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,main
-    ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
+    ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,main
+    #ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
 
 # Install Terraform
 RUN curl "https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip" -o "/tmp/terraform_1.4.6_linux_amd64.zip" && \
