@@ -78,5 +78,5 @@
         cdp dw create-data-visualization \
         --cluster-id "{{ dwcluster['cluster']['id'] }}" \
         --name "{{ workshop_name }}-data-viz" \
-        --config adminGroups="{{ workshop_name }}-cdp-user-group" \
+        --config adminGroups="{{ workshop_name }}-aw-cdp-user-group" \
         --template-name "{{ 'large-viz' }}"

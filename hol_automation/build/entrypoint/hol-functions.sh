@@ -534,28 +534,88 @@ disable_cde () {
    ansible-playbook $DS_CONFIG_DIR/disable-cde.yml --extra-vars \
    "workshop_name=$workshop_name"
 }
-#--------------------------------------------------------------------------------------------------#
-enable_data_services () {
-   # Remove the brackets.
-   enable_data_services="${enable_data_services//[}"
-   enable_data_services="${enable_data_services//]}"
-   # converting to lower case.
-   enable_data_services=$(echo "$enable_data_services" | tr '[:upper:]' '[:lower:]')
-   # Spliting into array.
-   IFS=',' read -ra data_services <<< "$enable_data_services"
 
-   # Deploying selected data services
-   for service in "${data_services[@]}"; do
-       if [[ "$service" == "cdw" ]]; then
-         deploy_cdw
-      elif [[ "$service" == "cde" ]]; then
-          deploy_cde
-      elif [[ "$service" == "cdf" ]]; then
-          echo "CDF"
-      else
-          echo "No Data Services Selected"
-      fi
-   done              
+#---------------------------Start of functions for required roles to access data services-----------------------#
+set_account_roles () {
+        CDP_GROUP_NAME=${1}
+        shift
+        ACCOUNT_ROLES=("$@")
+        
+        # Get Account Role CRN
+        get_crn_account_role () {
+            CDP_ACCOUNT_ROLE_NAME=$1
+            CDP_ACCOUNT_ROLE_CRN=$(cdp iam list-roles | jq --arg CDP_ACCOUNT_ROLE_NAME "$CDP_ACCOUNT_ROLE_NAME" '.roles[] | select(.crn | endswith($CDP_ACCOUNT_ROLE_NAME)) | .crn')
+            echo $CDP_ACCOUNT_ROLE_CRN | tr -d '"'
+        }
+
+        # Assign Account Roles
+        for role_name in "${ACCOUNT_ROLES[@]}"; do
+            cdp iam assign-group-role --group-name ${CDP_GROUP_NAME} --role $(get_crn_account_role ${role_name})
+        done
+
+        # Verify assigned roles
+        cdp iam list-group-assigned-roles --group-name ${CDP_GROUP_NAME}
+}
+
+set_resource_roles () {
+        CDP_GROUP_NAME=${1}
+        CDP_ENV_NAME=${2}
+        shift 2
+        RESOURCE_ROLES=("$@")
+        
+        # Get Group CRN
+        export CDP_GROUP_CRN=$(cdp iam list-groups | jq --arg CDP_GROUP_NAME "$CDP_GROUP_NAME" '.groups[] | select(.groupName == $CDP_GROUP_NAME).crn')
+        # Get Environment CRN
+        export CDP_ENV_CRN=$(cdp environments describe-environment --environment-name ${CDP_ENV_NAME} | jq -r .environment.crn)
+
+        # Function: Get Resource Roles CRN
+        get_crn_resource_role () {
+            CDP_RESOURCE_ROLE_NAME=$1
+            CDP_RESOURCE_ROLE_CRN=$(cdp iam list-resource-roles | jq --arg CDP_RESOURCE_ROLE_NAME "$CDP_RESOURCE_ROLE_NAME" '.resourceRoles[] | select(.crn | endswith($CDP_RESOURCE_ROLE_NAME)) | .crn')
+            echo $CDP_RESOURCE_ROLE_CRN | tr -d '"'
+        }
+
+        # Set Resource Roles
+        for role_name in "${RESOURCE_ROLES[@]}"; do
+            cdp iam assign-group-resource-role --group-name $CDP_GROUP_NAME --resource-role-crn $(get_crn_resource_role ${role_name}) --resource-crn $CDP_ENV_CRN
+        done
+
+        # Verify assigned resource-roles
+        cdp iam list-group-assigned-resource-roles --group-name $CDP_GROUP_NAME
+}
+#-----------------------------------End of functions for required roles to access data services-----------------------------#
+
+enable_data_services () {
+# Remove the brackets.
+    enable_data_services="${enable_data_services//[}"
+    enable_data_services="${enable_data_services//]}"
+    # Convert to lower case.
+    enable_data_services=$(echo "$enable_data_services" | tr '[:upper:]' '[:lower:]')
+    # Split into array.
+    IFS=',' read -ra data_services <<< "$enable_data_services"
+
+    # Deploy selected data services
+    for service in "${data_services[@]}"; do
+        if [[ "$service" == "cdw" ]]; then
+            deploy_cdw
+            resource_roles=("DWAdmin" "DWUser")
+            set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
+
+        elif [[ "$service" == "cde" ]]; then
+            deploy_cde
+            resource_roles=("DEUser" "EnvironmentUser")
+            set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
+
+        elif [[ "$service" == "cdf" ]]; then
+            echo "CDF deployment is not supported at the moment"
+            #resource_roles=("DFAdmin" "DFFlowAdmin")
+            #account_role=("DFCatalogAdmin")
+            #set_account_roles $workshop_name-aw-cdp-user-group "${account_role[@]}"
+            #set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
+        else
+            echo "No Data Services Selected"
+        fi
+    done            
             
 }
 #--------------------------------------------------------------------------------------------------#
