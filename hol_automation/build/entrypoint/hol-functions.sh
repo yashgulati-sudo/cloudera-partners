@@ -236,8 +236,15 @@ setup_keycloak_ec2 () {
 echo "==============================Provisioning Keycloak========================================="
 USER_NAMESPACE=$workshop_name
 mkdir -p /userconfig/.$USER_NAMESPACE
-cp -R $KC_TF_CONFIG_DIR /userconfig/.$USER_NAMESPACE/
-cp -R $KC_ANS_CONFIG_DIR /userconfig/.$USER_NAMESPACE/
+
+if [ ! -d "/userconfig/.$USER_NAMESPACE/$KC_TF_CONFIG_DIR" ]; then
+  cp -R "$KC_TF_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
+fi
+
+if [ ! -d "/userconfig/.$USER_NAMESPACE/$KC_ANS_CONFIG_DIR" ]; then
+  cp -R "$KC_ANS_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
+fi
+
 cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
 local sg_name="$1"
 if check_aws_sg_exists "$sg_name"; then
@@ -293,10 +300,16 @@ terraform destroy -auto-approve \
           -var "aws_region=$aws_region" \
           -var "kc_security_group=$sg_name" \
           -var "keycloak_admin_password=$keycloak__admin_password"
+RETURN=$?
+           if [ $RETURN -eq 0 ]; then   
+                rm -rf /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
+                rm -rf /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
+                rm -rf /userconfig/keycloak_ip
+              return 0
+           else 
+              return 1
+           fi
 
-rm -rf /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
-rm -rf /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
-rm -rf /userconfig/keycloak_ip
 }
 #--------------------------------------------------------------------------------------------------#
 # Function to provision CDP Environment.
@@ -373,16 +386,31 @@ terraform destroy --auto-approve \
          -var "aws_key_pair=${aws_key_pair}" \
          -var "deployment_template=${deployment_template}" \
          -var "ingress_extra_cidrs_and_ports={cidrs = ["${cdp_cidr}"],ports = [443, 22]}"
-rm -rf /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts/       
+cdp_destroy_status=$?
+            if [ $cdp_destroy_status -eq 0 ]; then
+               rm -rf /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts/ 
+               return 0
+            else
+               return 1
+            fi      
 }
 #--------------------------------------------------------------------------------------------------#
 # Function to destroy Complete HOL Infrastructure.
 destroy_hol_infra () {
    destroy_cdp
+   cdp_destroy_status=$?
    destroy_keycloak
-   rm -rf /userconfig/.$USER_NAMESPACE
-   rm -rf /userconfig/$workshop_name.txt
+   keycloak_destroy_status=$?
+
+   if [[ "$cdp_destroy_status" -eq 0 && "$keycloak_destroy_status" -eq 0 ]]; then
+      rm -rf /userconfig/.$USER_NAMESPACE
+      rm -rf /userconfig/$workshop_name.txt
+      return 0
+   else
+      return 1
+   fi
 }
+
 #--------------------------------------------------------------------------------------------------#
 # Function to configure IDP Client
 cdp_idp_setup_user () {

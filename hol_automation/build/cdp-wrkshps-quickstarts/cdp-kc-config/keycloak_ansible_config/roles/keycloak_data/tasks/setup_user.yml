@@ -62,32 +62,33 @@
         - name: Set the user ID
           ansible.builtin.set_fact:
             __keycloak_user_id: "{{ __keycloak_user_exists.json[0].id }}"
+    
 
-        - name: Update existing Keycloak User
-          ansible.builtin.uri:
-            url: "{{ keycloak__domain }}/admin/realms/{{ keycloak__user_to_create.realm_name }}/users/{{ __keycloak_user_id }}"
-            method: PUT
-            headers:
-              Authorization: "Bearer {{ __keycloak_api_login.json.access_token }}"
-              Content-Type: application/json
-            body_format: json
-            body:
-              enabled: True
-              username: "{{ keycloak__user_to_create.username }}"
-              firstName: "{{ keycloak__user_to_create.firstName }}"
-              lastName: "{{ keycloak__user_to_create.lastName }}"
-              email: "{{ keycloak__user_to_create.email }}"
-              groups: "{{ keycloak__user_to_create.groups }}"
-              credentials:
-                - type: password
-                  value: "{{ keycloak__user_to_create.password }}"
-                  temporary: false
-            return_content: yes
-            status_code:
-              - 204
-            validate_certs: no
-          register: __keycloak_update_user_result
-          changed_when: __keycloak_update_user_result.status == 204
+#        - name: Update existing Keycloak User
+#          ansible.builtin.uri:
+#            url: "{{ keycloak__domain }}/admin/realms/{{ keycloak__user_to_create.realm_name }}/users/{{ __keycloak_user_id }}"
+#            method: PUT
+#            headers:
+#              Authorization: "Bearer {{ __keycloak_api_login.json.access_token }}"
+#              Content-Type: application/json
+#            body_format: json
+#            body:
+#              enabled: True
+#              username: "{{ keycloak__user_to_create.username }}"
+#              firstName: "{{ keycloak__user_to_create.firstName }}"
+#              lastName: "{{ keycloak__user_to_create.lastName }}"
+#              email: "{{ keycloak__user_to_create.email }}"
+#              groups: "{{ keycloak__user_to_create.groups }}"
+#              credentials:
+#                - type: password
+#                  value: "{{ keycloak__user_to_create.password }}"
+#                  temporary: false
+#            return_content: yes
+#            status_code:
+#              - 204
+#            validate_certs: no
+#          register: __keycloak_update_user_result
+#          changed_when: __keycloak_update_user_result.status == 204
 # NOTE: Debugging
 # - name: User created
 #   pause:
