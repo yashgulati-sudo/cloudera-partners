@@ -276,9 +276,12 @@ docker logs -f <CONTINER_ID> OR <CONTAINER_NAME>
 
 ----
 
-The overall time for provisioning is nearly 80-150 minutes (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW Provisioning). 
+The overall time for provisioning is nearly ~1.5 to ~3 hours (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW Provisioning). 
 
 ---
+
+[NOTE]
+If the execution of docker container for provisioning fails (due to timeout or any kind of intermittent/API issues at CDP/AWS side), you can use the same command mentioned above to refresh the state and resume the exceution.
 
 === The Outcome
 ==== Keycloak:
@@ -414,4 +417,15 @@ docker logs -f <CONTINER_ID> OR <CONTAINER_NAME>
 
 ----
 
+
+[NOTE]
+If the execution of docker container for destroy the infra fails (due to timeout or any kind of intermittent/API issues at CDP/AWS side), you can use the same command mentioned above to refresh the state and resume the execution. 
+
+Also, there are chances that it might not cleanup the directory structure/files on the executor machine properly. In that case, you can manually cleanup with the help of below commands:
+
+[.shell]
+----
+rm -rf /userconfig/.accn-wrkshp
+rm -rf /userconfig/accn-wrkshp.txt
+----
 ---
