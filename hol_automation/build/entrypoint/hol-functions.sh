@@ -562,6 +562,25 @@ disable_cde () {
    ansible-playbook $DS_CONFIG_DIR/disable-cde.yml --extra-vars \
    "workshop_name=$workshop_name"
 }
+#--------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------#
+deploy_cml () {
+   echo "==========================Deploying CML======================================"
+   #number_vws_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
+   ansible-playbook $DS_CONFIG_DIR/enable-cml.yml --extra-vars \
+   "cdp_env_name=$workshop_name-cdp-env \
+   workshop_name=$workshop_name"
+   #number_vws_to_create=$number_vws_to_create"
+}
+#--------------------------------------------------------------------------------------------------#
+disable_cml () {
+   echo "==========================Disabling CML======================================"
+   ansible-playbook $DS_CONFIG_DIR/disable-cml.yml --extra-vars \
+   "cdp_env_name=$workshop_name-cdp-env \
+   workshop_name=$workshop_name"
+}
+#--------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------#
 
 #---------------------------Start of functions for required roles to access data services-----------------------#
 set_account_roles () {
@@ -634,6 +653,11 @@ enable_data_services () {
             resource_roles=("DEUser" "EnvironmentUser")
             set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
 
+        elif [[ "$service" == "cml" ]]; then
+            deploy_cml
+            resource_roles=("MLUser")
+            set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
+
         elif [[ "$service" == "cdf" ]]; then
             echo "CDF deployment is not supported at the moment"
             #resource_roles=("DFAdmin" "DFFlowAdmin")
@@ -658,10 +682,12 @@ disable_data_services () {
 
    # Deploying selected data services
    for service in "${data_services[@]}"; do
-       if [[ "$service" == "cdw" ]]; then
-         disable_cdw
+      if [[ "$service" == "cdw" ]]; then
+          disable_cdw
       elif [[ "$service" == "cde" ]]; then
           disable_cde
+      elif [[ "$service" == "cml" ]]; then
+          disable_cml
       elif [[ "$service" == "cdf" ]]; then
           echo "CDF"
       else

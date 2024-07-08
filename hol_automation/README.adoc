@@ -30,7 +30,7 @@ Infrastructure components are important and play a vital role in acheieving the 
 
 1. CDP Environment
 2. Datalake
-3. Data Service (Currently CDW & CDE)
+3. Data Service (Currently CDW, CDE & CML)
 4. Keycloak Server
 5. Users 
 
@@ -220,11 +220,16 @@ values of the parameters.
 |No quotes and don't remove /32
 |ENABLE_DATA_SERVICES
 |A comma seprated list of Data services to enable.
-|**[NONE]** if no data services required
+|**[NONE]** if no data services required.
+
 
 **[CDW]** if only CDW is required.
 
- **[CDW,CDE]** if both are required.
+
+ **[CDW,CDE]** if two of them are required.
+
+
+ **[CDW,CDE,CML]** if all three are required.
 
 
 |===
@@ -276,12 +281,12 @@ docker logs -f <CONTINER_ID> OR <CONTAINER_NAME>
 
 ----
 
-The overall time for provisioning is nearly ~1.5 to ~3 hours (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW Provisioning). 
+The overall time for provisioning is nearly ~1.5 to ~4 hours (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW and/or CML Provisioning). 
 
 ---
 
 [NOTE]
-If the execution of docker container for provisioning fails (due to timeout or any kind of intermittent/API issues at CDP/AWS side), you can use the same command mentioned above to refresh the state and resume the exceution.
+If the execution of docker container for provisioning fails (due to timeout or any kind of intermittent/API issues at CDP/AWS side), you can use the same command mentioned above to refresh the state and resume the execution.
 
 === The Outcome
 ==== Keycloak:
@@ -358,6 +363,22 @@ Based on number of workshop users defined in configfile the provisioner will tak
 |Virtual Clusters
 |<WORKSHOP_NAME>-cde-vc-<number>; e.g: accn-workshp-cde-vc-01
 
+|===
+
+---
+
+==== CML
+
+The provisioner will take care of deploying ML workspace.
+[%header,cols="1,1"]
+|===
+|Type
+|Name
+
+
+|Activated CML Workspace
+|<WORKSHOP_NAME>-cml-ws; e.g : accn-workshp-cml-ws
+
 
 |===
 
@@ -372,17 +393,17 @@ files and folder as these are required for destroying the stack.
 ---
 
 === Destroy
-After succesful delivery of your HOL/Workshop the complete stack can be destroyed using one single command as below. The **destroy** operation will take care of deleting/removing
-all of the below(if both CDW & CDE are deployed): 
+After succesful delivery of your HOL/Workshop the complete stack can be destroyed using one single command as below. The **destroy** operation will take care of deleting/removing all of the below (if all three of CDW, CML & CDE are deployed): 
 
-1. Data Visualization Cluster
-2. Hive & Impala Warehouses
-3. Deactivation of CDW Cluster
-4. CDE Virtual Cluster
-5. Deactivation of CDE Service
-6. CDP Environment & Data Lake
-7. Users
-8. Keycloak Server
+1. Machine Learning Workspace
+2. Data Visualization Cluster
+3. Hive & Impala Warehouses
+4. Deactivation of CDW Cluster
+5. CDE Virtual Cluster
+6. Deactivation of CDE Service
+7. CDP Environment & Data Lake
+8. Users
+9. Keycloak Server
 
 
 

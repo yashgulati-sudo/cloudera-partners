@@ -1,0 +1,73 @@
+---
+- name: Disable CML data service
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: Check and print variable status
+      debug:
+        msg: "cdp_env_name: {{ cdp_env_name }}, workshop_name: {{ workshop_name }}, workspace_name: {{ workshop_name }}-cml-ws"
+
+    - name: Describe CML Workspace
+      ansible.builtin.command: >
+        cdp ml describe-workspace \
+        --environment-name "{{ cdp_env_name }}" \
+        --workspace-name "{{ workshop_name }}-cml-ws"
+      register: ml_describe_workspace
+      ignore_errors: true
+
+    - name: Set workspace exists flag
+      set_fact:
+        workspace_exists: "{{ ml_describe_workspace is defined and ml_describe_workspace.rc == 0 }}"
+
+    - name: Handle non-existing or deleted workspace
+      debug:
+        msg: "Workspace {{ workshop_name }}-cml-ws does not exist or is already deleted in environment {{ cdp_env_name }}."
+      when: not workspace_exists or 'resourceCrn should not be empty or nil' in ml_describe_workspace.stderr
+
+    - name: Delete CML Workspace if exists
+      ansible.builtin.command: >
+        cdp ml delete-workspace \
+        --environment-name "{{ cdp_env_name }}" \
+        --workspace-name "{{ workshop_name }}-cml-ws" \
+        --no-force
+      register: ml_delete_workspace
+      when: workspace_exists
+      ignore_errors: true
+
+    - name: Pause for 30 seconds after triggering deprovisioning workspace
+      pause:
+        seconds: 30
+      when: workspace_exists
+
+    - name: Refresh the status until workspace deletion completes
+      ansible.builtin.command: >
+        cdp ml describe-workspace \
+        --environment-name "{{ cdp_env_name }}" \
+        --workspace-name "{{ workshop_name }}-cml-ws"
+      register: ml_ws_status
+      until: >
+        not workspace_exists or
+        'resourceCrn should not be empty or nil' in ml_ws_status.stderr or
+        (ml_ws_status.rc == 0 and (ml_ws_status.stdout | from_json | json_query('workspace.instanceStatus') in [
+          "modify:finished", "installation:finished", "installation:failed",
+          "provisioning:failed", "deprovision:finished", "deprovision:failed"
+        ]))
+      retries: 150
+      delay: 30
+      ignore_errors: true
+
+    - name: Print success message on workspace deletion
+      debug:
+        msg: "Successfully deleted workspace {{ workshop_name }}-cml-ws in environment {{ cdp_env_name }}."
+      when: >
+        not workspace_exists or
+        'resourceCrn should not be empty or nil' in ml_ws_status.stderr or
+        'resourceCrn should not be empty or nil' in ml_ws_status.stdout
+
+    - name: Fail task on Workspace Deletion Failed
+      fail:
+        msg: "Workspace Deletion Got Failed."
+      when: >
+        workspace_exists and
+        (not ml_describe_workspace is defined or ml_describe_workspace.rc != 0 or 'resourceCrn should not be empty or nil' in ml_describe_workspace.stderr or 'resourceCrn should not be empty or nil' in ml_describe_workspace.stdout)
