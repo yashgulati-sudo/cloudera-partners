@@ -29,16 +29,99 @@ exit 9999 # die with error code 9999
 fi
 # Cleaning up 'configfile' to remove ^M characters.
 sed -i 's/^M//g' $USER_CONFIG_FILE
+
+#--------------------------------------------------------------------------------------------------#
+
+# Function to check config file for missing keys and empty values
+check_config() {
+  local USER_CONFIG_FILE="$1"
+
+  # Define the required keys
+  local REQUIRED_KEYS=(
+    "KEYCLOAK_SERVER_NAME"
+    "KEYCLOAK_SERVER"
+    "KEYCLOAK_ADMIN_PASSWORD"
+    "AWS_ACCESS_KEY_ID"
+    "AWS_SECRET_ACCESS_KEY"
+    "AWS_REGION"
+    "WORKSHOP_NAME"
+    "NUMBER_OF_WORKSHOP_USERS"
+    "WORKSHOP_USER_PREFIX"
+    "WORKSHOP_USER_DEFAULT_PASSWORD"
+    "CDP_ACCESS_KEY_ID"
+    "CDP_PRIVATE_KEY"
+    "AWS_KEY_PAIR"
+    "CDP_DEPLOYMENT_TYPE"
+    "LOCAL_MACHINE_IP"
+    "KEYCLOAK_SECURITY_GROUP_NAME"
+    "ENABLE_DATA_SERVICES"
+  )
+
+  # Check if user-provided config file exists
+  if [ ! -f "$USER_CONFIG_FILE" ]; then
+    echo
+    echo -e "\nUser config file not found :: $USER_CONFIG_FILE\n"
+    echo
+    return 1
+  fi
+
+  # Function to check if a key exists in the config file
+  key_exists() {
+    grep -q "^$1:" "$USER_CONFIG_FILE"
+  }
+
+  # Function to check if a key has a non-empty value in the config file
+  key_has_value() {
+    local value=$(grep "^$1:" "$USER_CONFIG_FILE" | cut -d ':' -f2- | sed 's/ //g')
+    [ -n "$value" ]
+  }
+
+  # Check for missing keys and empty values
+  local MISSING_KEYS=()
+  local EMPTY_VALUES=()
+  for key in "${REQUIRED_KEYS[@]}"; do
+    if ! key_exists "$key"; then
+      MISSING_KEYS+=("$key")
+    elif ! key_has_value "$key"; then
+      EMPTY_VALUES+=("$key")
+    fi
+  done
+
+  # Report missing keys
+  if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
+    echo -e "The following keys are missing in the user config file:"
+    for key in "${MISSING_KEYS[@]}"; do
+      echo "- $key"
+    done
+    echo -e "Please update the 'configfile' and try again...\n"
+  fi
+
+  # Report keys with empty values
+  if [ ${#EMPTY_VALUES[@]} -gt 0 ]; then
+    echo -e "The following keys have empty values in the user config file:"
+    for key in "${EMPTY_VALUES[@]}"; do
+      echo "- $key"
+    done
+    echo -e "Please update the 'configfile' and try again...\n"
+  fi
+
+  # Exising on missing keys
+  if [ ${#MISSING_KEYS[@]} -gt 0 ] || [ ${#EMPTY_VALUES[@]} -gt 0 ]; then    
+    echo "========================================================================================="
+    echo "EXITING......               "
+    echo "========================================================================================="
+    exit 1
+  fi
+}
+
+# Call the function with the user-provided config file as an argument
+check_config "$USER_CONFIG_FILE"
+
+#--------------------------------------------------------------------------------------------------#
+
 # Read variables from the text file
 
             while IFS=':' read -r key value; do
-            if [[ -z "$value" && $key != "#"* ]]; then
-               echo "========================================================================================="
-               echo "FATAL: $key Can Not Have Null Value. Please update the 'configfile' and try again.
-EXITING......               "
-               echo "========================================================================================="
-               exit 1
-            fi
             if [[ $key && $value  ]]; then
             key=$(echo "$key" | tr -d '[:space:]')  # Remove whitespace from the key
             value=$(echo "$value" | tr -d '[:space:]')  # Remove whitespace from the value
@@ -90,7 +173,7 @@ Please update the value in 'configfile' and try again."
                ;;
               AWS_KEY_PAIR)
                aws_key_pair=$value
-               echo $aws_key_pair
+               #echo "Found KeyPair File: $aws_key_pair.pem"
                ;;
               CDP_DEPLOYMENT_TYPE)
                if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
