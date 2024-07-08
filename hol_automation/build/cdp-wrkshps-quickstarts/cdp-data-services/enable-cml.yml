@@ -8,17 +8,15 @@
       debug:
         msg: "cdp_env_name: {{ cdp_env_name }}, workshop_name: {{ workshop_name }}, workspace_name: {{ workshop_name }}-cml-ws"
 
-    - name: Describe CML Workspace for existence check
-      ansible.builtin.command: >
-        cdp ml describe-workspace \
-        --environment-name "{{ cdp_env_name }}" \
-        --workspace-name "{{ workshop_name }}-cml-ws"
-      register: ml_describe_workspace
+    - name: List CML Workspaces for existence check
+      ansible.builtin.shell: >
+        cdp ml list-workspaces | jq -r '.workspaces[].instanceName'
+      register: ml_list_workspaces
       ignore_errors: true
 
     - name: Set workspace exists flag
       set_fact:
-        workspace_exists: "{{ ml_describe_workspace.rc == 0 }}"
+        workspace_exists: "{{ ml_list_workspaces.rc == 0 and (workshop_name + '-cml-ws' in ml_list_workspaces.stdout.split('\n')) }}"
 
     - name: Skip provisioning if workspace already exists
       debug:
@@ -40,9 +38,9 @@
       ignore_errors: true
       when: not workspace_exists
 
-    - name: Pause for 30 seconds after provisioning workspace
+    - name: Pause for 150 seconds after provisioning workspace
       pause:
-        seconds: 30
+        seconds: 150
       when: not workspace_exists
 
     - name: Getting CML Workspace Status until Provisioning Completes

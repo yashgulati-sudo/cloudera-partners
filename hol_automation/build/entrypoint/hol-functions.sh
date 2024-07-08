@@ -8,211 +8,216 @@ KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansib
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
 USER_ACTION=$1
 validating_variables () {
-echo
-echo "                                             ---------------------------------------                     "
-echo "                                             Verifying The Provided Input Parameters                     "
-echo "                                             ---------------------------------------                     "
-echo
-sleep 10
-if [ ! -f "/userconfig/configfile" ]
-then
-echo "=================================================================================="
-echo "FATAL: Not able to find Config File ('configfile') inside /userconfig folder.
-Please make sure you have mounted the local directory using -v flag and you
-have created a file by name 'configfile' without any file extension like '.txt'.
-if you are running docker on windows then create the folder inside your
-'C:/Users/<Your_Windows_User_Name>/' and try again.
-Exiting......"
-echo "=================================================================================="
-exit 9999 # die with error code 9999
+   echo
+   echo "                                             ---------------------------------------                     "
+   echo "                                             Verifying The Provided Input Parameters                     "
+   echo "                                             ---------------------------------------                     "
+   echo
+   sleep 10
+   if [ ! -f "/userconfig/configfile" ]
+   then
+   echo "=================================================================================="
+   echo "FATAL: Not able to find Config File ('configfile') inside /userconfig folder.
+   Please make sure you have mounted the local directory using -v flag and you
+   have created a file by name 'configfile' without any file extension like '.txt'.
+   if you are running docker on windows then create the folder inside your
+   'C:/Users/<Your_Windows_User_Name>/' and try again.
+   Exiting......"
+   echo "=================================================================================="
+   exit 9999 # die with error code 9999
 
-fi
-# Cleaning up 'configfile' to remove ^M characters.
-sed -i 's/^M//g' $USER_CONFIG_FILE
+   fi
+   # Cleaning up 'configfile' to remove ^M characters.
+   sed -i 's/^M//g' $USER_CONFIG_FILE
 
-#--------------------------------------------------------------------------------------------------#
+   #--------------------------------------------------------------------------------------------------#
 
-# Function to check config file for missing keys and empty values
-check_config() {
-  local USER_CONFIG_FILE="$1"
+   # Function to check config file for missing keys and empty values
+   check_config() {
+   local USER_CONFIG_FILE="$1"
 
-  # Define the required keys
-  local REQUIRED_KEYS=(
-    "KEYCLOAK_SERVER_NAME"
-    "KEYCLOAK_SERVER"
-    "KEYCLOAK_ADMIN_PASSWORD"
-    "AWS_ACCESS_KEY_ID"
-    "AWS_SECRET_ACCESS_KEY"
-    "AWS_REGION"
-    "WORKSHOP_NAME"
-    "NUMBER_OF_WORKSHOP_USERS"
-    "WORKSHOP_USER_PREFIX"
-    "WORKSHOP_USER_DEFAULT_PASSWORD"
-    "CDP_ACCESS_KEY_ID"
-    "CDP_PRIVATE_KEY"
-    "AWS_KEY_PAIR"
-    "CDP_DEPLOYMENT_TYPE"
-    "LOCAL_MACHINE_IP"
-    "KEYCLOAK_SECURITY_GROUP_NAME"
-    "ENABLE_DATA_SERVICES"
-  )
+   # Define the required keys
+   local REQUIRED_KEYS=(
+      "KEYCLOAK_SERVER_NAME"
+      "PROVISION_KEYCLOAK"
+      "KEYCLOAK_ADMIN_PASSWORD"
+      "AWS_ACCESS_KEY_ID"
+      "AWS_SECRET_ACCESS_KEY"
+      "AWS_REGION"
+      "WORKSHOP_NAME"
+      "NUMBER_OF_WORKSHOP_USERS"
+      "WORKSHOP_USER_PREFIX"
+      "WORKSHOP_USER_DEFAULT_PASSWORD"
+      "CDP_ACCESS_KEY_ID"
+      "CDP_PRIVATE_KEY"
+      "AWS_KEY_PAIR"
+      "CDP_DEPLOYMENT_TYPE"
+      "LOCAL_MACHINE_IP"
+      "KEYCLOAK_SECURITY_GROUP_NAME"
+      "ENABLE_DATA_SERVICES"
+   )
 
-  # Check if user-provided config file exists
-  if [ ! -f "$USER_CONFIG_FILE" ]; then
-    echo
-    echo -e "\nUser config file not found :: $USER_CONFIG_FILE\n"
-    echo
-    return 1
-  fi
+   # Check if user-provided config file exists
+   if [ ! -f "$USER_CONFIG_FILE" ]; then
+      echo -e "\nUser config file not found :: $USER_CONFIG_FILE\n"
+      return 1
+   else
+      echo -e "\nVerify Configfile Is Present..... Passed"
+   fi
 
-  # Function to check if a key exists in the config file
-  key_exists() {
-    grep -q "^$1:" "$USER_CONFIG_FILE"
-  }
+   # Function to check if a key exists in the config file
+   key_exists() {
+      grep -q "^$1:" "$USER_CONFIG_FILE"
+   }
 
-  # Function to check if a key has a non-empty value in the config file
-  key_has_value() {
-    local value=$(grep "^$1:" "$USER_CONFIG_FILE" | cut -d ':' -f2- | sed 's/ //g')
-    [ -n "$value" ]
-  }
+   # Function to check if a key has a non-empty value in the config file
+   key_has_value() {
+      local value=$(grep "^$1:" "$USER_CONFIG_FILE" | cut -d ':' -f2- | sed 's/ //g')
+      [ -n "$value" ]
+   }
 
-  # Check for missing keys and empty values
-  local MISSING_KEYS=()
-  local EMPTY_VALUES=()
-  for key in "${REQUIRED_KEYS[@]}"; do
-    if ! key_exists "$key"; then
-      MISSING_KEYS+=("$key")
-    elif ! key_has_value "$key"; then
-      EMPTY_VALUES+=("$key")
-    fi
-  done
+   # Check for missing keys and empty values
+   local MISSING_KEYS=()
+   local EMPTY_VALUES=()
+   for key in "${REQUIRED_KEYS[@]}"; do
+      if ! key_exists "$key"; then
+         MISSING_KEYS+=("$key")
+      elif ! key_has_value "$key"; then
+         EMPTY_VALUES+=("$key")
+      fi
+   done
 
-  # Report missing keys
-  if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
-    echo -e "The following keys are missing in the user config file:"
-    for key in "${MISSING_KEYS[@]}"; do
-      echo "- $key"
-    done
-    echo -e "Please update the 'configfile' and try again...\n"
-  else
-    echo -e "\nNo missing keys found in the user configfile.\n"
-  fi
+   # Report missing keys
+   if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
+      echo -e "The following keys are missing in the user config file:"
+      for key in "${MISSING_KEYS[@]}"; do
+         echo "- $key"
+      done
+      echo -e "Please update the 'configfile' and try again...\n"
+   else
+      echo -e "\nVerify Configfile Keys..... Passed"
+   fi
 
-  # Report keys with empty values
-  if [ ${#EMPTY_VALUES[@]} -gt 0 ]; then
-    echo -e "The following keys have empty values in the user config file:"
-    for key in "${EMPTY_VALUES[@]}"; do
-      echo "- $key"
-    done
-    echo -e "Please update the 'configfile' and try again...\n"
-  else
-    echo -e "No keys with empty values found in the user config file.\n"
-  fi
+   # Report keys with empty values
+   if [ ${#EMPTY_VALUES[@]} -gt 0 ]; then
+      echo -e "The following keys have empty values in the user config file:"
+      for key in "${EMPTY_VALUES[@]}"; do
+         echo "- $key"
+      done
+      echo -e "Please update the 'configfile' and try again...\n"
+   else
+      echo -e "\nVerify Configfile Values..... Passed"
+   fi
 
-echo "========================================================================================="
-echo "EXITING......               "
-echo "========================================================================================="
-exit 1
+   # Exising on missing keys
+   if [ ${#MISSING_KEYS[@]} -gt 0 ] || [ ${#EMPTY_VALUES[@]} -gt 0 ]; then    
+      echo "========================================================================================="
+      echo "EXITING......               "
+      echo "========================================================================================="
+      exit 1
+   fi
+   }
 
-}
+   # Call the function with the user-provided config file as an argument
+   check_config "$USER_CONFIG_FILE"
 
-# Call the function with the user-provided config file as an argument
-check_config "$USER_CONFIG_FILE"
+   #--------------------------------------------------------------------------------------------------#
 
-#--------------------------------------------------------------------------------------------------#
+   # Read variables from the text file
 
-# Read variables from the text file
-
-            while IFS=':' read -r key value; do
-            if [[ $key && $value  ]]; then
-            key=$(echo "$key" | tr -d '[:space:]')  # Remove whitespace from the key
-            value=$(echo "$value" | tr -d '[:space:]')  # Remove whitespace from the value
-           # Processing each variable
-           case $key in
-              KEYCLOAK_SERVER_NAME)
-                ec2_instance_name=$value
-                 ;;
-              KEYCLOAK_ADMIN_PASSWORD)
-                keycloak__admin_password=$value
-                 ;;
-              AWS_ACCESS_KEY_ID)
-               aws_access_key_id=$value
-                ;;
-              AWS_SECRET_ACCESS_KEY)
-               aws_secret_access_key=$value
+   while IFS=':' read -r key value; do
+      if [[ $key && $value  ]]; then
+      key=$(echo "$key" | tr -d '[:space:]')  # Remove whitespace from the key
+      value=$(echo "$value" | tr -d '[:space:]')  # Remove whitespace from the value
+      # Processing each variable
+      case $key in
+         PROVISION_KEYCLOAK)
+            provision_keycloak=$(echo $value | tr '[:upper:]' '[:lower:]')
+            ;;
+         KEYCLOAK_SERVER_NAME)
+            ec2_instance_name=$value
+            ;;
+         KEYCLOAK_ADMIN_PASSWORD)
+            keycloak__admin_password=$value
+            ;;
+         AWS_ACCESS_KEY_ID)
+         aws_access_key_id=$value
+            ;;
+         AWS_SECRET_ACCESS_KEY)
+         aws_secret_access_key=$value
+         ;;
+         AWS_REGION)
+         aws_region=$value
+         ;;
+         WORKSHOP_NAME)
+            case $value in
+            *_*)
+               echo "=================================================================================="                 
+               echo "FATAL: The value for Workshop Name parameter can not have underscore ('_').
+   Please update the value in 'configfile' and try again."
+               echo "=================================================================================="                    
+               exit 1
                ;;
-              AWS_REGION)
-               aws_region=$value
-               ;;
-              WORKSHOP_NAME)
-                 case $value in
-                 *_*)
-                    echo "=================================================================================="                 
-                    echo "FATAL: The value for Workshop Name parameter  can not have underscore ('_').
-Please update the value in 'configfile' and try again."
-                    echo "=================================================================================="                    
-                    exit 1
-                    ;;
-                  *)    
-                  workshop_name=$(echo "$value" | tr '[:upper:]' '[:lower:'])
-                  ;;
-                  esac      
-               ;;
-              NUMBER_OF_WORKSHOP_USERS)
-               number_of_workshop_users=$value
-               ;;
-              WORKSHOP_USER_PREFIX)
-               workshop_user_prefix=$(echo "$value" | tr '[:upper:]' '[:lower:'])
-               ;;
-              WORKSHOP_USER_DEFAULT_PASSWORD)
-               workshop_user_default_password=$value
-               ;; 
-              CDP_ACCESS_KEY_ID)
-               cdp_access_key_id=$value
-               ;;
-              CDP_PRIVATE_KEY)
-               cdp_private_key=$value
-               ;;
-              AWS_KEY_PAIR)
-               aws_key_pair=$value
-               echo "Found KeyPair File: $aws_key_pair.pem"
-               ;;
-              CDP_DEPLOYMENT_TYPE)
-               if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
-                deployment_template=$value
-               else
-                echo "=================================================================================="               
-                echo "FATAL: Invalid value for CDP Deployment Type. The allowed values are: 
-public (* all in lowercase *)
-private (* all in lowercase *)
-semi-private (* all in lowercase and one hyphen (-) *)
+            *)    
+            workshop_name=$(echo "$value" | tr '[:upper:]' '[:lower:'])
+            ;;
+            esac      
+         ;;
+         NUMBER_OF_WORKSHOP_USERS)
+         number_of_workshop_users=$value
+         ;;
+         WORKSHOP_USER_PREFIX)
+         workshop_user_prefix=$(echo "$value" | tr '[:upper:]' '[:lower:'])
+         ;;
+         WORKSHOP_USER_DEFAULT_PASSWORD)
+         workshop_user_default_password=$value
+         ;; 
+         CDP_ACCESS_KEY_ID)
+         cdp_access_key_id=$value
+         ;;
+         CDP_PRIVATE_KEY)
+         cdp_private_key=$value
+         ;;
+         AWS_KEY_PAIR)
+         aws_key_pair=$value
+         #echo "Found KeyPair File: $aws_key_pair.pem"
+         ;;
+         CDP_DEPLOYMENT_TYPE)
+         if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
+            deployment_template=$value
+         else
+            echo "=================================================================================="               
+            echo "FATAL: Invalid value for CDP Deployment Type. The allowed values are: 
+               public (* all in lowercase *)
+               private (* all in lowercase *)
+               semi-private (* all in lowercase and one hyphen (-) *)
 
-****Exiting****
-Please update the 'configfile' and try again."
-                echo "=================================================================================="
-                exit 9999
-               fi 
-               ;;
-              LOCAL_MACHINE_IP)
-               local_ip=$value
-               ;;
-              KEYCLOAK_SECURITY_GROUP_NAME)
-               keycloak_sg_name=$value
-               ;;
-              ENABLE_DATA_SERVICES)
-               enable_data_services=$value
-               ;;   
-                          
-              # Can Add more cases if required.
-            esac
-          fi
-        done < "$USER_CONFIG_FILE"
+               ****Exiting****
+               Please update the 'configfile' and try again."
+            echo "=================================================================================="
+            exit 9999
+         fi 
+         ;;
+         LOCAL_MACHINE_IP)
+         local_ip=$value
+         ;;
+         KEYCLOAK_SECURITY_GROUP_NAME)
+         keycloak_sg_name=$value
+         ;;
+         ENABLE_DATA_SERVICES)
+         enable_data_services=$value
+         ;;   
+                     
+         # Can Add more cases if required.
+      esac
+      fi
+   done < "$USER_CONFIG_FILE"
 
-echo
-echo "                                             ---------------------------------------                     "
-echo "                                             Verified The Provided Input Parameters                      "
-echo "                                             ---------------------------------------                     "
-echo
+   echo
+   echo "                                             ---------------------------------------                     "
+   echo "                                             Verified The Provided Input Parameters                      "
+   echo "                                             ---------------------------------------                     "
+   echo
 }
 #--------------------------------------------------------------------------------------------------------------#
 # Function for checking .pem file.
@@ -249,9 +254,10 @@ aws_prereq () {
           --quota-code L-F678F1CE | jq -r '.[]["Value"]')
 
           vpc_used=$(aws ec2 describe-vpcs --output json --region $aws_region | jq -r '.[] | length')
+               echo -e "\nCurrent VPC count: $vpc_used"
 
                if [ $vpc_limit -gt $vpc_used ]; then
-                    echo "Check Available VPC .....Passed"
+                    echo -e "Check Available VPC..... Passed"
                else
                     echo
                     echo "************************************************************************************************************************************************************"
@@ -265,9 +271,10 @@ aws_prereq () {
           --region $aws_region \
           --quota-code L-0263D0A3 | jq -r '.[]["Value"]')
          eip_used=$(aws ec2 describe-addresses --output json --region $aws_region | jq -r '.[] | length')
-              
+            echo -e "\nCurrent ElasticIP count: $eip_used"
+
               if [[ $(( $eip_limit - $eip_used )) -ge 5 ]]; then
-                    echo "Check Available EIP ....Passed"
+                    echo -e "Check Available EIP..... Passed"
               else
                     echo
                     echo "*************************************************************************************************************************************************************************************************"
@@ -277,7 +284,7 @@ aws_prereq () {
                fi      
                # Check current bucket count
                bucket_count=$(aws s3api list-buckets --query "Buckets | length(@)" --output text)
-               echo "Current bucket count: $bucket_count"
+               echo -e "\nCurrent S3 bucket count: $bucket_count"
 
                remaining_buckets=$((100 - bucket_count))
 
@@ -288,7 +295,7 @@ aws_prereq () {
                   if [ $? -eq 0 ]; then
                      aws s3api delete-bucket --bucket $bucket_name --region us-east-1
                      if [ $? -eq 0 ]; then
-                        echo "Check Available S3 Bucket .....Passed"
+                        echo -e "Check Available S3 Bucket..... Passed"
                      fi
                   else
                       echo
@@ -298,7 +305,7 @@ aws_prereq () {
                       exit 1
                   fi
                else
-                   echo "Check Available S3 Bucket .....Passed"
+                   echo -e "Check Available S3 Bucket..... Passed"
                fi
    
 }
@@ -314,6 +321,37 @@ if [[ -n $sg_group_info ]]; then
 else
    return 1
 fi      
+}
+#---------------------------------------------------------------------------------------------------------------------#
+# Function to verify CDP pre-requisites i.e. num_of_grps and num_of_saml_prvdrs
+cdp_prereq () {
+   # Check current CDP IAM Groups count
+   cdp_group_count=$(cdp iam list-groups | jq -r '.groups[].groupName' | wc -l)
+   echo -e "\nCurrent CDP Group count: $cdp_group_count"
+
+   if [ $cdp_group_count -gt 48 ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* Fatal !! Can't Continue: The CDP IAM Group count limit has been reached on your CDP account. Either increase quota or remove unused CDP IAM Groups *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
+   else
+      echo -e "Check CDP IAM Group Count..... Passed"
+   fi
+
+   # Check current CDP SAML Providers count
+   cdp_saml_provider_count=$(cdp iam list-saml-providers | jq -r '.samlProviders[].samlProviderName' | wc -l)
+   echo -e "\nCurrent CDP SAML Identity Provider (IdP) count: $cdp_saml_provider_count"
+
+   if [ $cdp_saml_provider_count -ge 10 ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* Fatal !! Can't Continue: The CDP SAML Providers count limit has been reached on your CDP account. Either increase quota or remove unused CDP SAML Providers *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
+   else
+      echo -e "Check CDP SAML Identity Providers (IdP) Count..... Passed"
+   fi
 }
 #-------------------------------------------------------------------------------------------------#
 # Function to provision EC2 Instance for Keycloak
@@ -484,12 +522,14 @@ cdp_destroy_status=$?
 destroy_hol_infra () {
    destroy_cdp
    cdp_destroy_status=$?
-   destroy_keycloak
-   keycloak_destroy_status=$?
+   if [ "$provision_keycloak" == "yes" ]; then
+      destroy_keycloak
+      keycloak_destroy_status=$?
+   fi
 
-   if [[ "$cdp_destroy_status" -eq 0 && "$keycloak_destroy_status" -eq 0 ]]; then
-      rm -rf /userconfig/.$USER_NAMESPACE
-      rm -rf /userconfig/$workshop_name.txt
+   if [[ "$cdp_destroy_status" -eq 0 && "$keycloak_destroy_status" -eq 0 ]] || [[ "$cdp_destroy_status" -eq 0 && "$provision_keycloak" == "no" ]]; then
+      rm -rf "/userconfig/.$USER_NAMESPACE"
+      rm -rf "/userconfig/$workshop_name.txt"
       return 0
    else
       return 1
