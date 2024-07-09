@@ -2,7 +2,7 @@
 - name: Enable CML data service
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: yes
   tasks:
     - name: Check and print variable status
       debug:
@@ -12,11 +12,10 @@
       ansible.builtin.shell: >
         cdp ml list-workspaces | jq -r '.workspaces[].instanceName'
       register: ml_list_workspaces
-      ignore_errors: true
 
     - name: Set workspace exists flag
       set_fact:
-        workspace_exists: "{{ ml_list_workspaces.rc == 0 and (workshop_name + '-cml-ws' in ml_list_workspaces.stdout.split('\n')) }}"
+        workspace_exists: "{{ ml_list_workspaces.rc == 0 and (workshop_name + '-cml-ws' in ml_list_workspaces.stdout_lines ) }}"
 
     - name: Skip provisioning if workspace already exists
       debug:
@@ -35,7 +34,6 @@
         --static-subdomain "{{ workshop_name[0:11] }}-cml" \
         --provision-k8s-request "{\"environmentName\":\"{{cdp_env_name}}\",\"instanceGroups\":[{\"instanceType\":\"m5.2xlarge\",\"rootVolume\":{\"size\":256},\"autoscaling\":{\"minInstances\":1,\"maxInstances\":10,\"enabled\":true}}]}"
       register: ml_provision_workspace
-      ignore_errors: true
       when: not workspace_exists
 
     - name: Pause for 150 seconds after provisioning workspace
@@ -44,27 +42,30 @@
       when: not workspace_exists
 
     - name: Getting CML Workspace Status until Provisioning Completes
-      ansible.builtin.command: >
-        cdp ml describe-workspace \
-        --environment-name "{{ cdp_env_name }}" \
-        --workspace-name "{{ workshop_name }}-cml-ws"
+      ansible.builtin.shell: >
+        cdp ml list-workspaces | jq -r '.workspaces[] | select(.instanceName == "{{ workshop_name }}-cml-ws")  | .instanceStatus'
       register: ml_ws_status
-      until: ml_ws_status.stdout is defined and ml_ws_status.stdout | from_json | json_query('workspace.instanceStatus') in ["modify:finished", "installation:finished", "installation:failed", "provision:failed", "modify:failed"]
+      until: >
+        ml_ws_status.stdout is defined and
+        (ml_ws_status.rc == 0 and (ml_ws_status.stdout in [
+          "", "modify:finished", "modify:failed", "installation:finished", "installation:failed",
+          "provision:finished", "provision:failed", "deprovision:finished", "deprovision:failed"
+        ]))
       retries: 150
       delay: 30
-      ignore_errors: true
 
     - name: Print ML Workspace Status
       debug:
-        msg: "ML Workspace Status is {{ ml_ws_status.stdout | default('not available') | from_json | json_query('workspace.instanceStatus') }}. If workspace does not already exist and there are no errors in the execution, usually it takes around ~60 minutes to provision."
+        msg: "ML Workspace Status is {{ ml_ws_status.stdout }}. If workspace does not already exist and there are no errors in the execution, usually it takes around ~60 minutes to provision."
       when: ml_ws_status.stdout is defined
 
     - name: Print success message on successful workspace creation
       debug:
         msg: "Successfully provisioned workspace {{ workshop_name }}-cml-ws in environment {{ cdp_env_name }}."
-      when: ml_ws_status.stdout is defined and ml_ws_status.stdout | from_json | json_query('workspace.instanceStatus') == "installation:finished"
+      when: ml_ws_status.stdout is defined and ml_ws_status.stdout in ["installation:finished", "modify:finished"]
 
     - name: Fail task on Workspace Creation Failed
       fail:
         msg: "Workspace Provisioning Got Failed."
-      when: ml_ws_status.stdout is defined and ml_ws_status.stdout | from_json | json_query('workspace.instanceStatus') in ["installation:failed", "provision:failed", "modify:failed"]
+      when: ml_ws_status.stdout is defined and ml_ws_status.stdout not in ["installation:finished", "modify:finished"]
+      
