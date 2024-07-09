@@ -9,9 +9,9 @@ DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
 USER_ACTION=$1
 validating_variables () {
    echo
-   echo "                                             ---------------------------------------                     "
-   echo "                                             Verifying The Provided Input Parameters                     "
-   echo "                                             ---------------------------------------                     "
+   echo "                    ---------------------------------------------------------------------                "
+   echo "                    Validating the Configfile and Verifying the Provided Input Parameters                "
+   echo "                    ---------------------------------------------------------------------                "
    echo
    sleep 10
    if [ ! -f "/userconfig/configfile" ]
@@ -37,32 +37,38 @@ validating_variables () {
    local USER_CONFIG_FILE="$1"
 
    # Define the required keys
-   local REQUIRED_KEYS=(
-      "KEYCLOAK_SERVER_NAME"
+   REQUIRED_KEYS=(
       "PROVISION_KEYCLOAK"
-      "KEYCLOAK_ADMIN_PASSWORD"
       "AWS_ACCESS_KEY_ID"
       "AWS_SECRET_ACCESS_KEY"
       "AWS_REGION"
+      "AWS_KEY_PAIR"
       "WORKSHOP_NAME"
       "NUMBER_OF_WORKSHOP_USERS"
       "WORKSHOP_USER_PREFIX"
       "WORKSHOP_USER_DEFAULT_PASSWORD"
       "CDP_ACCESS_KEY_ID"
       "CDP_PRIVATE_KEY"
-      "AWS_KEY_PAIR"
       "CDP_DEPLOYMENT_TYPE"
       "LOCAL_MACHINE_IP"
-      "KEYCLOAK_SECURITY_GROUP_NAME"
       "ENABLE_DATA_SERVICES"
    )
+   echo "provision_keycloak: $provision_keycloak"
+   # Conditionally add Keycloak keys based on PROVISION_KEYCLOAK
+   if [[ "$provision_keycloak" == "yes" ]]; then
+      REQUIRED_KEYS+=(
+            "KEYCLOAK_SERVER_NAME"
+            "KEYCLOAK_ADMIN_PASSWORD"
+            "KEYCLOAK_SECURITY_GROUP_NAME"
+      )
+   fi
 
    # Check if user-provided config file exists
    if [ ! -f "$USER_CONFIG_FILE" ]; then
       echo -e "\nUser config file not found :: $USER_CONFIG_FILE\n"
       return 1
    else
-      echo -e "\nVerify Configfile Is Present..... Passed"
+      echo -e "\nVerify Configfile Is Present ..... Passed"
    fi
 
    # Function to check if a key exists in the config file
@@ -89,24 +95,20 @@ validating_variables () {
 
    # Report missing keys
    if [ ${#MISSING_KEYS[@]} -gt 0 ]; then
-      echo -e "The following keys are missing in the user config file:"
+      echo -e "\nThe following keys are missing in the user config file:"
       for key in "${MISSING_KEYS[@]}"; do
          echo "- $key"
       done
       echo -e "Please update the 'configfile' and try again...\n"
-   else
-      echo -e "\nVerify Configfile Keys..... Passed"
    fi
 
    # Report keys with empty values
    if [ ${#EMPTY_VALUES[@]} -gt 0 ]; then
-      echo -e "The following keys have empty values in the user config file:"
+      echo -e "\nThe following keys have empty values in the user config file:"
       for key in "${EMPTY_VALUES[@]}"; do
          echo "- $key"
       done
       echo -e "Please update the 'configfile' and try again...\n"
-   else
-      echo -e "\nVerify Configfile Values..... Passed"
    fi
 
    # Exising on missing keys
@@ -117,9 +119,6 @@ validating_variables () {
       exit 1
    fi
    }
-
-   # Call the function with the user-provided config file as an argument
-   check_config "$USER_CONFIG_FILE"
 
    #--------------------------------------------------------------------------------------------------#
 
@@ -213,10 +212,13 @@ validating_variables () {
       fi
    done < "$USER_CONFIG_FILE"
 
+   # Call the function with the user-provided config file as an argument
+   check_config "$USER_CONFIG_FILE"
+
    echo
-   echo "                                             ---------------------------------------                     "
-   echo "                                             Verified The Provided Input Parameters                      "
-   echo "                                             ---------------------------------------                     "
+   echo "                     -------------------------------------------------------------------                 "
+   echo "                     Validated the Configfile and Verified The Provided Input Parameters                 "
+   echo "                     -------------------------------------------------------------------                 "
    echo
 }
 #--------------------------------------------------------------------------------------------------------------#
@@ -257,7 +259,7 @@ aws_prereq () {
                echo -e "\nCurrent VPC count: $vpc_used"
 
                if [ $vpc_limit -gt $vpc_used ]; then
-                    echo -e "Check Available VPC..... Passed"
+                    echo -e "Check Available VPC ..... Passed"
                else
                     echo
                     echo "************************************************************************************************************************************************************"
@@ -274,7 +276,7 @@ aws_prereq () {
             echo -e "\nCurrent ElasticIP count: $eip_used"
 
               if [[ $(( $eip_limit - $eip_used )) -ge 5 ]]; then
-                    echo -e "Check Available EIP..... Passed"
+                    echo -e "Check Available EIP ..... Passed"
               else
                     echo
                     echo "*************************************************************************************************************************************************************************************************"
@@ -295,7 +297,7 @@ aws_prereq () {
                   if [ $? -eq 0 ]; then
                      aws s3api delete-bucket --bucket $bucket_name --region us-east-1
                      if [ $? -eq 0 ]; then
-                        echo -e "Check Available S3 Bucket..... Passed"
+                        echo -e "Check Available S3 Bucket ..... Passed"
                      fi
                   else
                       echo
@@ -305,7 +307,7 @@ aws_prereq () {
                       exit 1
                   fi
                else
-                   echo -e "Check Available S3 Bucket..... Passed"
+                   echo -e "Check Available S3 Bucket ..... Passed"
                fi
    
 }
@@ -336,7 +338,7 @@ cdp_prereq () {
       echo "************************************************************************************************************************************************************"
       exit 1
    else
-      echo -e "Check CDP IAM Group Count..... Passed"
+      echo -e "Check CDP IAM Group Count ..... Passed"
    fi
 
    # Check current CDP IAM Users count
@@ -354,7 +356,7 @@ cdp_prereq () {
       echo "************************************************************************************************************************************************************"
       exit 1
    else
-      echo -e "Check CDP IAM Users Count..... Passed"
+      echo -e "Check CDP IAM Users Count ..... Passed"
    fi
 
    # Check current CDP SAML Providers count
@@ -368,7 +370,7 @@ cdp_prereq () {
       echo "************************************************************************************************************************************************************"
       exit 1
    else
-      echo -e "Check CDP SAML Identity Providers (IdP) Count..... Passed"
+      echo -e "Check CDP SAML Identity Providers (IdP) Count ..... Passed\n"
    fi
 }
 #-------------------------------------------------------------------------------------------------#
