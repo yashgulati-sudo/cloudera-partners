@@ -327,7 +327,7 @@ fi
 cdp_prereq () {
    # Check current CDP IAM Groups count
    cdp_group_count=$(cdp iam list-groups | jq -r '.groups[].groupName' | wc -l)
-   echo -e "\nCurrent CDP Group count: $cdp_group_count"
+   echo -e "\nCurrent CDP Groups count: $cdp_group_count"
 
    if [ $cdp_group_count -gt 48 ]; then
       echo
@@ -337,6 +337,24 @@ cdp_prereq () {
       exit 1
    else
       echo -e "Check CDP IAM Group Count..... Passed"
+   fi
+
+   # Check current CDP IAM Users count
+   cdp_user_count=$(cdp iam list-users --max-items 10000 | jq -r '.users[].userId' | wc -l)
+   echo -e "\nCurrent CDP Users count: $cdp_user_count"
+   echo -e "Number of Workshop Users count: $number_of_workshop_users"
+
+   remaining_users=$((1000 - $cdp_user_count))
+   echo -e "Number of Remaining Users count: $remaining_users"
+
+   if [ $number_of_workshop_users -gt $remaining_users ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* Fatal !! Can't Continue: The CDP IAM Users count limit has been reached on your CDP account. Either increase quota or remove unused CDP IAM Users *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
+   else
+      echo -e "Check CDP IAM Users Count..... Passed"
    fi
 
    # Check current CDP SAML Providers count
