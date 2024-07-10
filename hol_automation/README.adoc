@@ -295,6 +295,8 @@ The overall time for provisioning is nearly ~1.5 to ~4 hours (Total Time = Time 
 [NOTE]
 If the execution of docker container for provisioning fails (due to timeout or any kind of intermittent/API issues at CDP/AWS side), you can use the same command mentioned above to refresh the state and resume the execution.
 
+---
+
 === The Outcome
 ==== Keycloak:
 The succesful execution of Step 5 will generate a .txt file in 'userconfig' folder on your local machine. The name of the file will be <VALUE_OF_WORKSHOP_NAME>.txt
