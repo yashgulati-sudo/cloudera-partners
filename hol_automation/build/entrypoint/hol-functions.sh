@@ -17,11 +17,11 @@ validating_variables() {
    if [ ! -f "/userconfig/configfile" ]; then
       echo "=================================================================================="
       echo "FATAL: Not able to find Config File ('configfile') inside /userconfig folder.
-         Please make sure you have mounted the local directory using -v flag and you
-         have created a file by name 'configfile' without any file extension like '.txt'.
-         if you are running docker on windows then create the folder inside your
-         'C:/Users/<Your_Windows_User_Name>/' and try again.
-         Exiting......"
+   Please make sure you have mounted the local directory using -v flag and you
+   have created a file by name 'configfile' without any file extension like '.txt'.
+   if you are running docker on windows then create the folder inside your
+   'C:/Users/<Your_Windows_User_Name>/' and try again.
+   Exiting......"
       echo "=================================================================================="
       exit 9999 # die with error code 9999
 
@@ -52,7 +52,7 @@ validating_variables() {
          "LOCAL_MACHINE_IP"
          "ENABLE_DATA_SERVICES"
       )
-      echo "provision_keycloak: $provision_keycloak"
+      echo "Provision_keycloak: $provision_keycloak"
       # Conditionally add Keycloak keys based on PROVISION_KEYCLOAK
       if [[ "$provision_keycloak" == "yes" ]]; then
          REQUIRED_KEYS+=(
@@ -152,7 +152,7 @@ validating_variables() {
             *_*)
                echo "=================================================================================="
                echo "FATAL: The value for Workshop Name parameter can not have underscore ('_').
-                  Please update the value in 'configfile' and try again."
+   Please update the value in 'configfile' and try again."
                echo "=================================================================================="
                exit 1
                ;;
@@ -186,12 +186,12 @@ validating_variables() {
             else
                echo "=================================================================================="
                echo "FATAL: Invalid value for CDP Deployment Type. The allowed values are: 
-                  public (* all in lowercase *)
-                  private (* all in lowercase *)
-                  semi-private (* all in lowercase and one hyphen (-) *)
+               public (* all in lowercase *)
+               private (* all in lowercase *)
+               semi-private (* all in lowercase and one hyphen (-) *)
 
-                  ****Exiting****
-                  Please update the 'configfile' and try again."
+               ****Exiting****
+               Please update the 'configfile' and try again."
                echo "=================================================================================="
                exit 9999
             fi
@@ -227,8 +227,8 @@ key_pair_file() {
    if [[ ! -f "/userconfig/$aws_key_pair.pem" ]]; then
       echo "=================================================================================="
       echo "FATAL: SSH Key Pair File Not Found. Please place the '$aws_key_pair.pem' 
-         file in your config directory and try again.
-         EXITING....."
+file in your config directory and try again.
+EXITING....."
       echo "=================================================================================="
       exit 9999 # die with error code 9999
    fi
@@ -391,7 +391,7 @@ setup_keycloak_ec2() {
    local sg_name="$1"
    if check_aws_sg_exists "$sg_name"; then
       echo "EC2 Security Group With the same name already exists. To avoid the failure the Security Group
-         name is now updated to $keycloak_sg_name-$workshop_name-sg"
+name is now updated to $keycloak_sg_name-$workshop_name-sg"
       terraform init
       terraform apply -auto-approve \
          -var "instance_name=$ec2_instance_name" \
@@ -479,18 +479,18 @@ provision_cdp() {
    # Append the public subnet output if it does not exist
    if [ -z "$public_subnet" ]; then
       cat <<EOF >>"$file"
-      output "aws_public_subnet_ids" {
-      value = module.cdp_aws_prereqs.aws_public_subnet_ids
-      } 
-      EOF
+output "aws_public_subnet_ids" {
+  value = module.cdp_aws_prereqs.aws_public_subnet_ids
+}
+EOF
    fi
    # Append the private subnet output if it does not exist
    if [ -z "$private_subnet" ]; then
       cat <<EOF >>"$file"
-      output "aws_private_subnet_ids" {
-      value = module.cdp_aws_prereqs.aws_private_subnet_ids
-      }
-      EOF
+output "aws_private_subnet_ids" {
+  value = module.cdp_aws_prereqs.aws_private_subnet_ids
+}
+EOF
    fi
    terraform init
    terraform apply --auto-approve \
@@ -566,23 +566,23 @@ cdp_idp_setup_user() {
    sleep 5
    ansible-playbook create_keycloak_client.yml --extra-vars \
       "keycloak__admin_username=admin \
-      keycloak__admin_password=$keycloak__admin_password \
-      keycloak__domain=http://$KEYCLOAK_SERVER_IP \
-      keycloak__cdp_idp_name=$workshop_name \
-      keycloak__realm=master \
-      keycloak__auth_realm=master"
+          keycloak__admin_password=$keycloak__admin_password \
+          keycloak__domain=http://$KEYCLOAK_SERVER_IP \
+          keycloak__cdp_idp_name=$workshop_name \
+          keycloak__realm=master \
+          keycloak__auth_realm=master"
    echo "=========================Creating Users & Groups=============================================="
    sleep 5
    ansible-playbook keycloak_hol_user_setup.yml --extra-vars \
       "keycloak__admin_username=admin \
-      keycloak__admin_password=$keycloak__admin_password \
-      keycloak__domain=http://$KEYCLOAK_SERVER_IP \
-      hol_keycloak_realm=master \
-      hol_session_name=$workshop_name-aw-cdp-user-group \
-      number_user_to_create=$number_of_workshop_users \
-      username_prefix=$workshop_user_prefix \
-      default_user_password=$workshop_user_default_password \
-      reset_password_on_first_login=True"
+    keycloak__admin_password=$keycloak__admin_password \
+    keycloak__domain=http://$KEYCLOAK_SERVER_IP \
+    hol_keycloak_realm=master \
+    hol_session_name=$workshop_name-aw-cdp-user-group \
+    number_user_to_create=$number_of_workshop_users \
+    username_prefix=$workshop_user_prefix \
+    default_user_password=$workshop_user_default_password \
+    reset_password_on_first_login=True"
    sleep 10
    echo "==========================Synchronising Keycloak Users In CDP=================================="
    for i in $(seq -f "%02g" 1 1 $number_of_workshop_users); do
@@ -600,10 +600,10 @@ cdp_idp_setup_user() {
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
    ansible-playbook keycloak_hol_user_fetch.yml --extra-vars \
       "keycloak__admin_username=admin \
-      keycloak__admin_password=$keycloak__admin_password \
-      keycloak__domain=http://$KEYCLOAK_SERVER_IP \
-      hol_keycloak_realm=master \
-      hol_session_name=$workshop_name-aw-cdp-user-group"
+    keycloak__admin_password=$keycloak__admin_password \
+    keycloak__domain=http://$KEYCLOAK_SERVER_IP \
+    hol_keycloak_realm=master \
+    hol_session_name=$workshop_name-aw-cdp-user-group"
    sleep 5
    echo "=============================Fetching Details: Please Wait=========================="
    sample_keycloak_user1=$(cat /tmp/$workshop_name-aw-cdp-user-group.json | jq -r '.[0].username')
@@ -631,10 +631,10 @@ cdp_idp_user_teardown() {
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
    ansible-playbook keycloak_hol_user_teardown.yml --extra-vars \
       "keycloak__admin_username=admin \
-      keycloak__admin_password=$keycloak__admin_password \
-      keycloak__domain=http://$KEYCLOAK_SERVER_IP \
-      hol_keycloak_realm=master \  
-      hol_session_name=$workshop_name-aw-cdp-user-group"
+    keycloak__admin_password=$keycloak__admin_password \
+    keycloak__domain=http://$KEYCLOAK_SERVER_IP \
+    hol_keycloak_realm=master \
+    hol_session_name=$workshop_name-aw-cdp-user-group"
    sleep 10
    echo "====================Removing IDP From CDP Tenant============================================="
    cdp iam delete-saml-provider --saml-provider-name $workshop_name
@@ -678,10 +678,10 @@ deploy_cdw() {
    number_vw_to_create=$((($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0)))
    ansible-playbook $DS_CONFIG_DIR/enable-cdw.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
-      env_lb_public_subnet=$ENV_PUBLIC_SUBNETS \
-      env_wrkr_private_subnet=$ENV_PRIVATE_SUBNETS \
-      workshop_name=$workshop_name \
-      number_vw_to_create=$number_vw_to_create"
+   env_lb_public_subnet=$ENV_PUBLIC_SUBNETS \
+   env_wrkr_private_subnet=$ENV_PRIVATE_SUBNETS \
+   workshop_name=$workshop_name \
+   number_vw_to_create=$number_vw_to_create"
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cdw() {
@@ -696,8 +696,9 @@ deploy_cde() {
    number_vc_to_create=$((($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0)))
    ansible-playbook $DS_CONFIG_DIR/enable-cde.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
-      workshop_name=$workshop_name \
-      number_vc_to_create=$number_vc_to_create"
+   workshop_name=$workshop_name \
+   number_vc_to_create=$number_vc_to_create"
+
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cde() {
@@ -712,15 +713,15 @@ deploy_cml() {
    #number_vws_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
    ansible-playbook $DS_CONFIG_DIR/enable-cml.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
-      workshop_name=$workshop_name"
-      #number_vws_to_create=$number_vws_to_create"
+   workshop_name=$workshop_name"
+   #number_vws_to_create=$number_vws_to_create"
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cml() {
    echo "==========================Disabling CML======================================"
    ansible-playbook $DS_CONFIG_DIR/disable-cml.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
-      workshop_name=$workshop_name"
+   workshop_name=$workshop_name"
 }
 #--------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------#
