@@ -63,6 +63,5 @@
         msg: "Workspace Deletion Got Failed."
       when: >
         workspace_exists and
-        (not ml_list_workspaces is defined or ml_list_workspaces.rc != 0 or
-        'resourceCrn should not be empty or nil' in [ml_ws_status.stderr, ml_ws_status.stdout] or
+        ('resourceCrn should not be empty or nil' in [ml_ws_status.stderr, ml_ws_status.stdout] or
          ml_ws_status.stdout in ["installation:failed", "modify:failed", "deprovision:failed"])
