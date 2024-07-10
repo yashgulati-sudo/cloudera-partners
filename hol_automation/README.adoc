@@ -175,7 +175,11 @@ values of the parameters.
 
 |PROVISION_KEYCLOAK
 |Provision Keycloak Instance or Skip
-|No quotes
+|No quotes 
+
+**YES** If KeyCloak provisioning is required.
+
+**NO** If KeyCloak provisioning is not required.
 |KEYCLOAK_SERVER_NAME
 |Name for Keycloak EC2 Instance
 |No quotes
@@ -222,17 +226,17 @@ values of the parameters.
 |Public IPV4 address of local machine
 |No quotes and don't remove /32
 |ENABLE_DATA_SERVICES
-|A comma seprated list of Data services to enable.
-|**[NONE]** if no data services required.
+|A comma separated list of Data services to enable.
+|**[NONE]** If no data services required.
 
 
-**[CDW]** if only CDW is required.
+**[CDW]** If only one of them is required.
 
 
- **[CDW,CDE]** if two of them are required.
+**[CDW,CDE]** If any two of them are required.
 
 
- **[CDW,CDE,CML]** if all three are required.
+**[CDW,CDE,CML]** If all three are required.
 
 
 |===
