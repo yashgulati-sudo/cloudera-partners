@@ -173,6 +173,9 @@ values of the parameters.
 |Description
 |Remarks
 
+|PROVISION_KEYCLOAK
+|Provision Keycloak Instance or Skip
+|No quotes
 |KEYCLOAK_SERVER_NAME
 |Name for Keycloak EC2 Instance
 |No quotes
