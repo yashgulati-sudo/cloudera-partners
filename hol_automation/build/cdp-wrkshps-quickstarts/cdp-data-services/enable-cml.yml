@@ -51,8 +51,8 @@
           "", "modify:finished", "modify:failed", "installation:finished", "installation:failed",
           "provision:finished", "provision:failed", "deprovision:finished", "deprovision:failed"
         ]))
-      retries: 150
-      delay: 30
+      retries: 50
+      delay: 120
 
     - name: Print ML Workspace Status
       debug:
