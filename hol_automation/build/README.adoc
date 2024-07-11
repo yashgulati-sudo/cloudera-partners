@@ -114,4 +114,46 @@ docker push clouderapartners/cdp-public-cloud-hol-provisioner:latest
 
 ----
 
+
+== Major features implemented in the CDP **Hands On Labs (HoL) Infrastructure Provisioner** Automation for AWS:
+
+
+1.  Ubuntu Linux based base image.
+
+2.  Optional Provisioning of KeyCloak Server for providing the external user access to Lab Environment with the help of SSO.
+
+3.  When Keycloak Server is Provisioned using this Automation, workshop owner can create required number of workshop users with  Keycloak (SSO) based access to workshop environment (depending on type of workshop e.g. CML, CDW or CDE).
+
+4.  Provisioned Keycloak users are added in the backend to IAM Groups in the CDP Tenant with the least required access Roles.
+
+5.  Assignment of required roles for workshop user access while deploying data services (Removed manual intervention).
+
+6.  Externalise (parameterization from configfile) the Keycloak Admin Password. (for improved security control)
+
+7.  Added below Validation Prerequisite checks for AWS and CDP Infrastructures:
+    -  Input Configfile is present.
+    -  Required input parameter keys are present in configfile with non-empty values.
+    -  Enough quotas for VPC, ElasticIP and S3 bucket creation is available on AWS.
+    -  Enough quotas for CDP IAM Users, IAM Groups and SAML Identity Provider (IdP) creation is available on CDP Tenant.
+
+8.  Optional Activation of CDW, CDE and CML data services and provisioning of the required resources e.g. Virtual Service (CDE), Virtual Warehouses (CDW), Virtual Workpace (CML) etc.
+
+9.  The automation in implemented in such a way that it can be retriggered with provision or destroy command as and when required.
+
+10. The code uses Cloudera CDP-TF-Quickstart Terraform based module and pulls the latest version dynamically at runtime.
+
+11. Deployment of Number of CDW Warehouses is determined dynamically, based on number of workshop users.
+
+
 ---
+
+
+== Usage Documentation for Automation
+
+For more information on how to use this HoL provisioner Docker image, see the main README file:
+
+link:../README.adoc[**Link to Usage Documentation**]
+
+
+---
+
