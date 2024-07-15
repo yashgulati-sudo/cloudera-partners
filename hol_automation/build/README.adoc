@@ -114,94 +114,46 @@ docker push clouderapartners/cdp-public-cloud-hol-provisioner:latest
 
 ----
 
-The overall time for provisioning is nearly 80-150 minutes (Total Time = Time Reqd for DataLake Provisioning + Time Reqd for CDE and/or CDW Provisioning). 
+
+== Major features implemented in the CDP **Hands On Labs (HoL) Infrastructure Provisioner** Automation for AWS:
+
+
+1.  Ubuntu Linux based base image.
+
+2.  Optional Provisioning of KeyCloak Server for providing the external user access to Lab Environment with the help of SSO.
+
+3.  When Keycloak Server is Provisioned using this Automation, workshop owner can create required number of workshop users with  Keycloak (SSO) based access to workshop environment (depending on type of workshop e.g. CML, CDW or CDE).
+
+4.  Provisioned Keycloak users are added in the backend to IAM Groups in the CDP Tenant with the least required access Roles.
+
+5.  Assignment of required roles for workshop user access while deploying data services (Removed manual intervention).
+
+6.  Externalise (parameterization from configfile) the Keycloak Admin Password. (for improved security control)
+
+7.  Added below Validation Prerequisite checks for AWS and CDP Infrastructures:
+    -  Input Configfile is present.
+    -  Required input parameter keys are present in configfile with non-empty values.
+    -  Enough quotas for VPC, ElasticIP and S3 bucket creation is available on AWS.
+    -  Enough quotas for CDP IAM Users, IAM Groups and SAML Identity Provider (IdP) creation is available on CDP Tenant.
+
+8.  Optional Activation of CDW, CDE and CML data services and provisioning of the required resources e.g. Virtual Service (CDE), Virtual Warehouses (CDW), Virtual Workpace (CML) etc.
+
+9.  The automation in implemented in such a way that it can be retriggered with provision or destroy command as and when required.
+
+10. The code uses Cloudera CDP-TF-Quickstart Terraform based module and pulls the latest version dynamically at runtime.
+
+11. Deployment of Number of CDW Warehouses is determined dynamically, based on number of workshop users.
+
 
 ---
 
-=== The Outcome
-==== Keycloak:
-The succesful execution of image will generate a .txt file in 'userconfig' folder on your local machine. The name of the file will be <VALUE_OF_WORKSHOP_NAME>.txt
-e.g : If in the configfile the value of WORKSHOP_NAME is **accn-wrkshp** the out put file will be **accn-wrkshp.txt**
 
-This file contains details about the provisioned Keycloak Server and the SSO URL which will be used for participants for login. It will look similar like below
+== Usage Documentation for Automation
 
-image::images/out_put_kc.png[during_process,650,300]
+For more information on how to use this HoL provisioner Docker image, see the main README file:
+
+link:../README.adoc[**Link to Usage Documentation**]
 
 
 ---
 
-==== CDP Environment & Datalake:
-[%header,cols="1,1"]
-|===
-|Type
-|Name
-
-
-|Environment
-|<WORKSHOP_NAME>-cdp-env; e.g : accn-workshp-cdp-env
-
-|Admin User Group
-|<WORKSHOP_NAME>-aw-cdp-admin-group; e.g: accn-workshp-aw-cdp-admin-group
-
-|User Group
-|<WORKSHOP_NAME>-aw-cdp-user-group; e.g: accn-workshp-aw-cdp-user-group
-
-|===
-
----
-
-==== CDW
-
-Based on number of workshop users defined in configfile the provisioner will take care of deploying required number of **xsmall** warehouses of both Hive & Impala and a
-data visualization cluster of **large** size.
-[%header,cols="1,1"]
-|===
-|Type
-|Name
-
-
-|Activated CDW Environment
-|<WORKSHOP_NAME>-cdp-env; e.g : accn-workshp-cdp-env
-
-|Database Catalog
-|
-
-|Hive Warehouses(xsmall)
-|<WORKSHOP_NAME>-hive-<number>; e.g: accn-workshp-hive-01
-
-|Impala Warehouses(xsmall)
-|<WORKSHOP_NAME>-impala-<number>; e.g: accn-workshp-impala-01
-
-|Data Visualization(large)
-|<WORKSHOP_NAME>-data-viz; e.g: accn-workshp-data-viz
-
-|===
-
----
-
-==== CDE
-Based on number of workshop users defined in configfile the provisioner will take care of activating CDE service and deploying required number of CDE Virtual clusters having **SPARK 2** configuration. Based on the scope of workshop the owner needs to grant access through Ranger manually.
-[%header,cols="1,1"]
-|===
-|Type
-|Name
-
-|Activated CDE Service
-|<WORKSHOP_NAME>-cde; e.g : accn-workshp-cde
-
-
-|Virtual Clusters
-|<WORKSHOP_NAME>-cde-vc-<number>; e.g: accn-workshp-cde-vc-01
-
-
-|===
-
----
-
-The provisioned CDP environment will have all the Keycloak users created in CDP and assigned to the *-aw-cdp-user-group and synched to FreeIpa.
-
-[NOTE]
-During provisioning, the process creates files and hidden folder inside the local userconfig folder. Do not delete any
-files and folder as these are required for destroying the stack.
-
----
