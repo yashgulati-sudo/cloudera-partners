@@ -216,7 +216,7 @@ validating_variables() {
 
    echo
    echo "                     -------------------------------------------------------------------                 "
-   echo "                     Validated the Configfile and Verified The Provided Input Parameters                 "
+   echo "                     Validated the Configfile and Verified the Provided Input Parameters                 "
    echo "                     -------------------------------------------------------------------                 "
    echo
 }
@@ -236,9 +236,9 @@ EXITING....."
 #-------------------------------------------------------------------------------------------------#
 # Function to setup AWS & CDP CLI for user.
 setup_aws_and_cdp_profile() {
-   echo "                       =================================================================================="
-   echo "                                         Setting Up Your AWS & CDP Profile                               "
-   echo "                       =================================================================================="
+   echo "               =================================================================================="
+   echo "                                   Setting Up Your AWS & CDP Profile                               "
+   echo "               =================================================================================="
    aws configure set aws_access_key_id $aws_access_key_id
    aws configure set aws_secret_access_key $aws_secret_access_key
    aws configure set default.region $aws_region
@@ -308,7 +308,6 @@ aws_prereq() {
    else
       echo -e "Check Available S3 Bucket ..... Passed"
    fi
-
 }
 #---------------------------------------------------------------------------------------------------------------------#
 # Function to validate if resources are already present on AWS.
@@ -346,7 +345,7 @@ cdp_prereq() {
    echo -e "Number of Workshop Users count: $number_of_workshop_users"
 
    remaining_users=$((1000 - $cdp_user_count))
-   echo -e "Number of Remaining Users count: $remaining_users"
+   #echo -e "Number of Remaining Users count: $remaining_users"
 
    if [ $number_of_workshop_users -gt $remaining_users ]; then
       echo
@@ -375,7 +374,7 @@ cdp_prereq() {
 #-------------------------------------------------------------------------------------------------#
 # Function to provision EC2 Instance for Keycloak
 setup_keycloak_ec2() {
-   echo "==============================Provisioning Keycloak========================================="
+   echo "               ==============================Provisioning Keycloak========================================="
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
 
@@ -432,7 +431,7 @@ name is now updated to $keycloak_sg_name-$workshop_name-sg"
 # Function to rollback keycloack EC2 Instance in case of failure during provision.
 destroy_keycloak() {
    USER_NAMESPACE=$workshop_name
-   echo "===================================Destroying Keycloak======================================="
+   echo "               ===================================Destroying Keycloak======================================="
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
    terraform init
    terraform destroy -auto-approve \
@@ -451,12 +450,11 @@ destroy_keycloak() {
    else
       return 1
    fi
-
 }
 #--------------------------------------------------------------------------------------------------#
 # Function to provision CDP Environment.
 provision_cdp() {
-   echo "==============================Provisioning CDP Environment==================================="
+   echo "               ==============================Provisioning CDP Environment==================================="
    sleep 10
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
@@ -518,7 +516,7 @@ update_cdp_user_group() {
 # Function to destroy CDP Environment.
 destroy_cdp() {
    USER_NAMESPACE=$workshop_name
-   echo "==============================Destroying CDP Environment Infrastructure========================================"
+   echo "               ==============================Destroying CDP Environment Infrastructure========================================"
    cd /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts/aws
    cdp_cidr="\"$local_ip\""
    terraform init
@@ -562,7 +560,7 @@ cdp_idp_setup_user() {
    KEYCLOAK_SERVER_IP=$(cat /userconfig/keycloak_ip)
    USER_NAMESPACE=$workshop_name
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
-   echo "=========================Configuring IDP in CDP=============================================="
+   echo "               =========================Configuring IDP in CDP=============================================="
    sleep 5
    ansible-playbook create_keycloak_client.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -571,7 +569,7 @@ cdp_idp_setup_user() {
           keycloak__cdp_idp_name=$workshop_name \
           keycloak__realm=master \
           keycloak__auth_realm=master"
-   echo "=========================Creating Users & Groups=============================================="
+   echo "               =========================Creating Users & Groups=============================================="
    sleep 5
    ansible-playbook keycloak_hol_user_setup.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -584,7 +582,7 @@ cdp_idp_setup_user() {
     default_user_password=$workshop_user_default_password \
     reset_password_on_first_login=True"
    sleep 10
-   echo "==========================Synchronising Keycloak Users In CDP=================================="
+   echo "               ==========================Synchronising Keycloak Users In CDP=================================="
    for i in $(seq -f "%02g" 1 1 $number_of_workshop_users); do
       cdp iam create-user \
          --identity-provider-user-id $workshop_user_prefix$i \
@@ -596,7 +594,7 @@ cdp_idp_setup_user() {
    done
    cdp environments sync-all-users --environment-names $workshop_name-cdp-env
    sleep 5
-   echo "==========================Please Wait: Generating Report======================================="
+   echo "               ==========================Please Wait: Generating Report======================================="
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
    ansible-playbook keycloak_hol_user_fetch.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -605,7 +603,7 @@ cdp_idp_setup_user() {
     hol_keycloak_realm=master \
     hol_session_name=$workshop_name-aw-cdp-user-group"
    sleep 5
-   echo "=============================Fetching Details: Please Wait=========================="
+   echo "               =============================Fetching Details: Please Wait=========================="
    sample_keycloak_user1=$(cat /tmp/$workshop_name-aw-cdp-user-group.json | jq -r '.[0].username')
    sample_keycloak_user2=$(cat /tmp/$workshop_name-aw-cdp-user-group.json | jq -r '.[1].username')
    sleep 5
@@ -625,7 +623,7 @@ cdp_idp_setup_user() {
 #--------------------------------------------------------------------------------------------------#
 cdp_idp_user_teardown() {
    USER_NAMESPACE=$workshop_name
-   echo "====================Deleting IDP Users & Group==============================================="
+   echo "               ====================Deleting IDP Users & Group==============================================="
    KEYCLOAK_SERVER_IP=$(cat /userconfig/keycloak_ip)
    echo $KEYCLOAK_SERVER_IP
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
@@ -636,7 +634,7 @@ cdp_idp_user_teardown() {
     hol_keycloak_realm=master \
     hol_session_name=$workshop_name-aw-cdp-user-group"
    sleep 10
-   echo "====================Removing IDP From CDP Tenant============================================="
+   echo "               ====================Removing IDP From CDP Tenant============================================="
    cdp iam delete-saml-provider --saml-provider-name $workshop_name
 }
 #--------------------------------------------------------------------------------------------------#
@@ -654,7 +652,7 @@ count_elements() {
 }
 #--------------------------------------------------------------------------------------------------#
 deploy_cdw() {
-   echo "==========================Deploying CDW======================================"
+   echo "               ==========================Deploying CDW======================================"
    echo "Initial values:"
    echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
    echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
@@ -685,14 +683,14 @@ deploy_cdw() {
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cdw() {
-   echo "==========================Disabling CDW======================================"
+   echo "               ==========================Disabling CDW======================================"
    ansible-playbook $DS_CONFIG_DIR/disable-cdw.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env"
 }
 #--------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------#
 deploy_cde() {
-   echo "==========================Deploying CDE======================================"
+   echo "               ==========================Deploying CDE======================================"
    number_vc_to_create=$((($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0)))
    ansible-playbook $DS_CONFIG_DIR/enable-cde.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
@@ -702,14 +700,14 @@ deploy_cde() {
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cde() {
-   echo "==========================Disabling CDE======================================"
+   echo "               ==========================Disabling CDE======================================"
    ansible-playbook $DS_CONFIG_DIR/disable-cde.yml --extra-vars \
       "workshop_name=$workshop_name"
 }
 #--------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------#
 deploy_cml() {
-   echo "==========================Deploying CML======================================"
+   echo "               ==========================Deploying CML======================================"
    #number_vws_to_create=$(( ($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0) ))
    ansible-playbook $DS_CONFIG_DIR/enable-cml.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
@@ -718,7 +716,7 @@ deploy_cml() {
 }
 #--------------------------------------------------------------------------------------------------#
 disable_cml() {
-   echo "==========================Disabling CML======================================"
+   echo "               ==========================Disabling CML======================================"
    ansible-playbook $DS_CONFIG_DIR/disable-cml.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
    workshop_name=$workshop_name"
@@ -739,9 +737,22 @@ set_account_roles() {
       echo $CDP_ACCOUNT_ROLE_CRN | tr -d '"'
    }
 
-   # Assign Account Roles
+   # Assign Account Roles with error handling
    for role_name in "${ACCOUNT_ROLES[@]}"; do
-      cdp iam assign-group-role --group-name ${CDP_GROUP_NAME} --role $(get_crn_account_role ${role_name})
+      # Assign the account role and capture output
+      output=$(cdp iam assign-group-role --group-name ${CDP_GROUP_NAME} --role $(get_crn_account_role ${role_name}) 2>&1)
+
+      # Check the exit status of the previous command
+      exit_status=$?
+
+      if [ $exit_status -eq 0 ]; then
+         echo "Role '$role_name' assigned successfully to CDP Group '$CDP_GROUP_NAME'."
+      elif echo "$output" | grep -q "ALREADY_EXISTS"; then
+         echo "Role '$role_name' is already assigned to CDP Group '$CDP_GROUP_NAME'. Skipping..."
+      else
+         echo "Error assigning role '$role_name':"
+         echo "$output"
+      fi
    done
 
    # Verify assigned roles
@@ -766,9 +777,22 @@ set_resource_roles() {
       echo $CDP_RESOURCE_ROLE_CRN | tr -d '"'
    }
 
-   # Set Resource Roles
+   # Set Resource Roles with error handling
    for role_name in "${RESOURCE_ROLES[@]}"; do
-      cdp iam assign-group-resource-role --group-name $CDP_GROUP_NAME --resource-role-crn $(get_crn_resource_role ${role_name}) --resource-crn $CDP_ENV_CRN
+      # Assign the resource role and capture output
+      output=$(cdp iam assign-group-resource-role --group-name $CDP_GROUP_NAME --resource-role-crn $(get_crn_resource_role ${role_name}) --resource-crn $CDP_ENV_CRN 2>&1)
+
+      # Check the exit status of the previous command
+      exit_status=$?
+
+      if [ $exit_status -eq 0 ]; then
+         echo "Role '$role_name' assigned successfully to CDP Group '$CDP_GROUP_NAME'."
+      elif echo "$output" | grep -q "ALREADY_EXISTS"; then
+         echo "Role '$role_name' is already assigned to CDP Group '$CDP_GROUP_NAME'. Skipping..."
+      else
+         echo "Error assigning role '$role_name':"
+         echo "$output"
+      fi
    done
 
    # Verify assigned resource-roles
@@ -812,7 +836,6 @@ enable_data_services() {
          echo "No Data Services Selected"
       fi
    done
-
 }
 #--------------------------------------------------------------------------------------------------#
 disable_data_services() {
@@ -838,6 +861,5 @@ disable_data_services() {
          echo "No Data Services were deployed"
       fi
    done
-
 }
 #--------------------------------------------------------------------------------------------------#

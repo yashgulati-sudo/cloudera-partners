@@ -27,7 +27,7 @@ case $USER_ACTION in
                 echo
             fi
         else
-            echo "Keycloak Provisioning skipped, as instructed in configfile..."
+            echo -e "Keycloak Provisioning skipped, as instructed in configfile...\n"
         fi
         sleep 10
         provision_cdp
