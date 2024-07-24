@@ -17,7 +17,7 @@ Email: **aktiwari@cloudera.com**
 
 
 
-image::build/images/keycloak_login.png[kycloak_login,1000,400]
+image::build/images/keycloak_login.png[kycloak_login,600,400]
 
 == Overview
 
@@ -67,17 +67,17 @@ For using this user should have:
 ==== CDP
 * On the CDP Portal, click at the left bottom corner and click on Profile as shown below. 
 
-image::build/images/profile.png[profile,180,200]
+image::build/images/profile.png[profile, 180, 120]
 
-image::build/images/profile_1.png[profile1,290,220]
+image::build/images/profile_1.png[profile1, 290, 193]
 
-* Click on Generate Access Key as shown below. 
+* Click on Generate Access Key as shown below.
 
-image::build/images/gen_access_key.png[access_key,900,200]
+image::build/images/gen_access_key.png[access_key, 600, 400]
 
 * Copy the values of Access Key ID and Private Key separately and keep it in a note. Or download the keys by pressing the Blue Button.
 
-image::build/images/gen_access_key_1.png[access_key1,450,300]
+image::build/images/gen_access_key_1.png[access_key1, 300, 200]
 
 ==== AWS
 1. Open the IAM console at https://console.aws.amazon.com/iam/.
