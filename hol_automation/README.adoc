@@ -417,7 +417,7 @@ After succesful delivery of your HOL/Workshop the complete stack can be destroye
 5. CDE Virtual Cluster
 6. Deactivation of CDE Service
 7. CDP Environment & Data Lake
-8. AWS components related to the deployment are also destroyed(e.g bucket, roles, policies etc.)
+8. AWS components related to the deployment(e.g bucket, roles, policies etc.)
 9. Users
 10. Keycloak Server
 
