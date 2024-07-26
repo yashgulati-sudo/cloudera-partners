@@ -50,6 +50,14 @@ Infrastructure components are important and play a vital role in acheieving the 
 
 All the above tools are integrated with each other and packaged as a Dokcer Container for use.
 
+---
+== How to install docker on your local machine
+Follow below page for installing docker on your machine.
+
+https://docs.docker.com/engine/install/
+
+---
+
 == How To Create Docker Image for HoL-Automation
 
 === Step 1: Clone the code and cd into the hol_automation/build directory
