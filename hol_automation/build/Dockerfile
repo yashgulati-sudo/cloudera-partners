@@ -2,6 +2,7 @@
 # Base Image 
 FROM ubuntu:22.04
 
+ARG TF_VER=1.9.3
 # Directory for storing scripts.
 RUN mkdir -p /opt/cdp-public-cloud-automation
 
@@ -42,9 +43,9 @@ RUN pip install --upgrade pip && \
     #ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
 
 # Install Terraform
-RUN curl "https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip" -o "/tmp/terraform_1.4.6_linux_amd64.zip" && \
-    unzip /tmp/terraform_1.4.6_linux_amd64.zip -d /usr/local/bin/ && \
-    rm -rf /tmp/terraform_1.4.6_linux_amd64.zip
+RUN curl "https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip" -o "/tmp/terraform_${TF_VER}_linux_amd64.zip" && \
+    unzip /tmp/terraform_${TF_VER}_linux_amd64.zip -d /usr/local/bin/ && \
+    rm -rf /tmp/terraform_${TF_VER}_linux_amd64.zip
 
 COPY cdp-wrkshps-quickstarts /opt/cdp-public-cloud-automation/cdp-wrkshps-quickstarts
 COPY entrypoint/docker-entrypoint.sh /usr/local/bin/
