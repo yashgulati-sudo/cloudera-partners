@@ -73,17 +73,17 @@ https://docs.docker.com/engine/install/
 ==== CDP
 * On the CDP Portal, click at the left bottom corner and click on Profile as shown below. 
 
-image::build/images/profile.png[profile, 180, 120]
+image::build/images/profile.png[profile, 120, 120]
 
-image::build/images/profile_1.png[profile1, 290, 193]
+image::build/images/profile_1.png[profile1, 370, 193]
 
 * Click on Generate Access Key as shown below.
 
-image::build/images/gen_access_key.png[access_key, 600, 400]
+image::build/images/gen_access_key.png[access_key, 460, 150]
 
 * Copy the values of Access Key ID and Private Key separately and keep it in a note. Or download the keys by pressing the Blue Button.
 
-image::build/images/gen_access_key_1.png[access_key1, 300, 200]
+image::build/images/gen_access_key_1.png[access_key1, 600, 400]
 
 ==== AWS
 1. Open the IAM console at https://console.aws.amazon.com/iam/.
@@ -158,7 +158,7 @@ mkdir -p ~/userconfig
 
 [.shell]
 ----
-C:\Users\<username>\userconfig
+md C:\Users\<username>\userconfig
 
 ----
 
@@ -268,7 +268,7 @@ Once the configfile is created as outlined in Step 4 . The provisioning of infra
 [.shell]
 ----
 docker run -it \
--v <LOCAL_PATH_OF_CONFIG_FOLDER>:/userconfig \
+-v ~/userconfig:/userconfig \
 clouderapartners/cdp-public-cloud-hol-provisioner:latest \
 provision
 
@@ -428,7 +428,7 @@ After succesful delivery of your HOL/Workshop the complete stack can be destroye
 [.shell]
 ----
 docker run -it \
--v <LOCAL_PATH_OF_CONFIG_FOLDER>:/userconfig \
+-v ~/userconfig:/userconfig \
 clouderapartners/cdp-public-cloud-hol-provisioner:latest \
 destroy
 
