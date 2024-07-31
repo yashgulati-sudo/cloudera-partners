@@ -31,13 +31,10 @@ RUN wget https://www.python.org/ftp/python/3.10.9/Python-3.10.9.tgz && \
     rm -rf Python-3.10.9
 
 RUN pip install --upgrade pip && \
-    pip install setuptools_rust && \
-    pip install ansible-core==2.12.10 && \
-    pip install awscli && \
-    pip install cdpcli && \
-    pip install jmespath==1.0.1 && \
+    pip install setuptools_rust ansible-core==2.12.10 jmespath==1.0.1 awscli && \
     pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy && \
     #pip install git+https://github.com/cloudera-labs/cdpy@devel#egg=cdpy && \
+    pip uninstall -y cdpcli-beta && pip install cdpcli && \
     ansible-galaxy collection install community.general -vv && \
     ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,main
     #ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
@@ -56,4 +53,3 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 WORKDIR "$HOME_DIR"
 #CMD ["/bin/bash"]
 ENTRYPOINT ["docker-entrypoint.sh"]
-
