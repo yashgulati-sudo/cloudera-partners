@@ -811,6 +811,9 @@ enable_data_services() {
 
    # Deploy selected data services
    for service in "${data_services[@]}"; do
+      resource_roles=("EnvironmentUser")
+      set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
+
       if [[ "$service" == "cdw" ]]; then
          deploy_cdw
          resource_roles=("DWAdmin" "DWUser")
@@ -818,7 +821,7 @@ enable_data_services() {
 
       elif [[ "$service" == "cde" ]]; then
          deploy_cde
-         resource_roles=("DEUser" "EnvironmentUser")
+         resource_roles=("DEUser")
          set_resource_roles $workshop_name-aw-cdp-user-group $workshop_name-cdp-env "${resource_roles[@]}"
 
       elif [[ "$service" == "cml" ]]; then
