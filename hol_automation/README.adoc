@@ -362,6 +362,9 @@ data visualization cluster of **large** size.
 
 |===
 
+[NOTE]
+The number of users assigned to each VW is 10 users. That means for every 10 users there'll be one warehouse created.
+
 ---
 
 ==== CDE
