@@ -205,7 +205,21 @@ validating_variables() {
          ENABLE_DATA_SERVICES)
             enable_data_services=$value
             ;;
-
+         SIZE_OF_VIRTUAL_WAREHOUSE)
+            size_of_virtual_warehouse=$value
+            ;;
+         CDE_INSTANCE_TYPE)
+            cde_instance_type=$value
+            ;;
+         CDE_MIN_INSTANCES)
+            cde_min_instances=$value
+            ;;
+         CDE_MAX_INSTANCES)
+            cde_max_instances=$value
+            ;;
+         CDE_SPARK_VERSION)
+            cde_spark_version=$value
+            ;;
             # Can Add more cases if required.
          esac
       fi
@@ -679,6 +693,7 @@ deploy_cdw() {
    env_lb_public_subnet=$ENV_PUBLIC_SUBNETS \
    env_wrkr_private_subnet=$ENV_PRIVATE_SUBNETS \
    workshop_name=$workshop_name \
+   Size=$size_of_virtual_warehouse \
    number_vw_to_create=$number_vw_to_create"
 }
 #--------------------------------------------------------------------------------------------------#
@@ -695,6 +710,10 @@ deploy_cde() {
    ansible-playbook $DS_CONFIG_DIR/enable-cde.yml --extra-vars \
       "cdp_env_name=$workshop_name-cdp-env \
    workshop_name=$workshop_name \
+   instance_type=$cde_instance_type \
+   minimum_instances=$cde_min_instances \
+   maximum_instances=$cde_max_instances \
+   spark_version=$cde_spark_version \	
    number_vc_to_create=$number_vc_to_create"
 
 }
