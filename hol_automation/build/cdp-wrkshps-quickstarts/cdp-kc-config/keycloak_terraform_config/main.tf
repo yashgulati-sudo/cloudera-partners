@@ -81,6 +81,13 @@ resource "aws_security_group" "vpc-ssh-web" {
     protocol = "tcp"
     cidr_blocks = [ "${var.local_ip}" ]
   }
+  ingress {
+    description = "Allow web Traffic"
+    from_port = 5000
+    to_port = 5000
+    protocol = "tcp"
+    cidr_blocks = [ "${var.local_ip}" ]
+  }
   egress {
     description = "Allow All Outbound Connection"
     from_port = 0
