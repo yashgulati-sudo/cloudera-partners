@@ -374,7 +374,7 @@ cdp_prereq() {
 #-------------------------------------------------------------------------------------------------#
 # Function to provision EC2 Instance for Keycloak
 setup_keycloak_ec2() {
-   echo "               ==============================Provisioning Keycloak========================================="
+   echo -e "\n               ==============================Provisioning Keycloak========================================="
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
 
@@ -431,7 +431,7 @@ name is now updated to $keycloak_sg_name-$workshop_name-sg"
 # Function to rollback keycloack EC2 Instance in case of failure during provision.
 destroy_keycloak() {
    USER_NAMESPACE=$workshop_name
-   echo "               ===================================Destroying Keycloak======================================="
+   echo -e "\n               ===================================Destroying Keycloak======================================="
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
    terraform init
    terraform destroy -auto-approve \
@@ -454,7 +454,7 @@ destroy_keycloak() {
 #--------------------------------------------------------------------------------------------------#
 # Function to provision CDP Environment.
 provision_cdp() {
-   echo "               ==============================Provisioning CDP Environment==================================="
+   echo -e "\n               ==============================Provisioning CDP Environment==================================="
    sleep 10
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
@@ -516,7 +516,7 @@ update_cdp_user_group() {
 # Function to destroy CDP Environment.
 destroy_cdp() {
    USER_NAMESPACE=$workshop_name
-   echo "               ==============================Destroying CDP Environment Infrastructure========================================"
+   echo -e "\n               ==============================Destroying CDP Environment Infrastructure========================================"
    cd /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts/aws
    cdp_cidr="\"$local_ip\""
    terraform init
@@ -560,7 +560,7 @@ cdp_idp_setup_user() {
    KEYCLOAK_SERVER_IP=$(cat /userconfig/keycloak_ip)
    USER_NAMESPACE=$workshop_name
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
-   echo "               =========================Configuring IDP in CDP=============================================="
+   echo -e "\n               =========================Configuring IDP in CDP=============================================="
    sleep 5
    ansible-playbook create_keycloak_client.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -569,7 +569,7 @@ cdp_idp_setup_user() {
           keycloak__cdp_idp_name=$workshop_name \
           keycloak__realm=master \
           keycloak__auth_realm=master"
-   echo "               =========================Creating Users & Groups=============================================="
+   echo -e "\n               =========================Creating Users & Groups=============================================="
    sleep 5
    ansible-playbook keycloak_hol_user_setup.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -582,7 +582,7 @@ cdp_idp_setup_user() {
     default_user_password=$workshop_user_default_password \
     reset_password_on_first_login=True"
    sleep 10
-   echo "               ==========================Synchronising Keycloak Users In CDP=================================="
+   echo -e "\n               ==========================Synchronising Keycloak Users In CDP=================================="
    for i in $(seq -f "%02g" 1 1 $number_of_workshop_users); do
       cdp iam create-user \
          --identity-provider-user-id $workshop_user_prefix$i \
@@ -594,7 +594,7 @@ cdp_idp_setup_user() {
    done
    cdp environments sync-all-users --environment-names $workshop_name-cdp-env
    sleep 5
-   echo "               ==========================Please Wait: Generating Report======================================="
+   echo -e "\n               ==========================Please Wait: Generating Report======================================="
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
    ansible-playbook keycloak_hol_user_fetch.yml --extra-vars \
       "keycloak__admin_username=admin \
@@ -603,7 +603,7 @@ cdp_idp_setup_user() {
     hol_keycloak_realm=master \
     hol_session_name=$workshop_name-aw-cdp-user-group"
    sleep 5
-   echo "               =============================Fetching Details: Please Wait=========================="
+   echo -e "\n               =============================Fetching Details: Please Wait=========================="
    sample_keycloak_user1=$(cat /tmp/$workshop_name-aw-cdp-user-group.json | jq -r '.[0].username')
    sample_keycloak_user2=$(cat /tmp/$workshop_name-aw-cdp-user-group.json | jq -r '.[1].username')
    sleep 5
@@ -616,14 +616,14 @@ cdp_idp_setup_user() {
    echo "Keycloak Admin Password: $keycloak__admin_password" >>"/userconfig/$workshop_name.txt"
    echo "Keycloak SSO URL: http://$KEYCLOAK_SERVER_IP/realms/master/protocol/saml/clients/cdp-sso" >>"/userconfig/$workshop_name.txt"
    echo "Numbers Of Users Created: $number_of_workshop_users" >>"/userconfig/$workshop_name.txt"
-   echo "Sample Usernames: User1:$sample_keycloak_user1, User2:$sample_keycloak_user2" >>"/userconfig/$workshop_name.txt"
+   echo "Sample Usernames: User1: $sample_keycloak_user1, User2: $sample_keycloak_user2" >>"/userconfig/$workshop_name.txt"
    echo "Default Password for HOL Users: $workshop_user_default_password " >>"/userconfig/$workshop_name.txt"
    echo "===============================================================" >>"/userconfig/$workshop_name.txt"
 }
 #--------------------------------------------------------------------------------------------------#
 cdp_idp_user_teardown() {
    USER_NAMESPACE=$workshop_name
-   echo "               ====================Deleting IDP Users & Group==============================================="
+   echo -e "\n               ====================Deleting IDP Users & Group==============================================="
    KEYCLOAK_SERVER_IP=$(cat /userconfig/keycloak_ip)
    echo $KEYCLOAK_SERVER_IP
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
@@ -652,8 +652,8 @@ count_elements() {
 }
 #--------------------------------------------------------------------------------------------------#
 deploy_cdw() {
-   echo "               ==========================Deploying CDW======================================"
-   echo "Initial values:"
+   echo -e "\n               ==========================Deploying CDW======================================"
+   echo -e "\n Configuring subnet values.. \nInitial values:"
    echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
    echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
 
@@ -661,7 +661,7 @@ deploy_cdw() {
    count_public=$(count_elements "$ENV_PUBLIC_SUBNETS")
    count_private=$(count_elements "$ENV_PRIVATE_SUBNETS")
 
-   echo "Counts:"
+   echo -e "\nCounts:"
    echo "ENV_PUBLIC_SUBNETS count: $count_public"
    echo "ENV_PRIVATE_SUBNETS count: $count_private"
 
@@ -669,7 +669,7 @@ deploy_cdw() {
    ENV_PUBLIC_SUBNETS=$([ "$count_public" -ge 3 ] && echo "$ENV_PUBLIC_SUBNETS" || echo "$ENV_PRIVATE_SUBNETS")
    ENV_PRIVATE_SUBNETS=$([ "$count_private" -ge 3 ] && echo "$ENV_PRIVATE_SUBNETS" || echo "$ENV_PUBLIC_SUBNETS")
 
-   echo "Final values after assignment:"
+   echo -e "\nFinal values after assignment:"
    echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
    echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
 

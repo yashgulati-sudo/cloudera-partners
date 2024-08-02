@@ -41,7 +41,7 @@ case $USER_ACTION in
             Please Try Again. Exiting....."
             exit 1
         else
-            echo "               =============================CDP Environment Provisioned=============================="
+            echo -e "\n               =============================CDP Environment Provisioned=============================="
             echo
         fi
         update_cdp_user_group
@@ -49,7 +49,7 @@ case $USER_ACTION in
             cdp_idp_setup_user
         fi
         enable_data_services
-        echo "               ==============================Infrastructure Provisioned========================================="
+        echo -e "\n               ==============================Infrastructure Provisioned========================================="
         
     ;;
     destroy)
