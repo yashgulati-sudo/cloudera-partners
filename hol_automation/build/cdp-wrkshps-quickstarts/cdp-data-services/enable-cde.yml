@@ -3,14 +3,19 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  vars:
+    instance_type: "m5.2xlarge"
+    minimum_instances: 10
+    maximum_instances: 40
+    spark_version: 'SPARK2'
   tasks:
     - name: activate cde service
       cloudera.cloud.de:
         name: "{{ workshop_name }}-cde"
         env: "{{ cdp_env_name }}"
-        instance_type: "m5.2xlarge"
-        minimum_instances: 10
-        maximum_instances: 40
+        instance_type: "{{ instance_type }}"
+        minimum_instances: "{{ minimum_instances }}"
+        maximum_instances: "{{ maximum_instances }}"
         initial_instances: 10
         enable_public_endpoint: true
         state: present
@@ -34,7 +39,7 @@
         cdp de create-vc \
         --name "{{ workshop_name }}-cde-vc-{{ item }}" \
         --cluster-id "{{ deservicestatus['services'][0]['clusterId'] }}" \
-        --spark-version "{{ 'SPARK2'}}" \
+        --spark-version "{{ spark_version }}" \
         --cpu-requests "{{ '20' }}" \
         --memory-requests "{{ '80Gi' }}"
       with_sequence: start=1 end="{{ number_vc_to_create | default(1) }}" format=%02d

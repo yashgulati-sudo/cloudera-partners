@@ -3,6 +3,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  vars:
+    Size: xsmall
+
   tasks:
     - name: Check and print variable status
       debug:
@@ -55,6 +58,7 @@
         --dbc-id "{{ dbcatalogstatus['database_catalogs'][0]['id'] }}"
         --vw-type "{{ 'hive' }}" \
         --name "{{ workshop_name }}-hive-{{ item }}" \
+        --template {{ Size }}
         --autoscaling disableAutoSuspend="{{ true }}"
       with_sequence: start=1 end="{{ number_vw_to_create | default(1) }}" format=%02d
       loop_control:
@@ -67,6 +71,7 @@
         --dbc-id "{{ dbcatalogstatus['database_catalogs'][0]['id'] }}" \
         --vw-type "{{ 'impala' }}" \
         --name "{{ workshop_name }}-impala-{{ item }}" \
+        --template {{ Size }}
         --impala-ha-settings highAvailabilityMode="{{ 'DISABLED'}}" \
         --autoscaling disableAutoSuspend="{{ true }}"
       with_sequence: start=1 end="{{ number_vw_to_create | default(1) }}" format=%02d
