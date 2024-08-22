@@ -258,7 +258,7 @@ values of the parameters.
 
 |SIZE_OF_VIRTUAL_WAREHOUSE
 |Possible values: **xsmall**, **small**, **medium**, **large**
-|Default value is **small**. If you want to override, replace the value with one of the given possible values. 
+|Default value is **xsmall**. If you want to override, replace the value with one of the given possible values. 
 
 No quotes, only string
 |===
@@ -415,7 +415,7 @@ The number of users assigned to each VW is 10 users. That means for every 10 use
 ---
 
 ==== CDE
-Based on number of workshop users defined in configfile the provisioner will take care of activating CDE service and deploying required number of CDE Virtual clusters having **SPARK 2** configuration. Based on the scope of workshop the owner needs to grant access through Ranger manually.
+Based on number of workshop users defined in configfile the provisioner will take care of activating CDE service and deploying required number of CDE Virtual clusters having **SPARK3** configuration. Based on the scope of workshop the owner needs to grant access through Ranger manually.
 [%header,cols="1,1"]
 |===
 |Type
