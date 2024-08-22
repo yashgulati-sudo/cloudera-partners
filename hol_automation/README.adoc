@@ -243,9 +243,56 @@ values of the parameters.
 
 
 **[CDW,CDE,CML]** If all three are required.
-
-
 |===
+---
+[NOTE]
+**Below are the optional parameters that should only be changed if customization is needed. If you intend to proceed with the default configuration of the data services, do not modify the values. If you need to make changes, please refer to the table below for detailed instructions on providing the correct values.**
+
+=== Optional parameters for CDW
+
+[%header,cols="1,1,1"]
+|===
+|Parameter
+|Description
+|Remarks
+
+|SIZE_OF_VIRTUAL_WAREHOUSE
+|Possible values: **xsmall**, **small**, **medium**, **large**
+|Default value is **small**. If you want to override, replace the value with one of the given possible values. 
+
+No quotes, only string
+|===
+
+=== Optional parameters for CDE
+
+[%header,cols="1,1,1"]
+|===
+|Parameter
+|Description
+|Remarks
+
+|CDE_INSTANCE_TYPE
+|Possible values: **m5.2xlarge, r5.4xlarge** etc.
+|Default value is **m5.2xlarge**. If you want to override, replace the value with one of the CDE supported AWS instance types. Regarding supported instance types, kindly refer official documentation. 
+
+No quotes, only string
+|CDE_MIN_INSTANCES
+|Possible values: **0** to **100**.
+|Default value is **10**. If you want to override, replace the value with any number between the given possible range.
+
+No quotes, only integer
+|CDE_MAX_INSTANCES
+|Possible values: **0** to **100**.
+|Default value is **40**. If you want to override, replace the value with any number between the given possible range.
+
+No quotes, only integer
+|CDE_SPARK_VERSION
+|Possible values: **SPARK2, SPARK2_4, SPARK3, SPARK3_0, SPARK3_1, SPARK3_2, SPARK3_3, SPARK3_5**
+|Default value is **SPARK3**. If you want to override, replace the value with one of the given possible values.
+
+No quotes, only string
+|===
+
 ==== D):
 Place the **AWS_KEY_PAIR.pem** file downloaded in **Step 2** inside userconfig folder created in previous step.
 
@@ -473,14 +520,24 @@ rm -rf /userconfig/<workshop_name>.txt
 [NOTE]
 ====
 
-The Link for SSO to CDP Workshop Environment for External Workshop Users:
+**The Link for SSO to CDP Workshop Environment for External Workshop Users:**
 
-**Keycloak URL: http://<KeyCloak_Server_IP>/realms/master/protocol/saml/clients/cdp-sso**
+Keycloak URL: **http://<KeyCloak_Server_IP>/realms/master/protocol/saml/clients/cdp-sso**
 
-The Link for SSO to KeyCloak Server WebUI for Workshop Owners (Admin User):
+**The Link for SSO to KeyCloak Server WebUI for Workshop Owners (Admin User):**
 
-**Keycloak URL: http://<KeyCloak_Server_IP>/ **
+Keycloak URL: **http://<KeyCloak_Server_IP>/ **
 
 The same details can be found in `<workshop_name>.txt` file present under `userconfig` directory on your local machine from where you executed the provisioner.
+
+====
+
+[NOTE]
+====
+**Keycloak User Assignment Application link for external workshop users:**
+
+Admin URL: **http://<KeyCloak_Server_IP>:5000/admin**
+
+Participant URL: **http://<KeyCloak_Server_IP>:5000/participant**
 
 ====
