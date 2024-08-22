@@ -122,6 +122,10 @@ docker push clouderapartners/cdp-public-cloud-hol-provisioner:latest
 
 ----
 
+--- 
+Please note that the image built using the above method will be platform-dependent and may not work if you try to run the container on a different platform than the one it was originally built on. To build a platform-agnostic image, kindly refer to the link:[official documentation, https://docs.docker.com/build/building/multi-platform/].
+
+---
 
 == Major features implemented in the CDP **Hands On Labs (HoL) Infrastructure Provisioner** Automation for AWS:
 
