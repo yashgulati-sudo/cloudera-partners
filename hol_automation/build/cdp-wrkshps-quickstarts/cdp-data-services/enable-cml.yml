@@ -3,6 +3,13 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  vars:
+    ws_instance_type: "m5.2xlarge"
+    minimum_instances: 1
+    maximum_instances: 10
+    gpu_instance_type: "g4dn.xlarge"
+    root_volume_size: 256
+    enable_gpu: true
   tasks:
     - name: Check and print variable status
       debug:
@@ -15,14 +22,14 @@
 
     - name: Set workspace exists flag
       set_fact:
-        workspace_exists: "{{ ml_list_workspaces.rc == 0 and (workshop_name + '-cml-ws' in ml_list_workspaces.stdout_lines ) }}"
+        workspace_exists: "{{ ml_list_workspaces.rc == 0 and (workshop_name + '-cml-ws' in ml_list_workspaces.stdout_lines) }}"
 
     - name: Skip provisioning if workspace already exists
       debug:
         msg: "Workspace {{ workshop_name }}-cml-ws already exists in environment {{ cdp_env_name }}."
       when: workspace_exists
 
-    - name: Provision CML Workspace if it does not exist
+    - name: Provision CML Workspace with GPU support if it does not exist
       ansible.builtin.command: >
         cdp ml create-workspace \
         --environment-name "{{ cdp_env_name }}" \
@@ -32,7 +39,45 @@
         --no-disable-tls \
         --enable-monitoring \
         --static-subdomain "{{ workshop_name[0:11] }}-cml" \
-        --provision-k8s-request "{\"environmentName\":\"{{cdp_env_name}}\",\"instanceGroups\":[{\"instanceType\":\"m5.2xlarge\",\"rootVolume\":{\"size\":256},\"autoscaling\":{\"minInstances\":1,\"maxInstances\":10,\"enabled\":true}}]}"
+        --provision-k8s-request {{
+          {
+            "environmentName": cdp_env_name,
+            "instanceGroups": [
+              {
+                "name": "default_settings",
+                "instanceType": "{{ ws_instance_type }}",
+                "rootVolume": {"size": "{{ root_volume_size }}"},
+                "autoscaling": {
+                  "minInstances": "{{ minimum_instances }}",
+                  "maxInstances": "{{ maximum_instances }}",
+                  "enabled": true
+                }
+              },
+              {
+                "name": "cpu_settings",
+                "instanceType": "{{ ws_instance_type }}",
+                "rootVolume": {"size": "{{ root_volume_size }}"},
+                "autoscaling": {
+                  "minInstances": "{{ minimum_instances }}",
+                  "maxInstances": "{{ maximum_instances }}",
+                  "enabled": true
+                }
+              }
+              {%- if enable_gpu %}
+              , {
+                "name": "gpu_settings",
+                "instanceType": "{{ gpu_instance_type }}",
+                "rootVolume": {"size": "{{ root_volume_size }}"},
+                "autoscaling": {
+                  "minInstances": 0,
+                  "maxInstances": 1,
+                  "enabled": true
+                }
+              }
+              {%- endif %}
+            ]
+          }
+        | to_json }}
       register: ml_provision_workspace
       when: not workspace_exists
 
@@ -68,4 +113,3 @@
       fail:
         msg: "Workspace Provisioning Got Failed."
       when: ml_ws_status.stdout is defined and ml_ws_status.stdout not in ["installation:finished", "modify:finished"]
-      
