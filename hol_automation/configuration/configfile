@@ -15,3 +15,14 @@ CDP_PRIVATE_KEY:<VALUE>
 CDP_DEPLOYMENT_TYPE:<VALUE>
 LOCAL_MACHINE_IP:<VALUE>/32
 ENABLE_DATA_SERVICES:[Comma Separated list of data services to be enabled. NONE if not required]
+
+#==================optional parameters===============#
+
+#CDW
+SIZE_OF_VIRTUAL_WAREHOUSE:small
+
+#CDE
+CDE_INSTANCE_TYPE:m5.2xlarge
+CDE_MIN_INSTANCES:10
+CDE_MAX_INSTANCES:40
+CDE_SPARK_VERSION:SPARK3
