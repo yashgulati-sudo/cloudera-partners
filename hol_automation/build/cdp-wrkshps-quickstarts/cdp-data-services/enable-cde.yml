@@ -7,7 +7,7 @@
     instance_type: "m5.2xlarge"
     minimum_instances: 10
     maximum_instances: 40
-    spark_version: 'SPARK2'
+    spark_version: 'SPARK3'
   tasks:
     - name: activate cde service
       cloudera.cloud.de:
