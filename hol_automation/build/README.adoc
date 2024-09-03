@@ -1,4 +1,5 @@
-= CDP Public Cloud: Hands On Labs Infrastructure Provisioner
+
+= CDP Public Cloud: Hands-On Labs Infrastructure Provisioner
 :toc:
 
 Author: **Kuldeep Sahu**
@@ -17,16 +18,15 @@ Email: **aktiwari@cloudera.com**
 
 
 
-image::images/keycloak_login.png[kycloak_login,600,400]
+image::images/keycloak_login.png[Keycloak_login,600,400]
 
 == Overview
 
-Hands-on Labs play a crucial role in showcasing the capabilities of Cloudera Data Platform Public Cloud form factor to partners and customers. They offer a practical and immersive learning experience that goes beyond mere overview. Hands-on Labs facilitate participant engagement and allow them to explore and interact with different PaaS offerings of Cloudera Data Platform.
+Hands-on Labs play a crucial role in showcasing the capabilities of Cloudera Data Platform Public Cloud form factor to partners and customers. They offer a practical and immersive learning experience that goes beyond a mere overview. Hands-on Labs facilitate participant engagement and allow them to explore and interact with different PaaS offerings of Cloudera Data Platform.
 
+Infrastructure components are important and play a vital role in achieving the goal of Hands-on Labs and in providing a better experience to the participants.
 
-Infrastructure components are important and play a vital role in acheieving the goal of Hands-on Labs and to give a better experience to the participants.
-
-**Hands On Labs Infrastructure Provisioner** is a container based solution which takes care of provisioning the required infrastaructure components without much manual efforts. By executing a single command it creates a **disposable** on-demand stack consists of:
+**Hands-On Labs Infrastructure Provisioner** is a container-based solution that takes care of provisioning the required infrastructure components with minimal manual effort. By executing a single command, it creates a **disposable** on-demand stack consisting of:
 
 1. CDP Environment
 2. Datalake
@@ -36,8 +36,7 @@ Infrastructure components are important and play a vital role in acheieving the 
 
 
 == Technology Stack
-**Hands On Labs Infrastructure Provisioner** employs a robust toolchain consisting of:
-
+**Hands-On Labs Infrastructure Provisioner** employs a robust toolchain consisting of:
 
 1.  Ansible
 2.  Terraform
@@ -48,11 +47,11 @@ Infrastructure components are important and play a vital role in acheieving the 
 7.  AWS CLI
 8.  Shell Scripting
 
-All the above tools are integrated with each other and packaged as a Dokcer Container for use.
+All the above tools are integrated with each other and packaged as a Docker Container for use.
 
 ---
-== How to install docker on your local machine
-Follow below page for installing docker on your machine.
+== How to Install Docker on Your Local Machine
+Follow the page below for installing Docker on your machine:
 
 https://docs.docker.com/engine/install/
 
@@ -60,7 +59,7 @@ https://docs.docker.com/engine/install/
 
 == How To Create Docker Image for HoL-Automation
 
-=== Step 1: Clone the code and cd into the hol_automation/build directory
+=== Step 1: Clone the Code and CD into the hol_automation/build Directory
 
 [.shell]
 ----
@@ -71,7 +70,7 @@ cd hol_automation/build
 
 ---
 
-=== Step 2: Build the docker image
+=== Step 2: Build the Docker Image
 
 [.shell]
 ----
@@ -80,7 +79,7 @@ cd hol_automation/build
 docker build . -t hol:latest
 
 ----
-To verify the Docker image is actually created, by image ID or Name:
+To verify the Docker image is actually created, check by image ID or Name:
 [.shell]
 ----
 
@@ -90,9 +89,8 @@ docker images
 
 ---
 
-=== Step 3: Login to Docker Hub
-The docker image is available at Docker Hub. Once the Docker is installed and ready to use pull the **cdp-public-cloud-hol-provisioner:latest** image by executing below command.
-
+=== Step 3: Log in to Docker Hub
+The Docker image is available at Docker Hub. Once Docker is installed and ready to use, pull the **cdp-public-cloud-hol-provisioner:latest** image by executing the command below:
 
 [.shell]
 ----
@@ -111,8 +109,7 @@ ksahu@Kuldeeps-MacBook-Air build %
 ---
 
 === Step 4: Tag and Push the Docker Image
-The Docker image will be available at Docker Hub. Once the Docker is installed, and you are logged in to Docker Hub, push the **cdp-public-cloud-hol-provisioner:latest** image by executing below command.
-
+The Docker image will be available at Docker Hub. Once Docker is installed and you are logged in to Docker Hub, push the **cdp-public-cloud-hol-provisioner:latest** image by executing the commands below:
 
 [.shell]
 ----
@@ -123,39 +120,43 @@ docker push clouderapartners/cdp-public-cloud-hol-provisioner:latest
 ----
 
 --- 
-Please note that the image built using the above method will be platform-dependent and may not work if you try to run the container on a different platform than the one it was originally built on. To build a platform-agnostic image, kindly refer to the link:[official documentation, https://docs.docker.com/build/building/multi-platform/].
+Please note that the image built using the above method will be platform-dependent and may not work if you try to run the container on a different platform than the one it was originally built on. To build a platform-agnostic image, kindly refer to the link: [official documentation, https://docs.docker.com/build/building/multi-platform/].
 
 ---
 
-== Major features implemented in the CDP **Hands On Labs (HoL) Infrastructure Provisioner** Automation for AWS:
+== Major Features Implemented in the CDP **Hands-On Labs (HoL) Infrastructure Provisioner** Automation for AWS:
 
+1.  Ubuntu Linux-based base image.
 
-1.  Ubuntu Linux based base image.
+2.  Optional provisioning of Keycloak Server for providing external user access to the Lab Environment with the help of SSO.
 
-2.  Optional Provisioning of KeyCloak Server for providing the external user access to Lab Environment with the help of SSO.
+3.  When Keycloak Server is provisioned using this automation, the workshop owner can create the required number of workshop users with Keycloak (SSO) based access to the workshop environment (depending on the type of workshop e.g. CML, CDW, or CDE).
 
-3.  When Keycloak Server is Provisioned using this Automation, workshop owner can create required number of workshop users with  Keycloak (SSO) based access to workshop environment (depending on type of workshop e.g. CML, CDW or CDE).
-
-4.  Provisioned Keycloak users are added in the backend to IAM Groups in the CDP Tenant with the least required access Roles.
+4.  Provisioned Keycloak users are added in the backend to IAM Groups in the CDP Tenant with the least required access roles.
 
 5.  Assignment of required roles for workshop user access while deploying data services (Removed manual intervention).
 
-6.  Externalise (parameterization from configfile) the Keycloak Admin Password. (for improved security control)
+6.  Externalize (parameterization from config file) the Keycloak Admin Password (for improved security control).
 
-7.  Added below Validation Prerequisite checks for AWS and CDP Infrastructures:
-    -  Input Configfile is present.
-    -  Required input parameter keys are present in configfile with non-empty values.
-    -  Enough quotas for VPC, ElasticIP and S3 bucket creation is available on AWS.
-    -  Enough quotas for CDP IAM Users, IAM Groups and SAML Identity Provider (IdP) creation is available on CDP Tenant.
+7.  Added below validation prerequisite checks for AWS and CDP infrastructures:
+    -  Input config file is present.
+    -  Required input parameter keys are present in the config file with non-empty values.
+    -  Enough quotas for VPC, ElasticIP, and S3 bucket creation are available on AWS.
+    -  Enough quotas for CDP IAM Users, IAM Groups, and SAML Identity Provider (IdP) creation are available on the CDP Tenant.
 
-8.  Optional Activation of CDW, CDE and CML data services and provisioning of the required resources e.g. Virtual Service (CDE), Virtual Warehouses (CDW), Virtual Workpace (CML) etc.
+8.  Optional activation of CDW, CDE, and CML data services and provisioning of the required resources e.g. Virtual Service (CDE), Virtual Warehouses (CDW), Virtual Workspace (CML), etc.
 
-9.  The automation in implemented in such a way that it can be retriggered with provision or destroy command as and when required.
+9.  The automation is implemented in such a way that it can be retriggered with the provision or destroy command as needed.
 
-10. The code uses Cloudera CDP-TF-Quickstart Terraform based module and pulls the latest version dynamically at runtime.
+10. The code uses Cloudera CDP-TF-Quickstart Terraform-based module and pulls the latest version dynamically at runtime.
 
-11. Deployment of Number of CDW Warehouses is determined dynamically, based on number of workshop users.
+11. Deployment of the number of CDW Warehouses is determined dynamically, based on the number of workshop users.
 
+12. Optional deployment of GPU instances with CML workspaces.
+
+13. Optionally override the various default configuration values for data services e.g. instance_type, instance_size, Spark version, etc. If you don't pass any override values, default values will be used.
+
+14. Deployment of CDV instance and Data Catalog with CDW data service.
 
 ---
 
@@ -165,7 +166,6 @@ Please note that the image built using the above method will be platform-depende
 For more information on how to use this HoL provisioner Docker image, see the main README file:
 
 link:../README.adoc[**Link to Usage Documentation**]
-
 
 ---
 
