@@ -304,6 +304,40 @@ This execution will take a couple of minutes. The last command to be executed is
 
 === Execute Data Ingest Script
 
+Go back to the Project page
+
+++++
+<p align="center">
+  <img width="484" height="234" src="cml-media/media/image57.png">
+</p>
+++++
+
+
+++++
+<p align="center">
+  <img width="624" height="350" src="cml-media/media/image65.png">
+</p>
+++++
+
+
+Start a “*NEW SESSION*” and use the below configuration.
+
+[width="100%",cols="21%,79%",]
+|===
+|*Session Name* |data_ingest
+|*Runtime Editor* |Workbench
+|*Enable Spark* |Yes - Spark version 3.3.0  
+|*Resource Profile* |2 vCPU / 4 GiB
+|===
+
+Click on *[.underline]#START SESSION#*
+
+++++
+<p align="center">
+  <img width="500" height="361" src="cml-media/media/prepdata.png">
+</p>
+++++
+
 In the same Workbench, open the script “_1_data_ingest.py_”
 
 ++++
