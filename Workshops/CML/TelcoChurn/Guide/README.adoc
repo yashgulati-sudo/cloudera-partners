@@ -164,7 +164,7 @@ Enter the following details in the New Project Page
 |*Project Visibility* |Private
 |*Initial Setup* |Select “Git”
 |*Protocol* |HTTPS
-|*Git URL of Project* |https://github.com/Avanish268/CML_AMP_Churn_Prediction.git
+|*Git URL of Project* |https://github.com/cloudera/CML_AMP_Churn_Prediction.git
 |*Runtimes* |Enable Advanced options
 |*Add runtime* | Add required Editors highlighted in below image
 |===
@@ -334,7 +334,7 @@ Click on *[.underline]#START SESSION#*
 
 ++++
 <p align="center">
-  <img width="500" height="361" src="cml-media/media/prepdata.png">
+  <img width="500" height="361" src="cml-media/media/prep_ingest.png">
 </p>
 ++++
 

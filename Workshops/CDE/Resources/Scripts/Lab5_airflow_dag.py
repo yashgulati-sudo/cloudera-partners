@@ -7,7 +7,7 @@ from cloudera.cdp.airflow.operators.cde_operator import CDEJobRunOperator
 
 
 ## Update the username
-username = "<ENTER YOUR USERNAME HERE>".replace("-", "_") # Example: "apac01"
+owner = "<ENTER YOUR USERNAME HERE>".replace("-", "_") # Example: "apac01"
 
 DAG_name = owner + "_Airflow_Dag"
 job_name_1 = owner + "_Lab3B1_Data_Extraction_Sub_150k"
