@@ -17,7 +17,7 @@ This guide provides instructions for setting up, validating, and destroying the 
 
 For environment and Keycloak creation, use the following automation:
 
-link:https://github.com/pjoshi06/cdp-public-cloud-provisioner/blob/main/README.adoc[GitHub Repository]
+link:https://github.com/cloudera/cloudera-partners/tree/main/ClouderaPublicCloudOnBoarding/AWS[GitHub Repository]
 
 [NOTE]
 ====
@@ -85,7 +85,7 @@ Ensure that all users can log in successfully.
 * Lab Execution
 
 Execute the lab exercises to validate the setup.
-Find the student lab link:https://github.com/mmehra12/HOLWorkshops/tree/main/CDW/Guide[guide] here
+Find the student lab link:https://github.com/cloudera/cloudera-partners/tree/main/Workshops/CDW/Guide[guide] here
 
 == DESTROY
 
