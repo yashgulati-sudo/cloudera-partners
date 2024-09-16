@@ -11,7 +11,7 @@ case $USER_ACTION in
     provision)
         validating_variables
         key_pair_file
-        setup_aws_and_cdp_profile
+        #setup_aws_and_cdp_profile
         aws_prereq
         cdp_prereq
         if [ "$provision_keycloak" == "yes" ]; then
@@ -54,7 +54,7 @@ case $USER_ACTION in
     ;;
     destroy)
         validating_variables
-        setup_aws_and_cdp_profile
+        #setup_aws_and_cdp_profile
         if [ "$provision_keycloak" == "yes" ]; then
             cdp_idp_user_teardown
         fi

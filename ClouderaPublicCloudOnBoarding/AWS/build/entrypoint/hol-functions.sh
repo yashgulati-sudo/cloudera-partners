@@ -39,16 +39,16 @@ validating_variables() {
       # Define the required keys
       REQUIRED_KEYS=(
          "PROVISION_KEYCLOAK"
-         "AWS_ACCESS_KEY_ID"
-         "AWS_SECRET_ACCESS_KEY"
+         # "AWS_ACCESS_KEY_ID"
+         # "AWS_SECRET_ACCESS_KEY"
          "AWS_REGION"
          "AWS_KEY_PAIR"
          "WORKSHOP_NAME"
          "NUMBER_OF_WORKSHOP_USERS"
          "WORKSHOP_USER_PREFIX"
          "WORKSHOP_USER_DEFAULT_PASSWORD"
-         "CDP_ACCESS_KEY_ID"
-         "CDP_PRIVATE_KEY"
+         # "CDP_ACCESS_KEY_ID"
+         # "CDP_PRIVATE_KEY"
          "CDP_DEPLOYMENT_TYPE"
          "LOCAL_MACHINE_IP"
          "ENABLE_DATA_SERVICES"
@@ -139,12 +139,12 @@ validating_variables() {
          KEYCLOAK_ADMIN_PASSWORD)
             keycloak__admin_password=$value
             ;;
-         AWS_ACCESS_KEY_ID)
-            aws_access_key_id=$value
-            ;;
-         AWS_SECRET_ACCESS_KEY)
-            aws_secret_access_key=$value
-            ;;
+         # AWS_ACCESS_KEY_ID)
+         #    aws_access_key_id=$value
+         #    ;;
+         # AWS_SECRET_ACCESS_KEY)
+         #    aws_secret_access_key=$value
+         #    ;;
          AWS_REGION)
             aws_region=$(echo $value | tr '[:upper:]' '[:lower:]')
             ;;
@@ -171,12 +171,12 @@ validating_variables() {
          WORKSHOP_USER_DEFAULT_PASSWORD)
             workshop_user_default_password=$value
             ;;
-         CDP_ACCESS_KEY_ID)
-            cdp_access_key_id=$value
-            ;;
-         CDP_PRIVATE_KEY)
-            cdp_private_key=$value
-            ;;
+         # CDP_ACCESS_KEY_ID)
+         #    cdp_access_key_id=$value
+         #    ;;
+         # CDP_PRIVATE_KEY)
+         #    cdp_private_key=$value
+         #    ;;
          AWS_KEY_PAIR)
             aws_key_pair=$(echo $value | tr '[:upper:]' '[:lower:]')
             #echo "Found KeyPair File: $aws_key_pair.pem"
