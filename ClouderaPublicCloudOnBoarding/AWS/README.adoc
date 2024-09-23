@@ -56,9 +56,9 @@ All the above tools are integrated with each other and packaged as a Docker Cont
 The ready to use container takes care of all the dependencies of required tools & does not require user to install or configure any of the above listed tools. 
 For using this user should have:
 
-1. Docker and AWSCLI V2 installed on your Laptop.
-2. Programatic Access(CDP_ACCESS_KEY_ID & CDP_PRIVATE_KEY) of CDP Tenant
-3. Programatic Access(AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY) or *SSO details* of the AWS account with Administrator or Power User Role
+1. *Docker* and *AWSCLI V2* installed on your Laptop.
+2. *Programatic Access*(CDP_ACCESS_KEY_ID & CDP_PRIVATE_KEY) of *CDP Tenant*
+3. *Programatic Access*(AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY) *OR* *SSO details* of the *AWS account* with Administrator or Power User Role *OR* *Role Assignment* to EC2 deployer machine *via sts:assumeRole* method 
 
 == How to install docker on your local machine
 
@@ -85,25 +85,40 @@ image::build/images/gen_access_key.png[access_key, 460, 150]
 
 image::build/images/gen_access_key_1.png[access_key1, 360, 240]
 
+* On your Laptop, Login to cdp cli as below (if not already).
+
+[.shell]
+----
+ksahu@Kuldeeps-MacBook-Air build % cdp configure
+CDP Access Key ID [None]: CDPEXAMPLEACCESSKEY
+CDP Private Key [None]: myPSEcdpPrivateKEy/Sample123456xyz
+CDP Region [None]: <Enter>
+CDP Endpoint URL (blank for public cloud) [None]: <Enter>
+ksahu@Kuldeeps-MacBook-Air build % 
+
+# Verify using below command, if CDP CLI is configured correctly:
+ksahu@Kuldeeps-MacBook-Air build % cdp iam get-user
+----
+
 ==== AWS
 
-There are two ways you can authenticate with AWS Account:
+There are three ways you can authenticate with AWS Account:
 
-a) Normal Way: Using AWS ACCESS_KEY_ID and SECRET_ACCESS_KEY
+a) Normal Way: *Using AWS ACCESS_KEY_ID and SECRET_ACCESS_KEY*
 
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . On the navigation menu, choose Users.
 . Choose your IAM user name (not the check box).
 . Open the Security credentials tab, and then choose Create access key.
 . To see the new access key, choose Show. Your credentials resemble the following:
-[.shell]
-----
-Access key ID: AKIAIOSFODNN7EXAMPLE
-Secret access key: examplesecret123/K7MDSECRETENG/bPxRfiCYEXAMPLEKEY
-----
-To download the above key pair, choose Download .csv file. Store the .csv file with keys in a secure location.
+
+ Access key ID: SAMPLEODNN7EXAMPLE
+ Secret access key: examplesecret123/PSESECRETENG/myPSERfiCYEXAMPLEKEY
+
+ To download the above key pair, choose Download .csv file. Store the .csv file with keys in a secure location.
 
 . Configure the AWS credentials on your Laptop.
+
 [.shell]
 ----
 ksahu@Kuldeeps-MacBook-Air build % aws configure
@@ -114,7 +129,7 @@ Default output format [None]: <Enter>
 ksahu@Kuldeeps-MacBook-Air build % 
 ----
 
-b) Using Single Sign On (SSO) for AWS, If your organization supports this:
+b) *Using Single Sign On (SSO)* for AWS, If your organization supports this method:
 [.shell]
 ----
 ksahu@Kuldeeps-MacBook-Air build % aws configure sso
@@ -142,7 +157,10 @@ CLI profile name [cldr_poweruser-01234567890]: default
 ksahu@Kuldeeps-MacBook-Air build % aws s3 ls
 ----
 
+c) *Using Role Assignment to EC2 instance* i.e. Deployer Machine, from where you run the Docker comtainer to deploy the HoL Infra *(via sts:assumeRole)*.
+
 ---
+
 === Step 2: AWS SSH Key Pair
 1. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/ and navigate to the same region, where you want to deploy the CDP-PC HoL Infra.
 
@@ -222,17 +240,10 @@ values of the parameters.
 **YES** If KeyCloak provisioning is required.
 
 **NO** If KeyCloak provisioning is not required.
-|KEYCLOAK_SERVER_NAME
-|Name for Keycloak EC2 Instance
-|No quotes, preffered lowercase
 
 |KEYCLOAK_ADMIN_PASSWORD
 |Admin User Password for Keycloak
 |No quotes
-
-|KEYCLOAK_SECURITY_GROUP_NAME
-|Name of security group for keycloak EC2 instance
-|No quotes, preffered lowercase
 
 |AWS_REGION
 |Region in which resources will be deployed
@@ -449,9 +460,19 @@ If the execution of docker container for provisioning fails (due to timeout or a
 ---
 
 === The Outcome
-==== Keycloak:
+==== Keycloak Server:
+[%header,cols="1,1"]
+|===
+|Type
+|Name
+
+|KeyCloak Server EC2 Instance
+|<WORKSHOP_NAME>-keyc; e.g: accn-workshp-keyc
+
+|===
+
 The successful execution of Step 5 will generate a .txt file in 'userconfig' folder on your local machine. The name of the file will be <VALUE_OF_WORKSHOP_NAME>.txt
-e.g : If in the configfile the value of WORKSHOP_NAME is **accn-wrkshp** the out put file will be **accn-wrkshp.txt**
+e.g : If in the configfile the value of WORKSHOP_NAME is **accn-wrkshp** the output file will be **accn-wrkshp.txt**
 
 This file contains details about the provisioned Keycloak Server and the SSO URL which will be used for participants for login. It will look similar like below
 

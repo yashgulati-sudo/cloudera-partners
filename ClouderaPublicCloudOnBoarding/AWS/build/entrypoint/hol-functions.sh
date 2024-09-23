@@ -57,9 +57,9 @@ validating_variables() {
       # Conditionally add Keycloak keys based on PROVISION_KEYCLOAK
       if [[ "$provision_keycloak" == "yes" ]]; then
          REQUIRED_KEYS+=(
-            "KEYCLOAK_SERVER_NAME"
+            # "KEYCLOAK_SERVER_NAME"
             "KEYCLOAK_ADMIN_PASSWORD"
-            "KEYCLOAK_SECURITY_GROUP_NAME"
+            # "KEYCLOAK_SECURITY_GROUP_NAME"
          )
       fi
 
@@ -123,7 +123,6 @@ validating_variables() {
    #--------------------------------------------------------------------------------------------------#
 
    # Read variables from the text file
-
    while IFS=':' read -r key value; do
       if [[ $key && $value ]]; then
          key=$(echo "$key" | tr -d '[:space:]')     # Remove whitespace from the key
@@ -133,12 +132,15 @@ validating_variables() {
          PROVISION_KEYCLOAK)
             provision_keycloak=$(echo $value | tr '[:upper:]' '[:lower:]')
             ;;
-         KEYCLOAK_SERVER_NAME)
-            ec2_instance_name=$(echo $value | tr '[:upper:]' '[:lower:]')
-            ;;
+         # KEYCLOAK_SERVER_NAME)
+         #    ec2_instance_name=$(echo $value | tr '[:upper:]' '[:lower:]')
+         #    ;;
          KEYCLOAK_ADMIN_PASSWORD)
             keycloak__admin_password=$value
             ;;
+         # KEYCLOAK_SECURITY_GROUP_NAME)
+         #    keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
+         #    ;;
          # AWS_ACCESS_KEY_ID)
          #    aws_access_key_id=$value
          #    ;;
@@ -147,6 +149,26 @@ validating_variables() {
          #    ;;
          AWS_REGION)
             aws_region=$(echo $value | tr '[:upper:]' '[:lower:]')
+            ;;
+         AWS_KEY_PAIR)
+            aws_key_pair=$(echo $value | tr '[:upper:]' '[:lower:]')
+            #echo "Found KeyPair File: $aws_key_pair.pem"
+            ;;
+         CDP_DEPLOYMENT_TYPE)
+            if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
+               deployment_template=$value
+            else
+               echo "=================================================================================="
+               echo "FATAL: Invalid value for CDP Deployment Type. The allowed values are: 
+               public (* all in lowercase *)
+               private (* all in lowercase *)
+               semi-private (* all in lowercase and one hyphen (-) *)
+
+               ****Exiting****
+               Please update the 'configfile' and try again."
+               echo "=================================================================================="
+               exit 9999
+            fi
             ;;
          WORKSHOP_NAME)
             case $value in
@@ -177,31 +199,8 @@ validating_variables() {
          # CDP_PRIVATE_KEY)
          #    cdp_private_key=$value
          #    ;;
-         AWS_KEY_PAIR)
-            aws_key_pair=$(echo $value | tr '[:upper:]' '[:lower:]')
-            #echo "Found KeyPair File: $aws_key_pair.pem"
-            ;;
-         CDP_DEPLOYMENT_TYPE)
-            if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
-               deployment_template=$value
-            else
-               echo "=================================================================================="
-               echo "FATAL: Invalid value for CDP Deployment Type. The allowed values are: 
-               public (* all in lowercase *)
-               private (* all in lowercase *)
-               semi-private (* all in lowercase and one hyphen (-) *)
-
-               ****Exiting****
-               Please update the 'configfile' and try again."
-               echo "=================================================================================="
-               exit 9999
-            fi
-            ;;
          LOCAL_MACHINE_IP)
             local_ip=$value
-            ;;
-         KEYCLOAK_SECURITY_GROUP_NAME)
-            keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
             ;;
          ENABLE_DATA_SERVICES)
             enable_data_services=$value
@@ -429,13 +428,15 @@ setup_keycloak_ec2() {
    fi
 
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
-   local sg_name="$1"
+   # local sg_name="$1"
+   instance_name="$workshop_name-keyc"
+   sg_name="$instance_name-sg"
    if check_aws_sg_exists "$sg_name"; then
       echo "EC2 Security Group With the same name already exists. To avoid the failure the Security Group
-name is now updated to $keycloak_sg_name-$workshop_name-sg"
+name is now updated to $sg_name-$workshop_name-sg"
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$ec2_instance_name" \
+         -var "instance_name=$instance_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
@@ -452,7 +453,7 @@ name is now updated to $keycloak_sg_name-$workshop_name-sg"
    else
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$ec2_instance_name" \
+         -var "instance_name=$instance_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
