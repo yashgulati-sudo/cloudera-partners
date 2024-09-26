@@ -15,7 +15,8 @@ case $USER_ACTION in
         aws_prereq
         cdp_prereq
         if [ "$provision_keycloak" == "yes" ]; then
-            setup_keycloak_ec2 $keycloak_sg_name
+            # setup_keycloak_ec2 $keycloak_sg_name
+            setup_keycloak_ec2
             if [ $? -ne 0 ]; then
                 echo "Keycloak Server Provisioning Failed. Rolling Back The Changes."
                 destroy_keycloak

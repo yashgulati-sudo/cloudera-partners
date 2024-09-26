@@ -1,8 +1,6 @@
 # Example configfile (For Reference): Update the values accordingly in original configfile
 PROVISION_KEYCLOAK:YES
-KEYCLOAK_SERVER_NAME:pse-cdpdemo-kc
 KEYCLOAK_ADMIN_PASSWORD:xxxxxx
-KEYCLOAK_SECURITY_GROUP_NAME:pse-cdpdemo-kc-sg
 AWS_REGION:ap-southeast-1
 AWS_KEY_PAIR:pse-cdp-ssh-keypair
 CDP_DEPLOYMENT_TYPE:public
