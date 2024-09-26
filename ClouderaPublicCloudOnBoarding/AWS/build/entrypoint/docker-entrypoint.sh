@@ -10,7 +10,12 @@ USER_ACTION=$1
 case $USER_ACTION in
     provision)
         validating_variables
-        key_pair_file
+        if [[ -n "$aws_key_pair" ]]; then
+           key_pair_file
+        else
+           echo "No AWS Key Pair provided. Skipping SSH key file check."
+        fi
+        check_key_pair
         #setup_aws_and_cdp_profile
         aws_prereq
         cdp_prereq

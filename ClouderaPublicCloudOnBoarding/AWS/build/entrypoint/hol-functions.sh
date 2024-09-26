@@ -4,6 +4,7 @@
 
 TF_QUICKSTART_VERSION=0.8.0
 USER_CONFIG_FILE="/userconfig/configfile"
+KEYGEN_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/keypair_gen
 KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraform_config
 KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansible_config
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
@@ -25,7 +26,6 @@ validating_variables() {
    Exiting......"
       echo "=================================================================================="
       exit 9999 # die with error code 9999
-
    fi
    # Cleaning up 'configfile' to remove ^M characters.
    sed -i 's/^M//g' $USER_CONFIG_FILE
@@ -42,7 +42,7 @@ validating_variables() {
          # "AWS_ACCESS_KEY_ID"
          # "AWS_SECRET_ACCESS_KEY"
          "AWS_REGION"
-         "AWS_KEY_PAIR"
+         #"AWS_KEY_PAIR"
          "WORKSHOP_NAME"
          "NUMBER_OF_WORKSHOP_USERS"
          "WORKSHOP_USER_PREFIX"
@@ -59,7 +59,7 @@ validating_variables() {
          REQUIRED_KEYS+=(
             # "KEYCLOAK_SERVER_NAME"
             "KEYCLOAK_ADMIN_PASSWORD"
-            # "KEYCLOAK_SECURITY_GROUP_NAME"
+            #"KEYCLOAK_SECURITY_GROUP_NAME"
          )
       fi
 
@@ -138,9 +138,9 @@ validating_variables() {
          KEYCLOAK_ADMIN_PASSWORD)
             keycloak__admin_password=$value
             ;;
-         # KEYCLOAK_SECURITY_GROUP_NAME)
-         #    keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
-         #    ;;
+         #KEYCLOAK_SECURITY_GROUP_NAME)
+         #   keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
+         #   ;;
          # AWS_ACCESS_KEY_ID)
          #    aws_access_key_id=$value
          #    ;;
@@ -152,7 +152,6 @@ validating_variables() {
             ;;
          AWS_KEY_PAIR)
             aws_key_pair=$(echo $value | tr '[:upper:]' '[:lower:]')
-            #echo "Found KeyPair File: $aws_key_pair.pem"
             ;;
          CDP_DEPLOYMENT_TYPE)
             if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
@@ -264,6 +263,7 @@ validating_variables() {
 #--------------------------------------------------------------------------------------------------------------#
 # Function for checking .pem file.
 key_pair_file() {
+   USER_NAMESPACE=$workshop_name
    # Checking if SSH Keypair File exists.
    if [[ ! -f "/userconfig/$aws_key_pair.pem" ]]; then
       echo "=================================================================================="
@@ -272,20 +272,41 @@ file in your config directory and try again.
 EXITING....."
       echo "=================================================================================="
       exit 9999 # die with error code 9999
+   else
+      echo "copying pem file to usernamespace"
+      cp -pf "/userconfig/$aws_key_pair.pem" "/userconfig/.$USER_NAMESPACE/"
+   fi
+}
+
+check_key_pair() {
+   USER_NAMESPACE=$workshop_name
+# Check if aws_key_pair exists as input
+   echo "USER_NAMESPACE: ${USER_NAMESPACE}"
+   if [[ -z "$aws_key_pair" ]]; then
+      # If keypair is empty, check if it's already generated and stored internally
+      if [[ -f "/userconfig/.$USER_NAMESPACE/keypair_gen/${workshop_name}-keypair.pem" ]]; then
+         export aws_key_pair=${workshop_name}-keypair
+         echo "Using previously generated keypair: $aws_key_pair"
+      else
+         echo "=================================================================================="
+         echo "Info: No AWS Key Pair provided. A new key pair will be generated via automation."
+         echo "=================================================================================="
+         generate_keypair
+      fi
    fi
 }
 #-------------------------------------------------------------------------------------------------#
 # Function to setup AWS & CDP CLI for user.
-setup_aws_and_cdp_profile() {
-   echo "               =================================================================================="
-   echo "                                   Setting Up Your AWS & CDP Profile                               "
-   echo "               =================================================================================="
-   aws configure set aws_access_key_id $aws_access_key_id
-   aws configure set aws_secret_access_key $aws_secret_access_key
-   aws configure set default.region $aws_region
-   cdp configure set cdp_access_key_id $cdp_access_key_id
-   cdp configure set cdp_private_key $cdp_private_key
-}
+#setup_aws_and_cdp_profile() {
+#   echo "               =================================================================================="
+#   echo "                                   Setting Up Your AWS & CDP Profile                               "
+#   echo "               =================================================================================="
+#   aws configure set aws_access_key_id $aws_access_key_id
+#   aws configure set aws_secret_access_key $aws_secret_access_key
+#   aws configure set default.region $aws_region
+#   cdp configure set cdp_access_key_id $cdp_access_key_id
+#   cdp configure set cdp_private_key $cdp_private_key
+#}
 #---------------------------------------------------------------------------------------------------------------------#
 # Function to verify AWS pre-requisites
 aws_prereq() {
@@ -355,7 +376,7 @@ aws_prereq() {
 check_aws_sg_exists() {
    sg_name="$1"
    # Checking if Security Group exists.
-   local sg_group_info=$(aws ec2 describe-security-groups --filters "Name=group-name,Values='$sg_name'" --output text 2>/dev/null)
+   local sg_group_info=$(aws ec2 describe-security-groups --filters "Name=group-name,Values='$sg_name'" --region $aws_region --output text 2>/dev/null)
    # Validating the output
    if [[ -n $sg_group_info ]]; then
       return 0
@@ -414,6 +435,50 @@ cdp_prereq() {
 }
 #-------------------------------------------------------------------------------------------------#
 # Function to provision EC2 Instance for Keycloak
+generate_keypair() {
+echo -e "\n               ==============================Generating keypair if not exists ========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$KEYGEN_TF_CONFIG_DIR" ]; then
+      cp -R "$KEYGEN_TF_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+
+   cd /userconfig/.$USER_NAMESPACE/keypair_gen
+     terraform init
+     terraform apply -auto-approve \
+         -var "keypair_name=$workshop_name" \
+         -var "aws_key_pair=$aws_key_pair" \
+         -var "aws_region=$aws_region"
+     RETURN=$?
+      if [ $RETURN -eq 0 ]; then
+         export aws_key_pair=$(terraform output -raw aws_key_pair_output) #updated the value of aws_key_pair if initially not exists         
+         echo "true" > keypair_generated.flag  # Store a flag to indicate the keypair was generated
+         cp -f ${workshop_name}-keypair.pem /userconfig/.$USER_NAMESPACE/
+         return 0
+      else
+         return 1
+      fi
+}
+
+destroy_keypair() {
+echo -e "\n               ==============================Destroying generated keypair========================================="
+   USER_NAMESPACE=$workshop_name
+   cd /userconfig/.$USER_NAMESPACE/keypair_gen
+     terraform init
+     terraform destroy -auto-approve \
+         -var "keypair_name=$workshop_name" \
+         -var "aws_key_pair=$aws_key_pair" \
+         -var "aws_region=$aws_region"
+RETURN=$?
+   if [ $RETURN -eq 0 ]; then
+      rm -rf /userconfig/.$USER_NAMESPACE/keypair_gen
+      return 0
+   else
+      return 1
+   fi
+}
+
 setup_keycloak_ec2() {
    echo -e "\n               ==============================Provisioning Keycloak========================================="
    USER_NAMESPACE=$workshop_name
@@ -426,21 +491,19 @@ setup_keycloak_ec2() {
    if [ ! -d "/userconfig/.$USER_NAMESPACE/$KC_ANS_CONFIG_DIR" ]; then
       cp -R "$KC_ANS_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
    fi
-
-   cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
-   # local sg_name="$1"
-   instance_name="$workshop_name-keyc"
-   sg_name="$instance_name-sg"
+   cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config   
+   #local sg_name="$1"
+   local sg_name="$workshop_name-keyc-sg"
    if check_aws_sg_exists "$sg_name"; then
       echo "EC2 Security Group With the same name already exists. To avoid the failure the Security Group
 name is now updated to $sg_name-$workshop_name-sg"
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$instance_name" \
+         -var "workshop_name=$workshop_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
-         -var "kc_security_group=$sg_name-$workshop_name-sg" \
+         -var "kc_security_group=$sg_name-$workshop_name" \
          -var "keycloak_admin_password=$keycloak__admin_password"
       RETURN=$?
       if [ $RETURN -eq 0 ]; then
@@ -453,7 +516,7 @@ name is now updated to $sg_name-$workshop_name-sg"
    else
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$instance_name" \
+         -var "workshop_name=$workshop_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
@@ -478,7 +541,7 @@ destroy_keycloak() {
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
    terraform init
    terraform destroy -auto-approve \
-      -var "instance_name=$ec2_instance_name" \
+      -var "workshop_name=$workshop_name" \
       -var "local_ip=$local_ip" \
       -var "instance_keypair=$aws_key_pair" \
       -var "aws_region=$aws_region" \
@@ -580,14 +643,18 @@ destroy_cdp() {
 #--------------------------------------------------------------------------------------------------#
 # Function to destroy Complete HOL Infrastructure.
 destroy_hol_infra() {
+USER_NAMESPACE=$workshop_name
    destroy_cdp
    cdp_destroy_status=$?
-   if [ "$provision_keycloak" == "yes" ]; then
+   if [[ "$provision_keycloak" == "yes" && "$cdp_destroy_status" -eq 0 ]]; then
       destroy_keycloak
       keycloak_destroy_status=$?
    fi
 
    if [[ "$cdp_destroy_status" -eq 0 && "$keycloak_destroy_status" -eq 0 ]] || [[ "$cdp_destroy_status" -eq 0 && "$provision_keycloak" == "no" ]]; then
+      if [[ -f /userconfig/.$USER_NAMESPACE/keypair_gen/keypair_generated.flag && "$(cat /userconfig/.$USER_NAMESPACE/keypair_gen/keypair_generated.flag)" == "true" ]]; then
+         destroy_keypair
+      fi
       rm -rf "/userconfig/.$USER_NAMESPACE"
       rm -rf "/userconfig/$workshop_name.txt"
       return 0
