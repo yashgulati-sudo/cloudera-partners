@@ -149,7 +149,7 @@ There are 3 AWS accounts available to you.
 Using the account ID 01234567890
 The only role available to you is: cldr_poweruser
 Using the role name "cldr_poweruser"
-CLI default client Region [ap-southeast-1]: <Enter>
+CLI default client Region [None]: <Enter>
 CLI default output format [None]: <Enter>
 CLI profile name [cldr_poweruser-01234567890]: default
 
@@ -157,7 +157,76 @@ CLI profile name [cldr_poweruser-01234567890]: default
 ksahu@Kuldeeps-MacBook-Air build % aws s3 ls
 ----
 
-c) *Using Role Assignment to EC2 instance* i.e. Deployer Machine, from where you run the Docker comtainer to deploy the HoL Infra *(via sts:assumeRole)*.
+=======
+c) *Using Role Assignment to EC2 instance* i.e. Deployer Machine, from where you run the Docker container to deploy the HoL Infra *(via sts:assumeRole)*.
+
+*Steps*
+
+*Sign in to the AWS Management Console*
+
+    1. Go to the AWS Management Console: https://aws.amazon.com/console/
+    2. Enter your credentials to sign in.
+
+*Navigate to IAM*
+
+    1. In the AWS Management Console, search for **IAM** in the search bar.
+    2. Click on **IAM** to open the Identity and Access Management dashboard.
+
+*Create a New Role*
+
+    1. In the left navigation pane, click on **Roles**.
+    2. Click on the **Create role** button.
+
+*Choose Trusted Entity*
+
+    1. Select **AWS service** as the trusted entity.
+    2. Under **Use case for other AWS services**, choose **EC2**.
+    3. Click on **Next: Permissions**.
+
+*Attach Policies*
+
+    1. In the policy search box, type **AdministratorAccess**.
+    2. Check the box next to **AdministratorAccess** to attach the policy.
+    3. Click on **Next: Tags**.
+
+*Add Tags (Optional)*
+
+    1. (Optional) You can add tags to help identify the role.
+    2. Click on **Next: Review**.
+
+*Review and Create Role*
+
+    1. Enter a **Role name** (e.g., `CDPAWSAdminRole`).
+    2. Review the details and click on **Create role**.
+
+*Navigate to EC2*
+
+    1. In the AWS Management Console, search for **EC2** in the search bar.
+    2. Click on **EC2** to open the EC2 dashboard.
+
+*Select Your EC2 Instance*
+
+    1. In the left navigation pane, click on **Instances**.
+    2. Select the EC2 instance to which you want to assign the role.
+
+*Attach the IAM Role*
+
+    1. With the instance selected, click on the **Actions** dropdown menu.
+    2. Navigate to **Security** > **Modify IAM Role**.
+    3. In the **IAM role** dropdown, select the role you just created (e.g., `EC2AdminRole`).
+    4. Click on **Update IAM role** to apply the changes.
+
+*Verify Role Assignment*
+
+    1. With the instance still selected, check the **Description** tab at the bottom.
+    2. Under **IAM role**, confirm that your role (e.g., `EC2AdminRole`) is listed.
+
+To verify role assignment, use the following command:
+
+[.shell]
+----
+aws sts assume-role --role-arn arn:aws:iam::123456789012:role/YourRoleName --role-session-name MySession
+----
 
 ---
 
