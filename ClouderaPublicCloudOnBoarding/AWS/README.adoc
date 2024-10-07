@@ -157,6 +157,7 @@ CLI profile name [cldr_poweruser-01234567890]: default
 ksahu@Kuldeeps-MacBook-Air build % aws s3 ls
 ----
 
+=======
 c) *Using Role Assignment to EC2 instance* i.e. Deployer Machine, from where you run the Docker container to deploy the HoL Infra *(via sts:assumeRole)*.
 
 *Steps*

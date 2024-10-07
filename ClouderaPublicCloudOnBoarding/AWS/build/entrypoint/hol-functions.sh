@@ -4,6 +4,7 @@
 
 TF_QUICKSTART_VERSION=0.8.0
 USER_CONFIG_FILE="/userconfig/configfile"
+KEYGEN_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/keypair_gen
 KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraform_config
 KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansible_config
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
@@ -25,7 +26,6 @@ validating_variables() {
    Exiting......"
       echo "=================================================================================="
       exit 9999 # die with error code 9999
-
    fi
    # Cleaning up 'configfile' to remove ^M characters.
    sed -i 's/^M//g' $USER_CONFIG_FILE
@@ -42,7 +42,7 @@ validating_variables() {
          # "AWS_ACCESS_KEY_ID"
          # "AWS_SECRET_ACCESS_KEY"
          "AWS_REGION"
-         "AWS_KEY_PAIR"
+         #"AWS_KEY_PAIR"
          "WORKSHOP_NAME"
          "NUMBER_OF_WORKSHOP_USERS"
          "WORKSHOP_USER_PREFIX"
@@ -59,7 +59,9 @@ validating_variables() {
          REQUIRED_KEYS+=(
             # "KEYCLOAK_SERVER_NAME"
             "KEYCLOAK_ADMIN_PASSWORD"
-            # "KEYCLOAK_SECURITY_GROUP_NAME"
+
+            #"KEYCLOAK_SECURITY_GROUP_NAME"
+
          )
       fi
 
@@ -138,9 +140,9 @@ validating_variables() {
          KEYCLOAK_ADMIN_PASSWORD)
             keycloak__admin_password=$value
             ;;
-         # KEYCLOAK_SECURITY_GROUP_NAME)
-         #    keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
-         #    ;;
+         #KEYCLOAK_SECURITY_GROUP_NAME)
+         #   keycloak_sg_name=$(echo $value | tr '[:upper:]' '[:lower:]')
+         #   ;;
          # AWS_ACCESS_KEY_ID)
          #    aws_access_key_id=$value
          #    ;;
@@ -152,7 +154,6 @@ validating_variables() {
             ;;
          AWS_KEY_PAIR)
             aws_key_pair=$(echo $value | tr '[:upper:]' '[:lower:]')
-            #echo "Found KeyPair File: $aws_key_pair.pem"
             ;;
          CDP_DEPLOYMENT_TYPE)
             if [[ "$value" == "public" || "$value" == "private" || "$value" == "semi-private" ]]; then
@@ -247,6 +248,15 @@ validating_variables() {
          CML_MAX_GPU_INSTANCES)
             cml_max_gpu_instances=$value
             ;;
+         CDP_SAML_PROVIDER_LIMIT)
+            cdp_saml_provider_limit=$value
+            ;;
+         CDP_USER_LIMIT)
+            cdp_user_limit=$value
+            ;;
+         CDP_GROUP_LIMIT)
+            cdp_group_limit=$value
+            ;;
             # Can Add more cases if required.
          esac
       fi
@@ -264,6 +274,7 @@ validating_variables() {
 #--------------------------------------------------------------------------------------------------------------#
 # Function for checking .pem file.
 key_pair_file() {
+   USER_NAMESPACE=$workshop_name
    # Checking if SSH Keypair File exists.
    if [[ ! -f "/userconfig/$aws_key_pair.pem" ]]; then
       echo "=================================================================================="
@@ -272,20 +283,41 @@ file in your config directory and try again.
 EXITING....."
       echo "=================================================================================="
       exit 9999 # die with error code 9999
+   else
+      echo "copying pem file to usernamespace"
+      cp -pf "/userconfig/$aws_key_pair.pem" "/userconfig/.$USER_NAMESPACE/"
+   fi
+}
+
+check_key_pair() {
+   USER_NAMESPACE=$workshop_name
+# Check if aws_key_pair exists as input
+   echo "USER_NAMESPACE: ${USER_NAMESPACE}"
+   if [[ -z "$aws_key_pair" ]]; then
+      # If keypair is empty, check if it's already generated and stored internally
+      if [[ -f "/userconfig/.$USER_NAMESPACE/keypair_gen/${workshop_name}-keypair.pem" ]]; then
+         export aws_key_pair=${workshop_name}-keypair
+         echo "Using previously generated keypair: $aws_key_pair"
+      else
+         echo "=================================================================================="
+         echo "Info: No AWS Key Pair provided. A new key pair will be generated via automation."
+         echo "=================================================================================="
+         generate_keypair
+      fi
    fi
 }
 #-------------------------------------------------------------------------------------------------#
 # Function to setup AWS & CDP CLI for user.
-setup_aws_and_cdp_profile() {
-   echo "               =================================================================================="
-   echo "                                   Setting Up Your AWS & CDP Profile                               "
-   echo "               =================================================================================="
-   aws configure set aws_access_key_id $aws_access_key_id
-   aws configure set aws_secret_access_key $aws_secret_access_key
-   aws configure set default.region $aws_region
-   cdp configure set cdp_access_key_id $cdp_access_key_id
-   cdp configure set cdp_private_key $cdp_private_key
-}
+#setup_aws_and_cdp_profile() {
+#   echo "               =================================================================================="
+#   echo "                                   Setting Up Your AWS & CDP Profile                               "
+#   echo "               =================================================================================="
+#   aws configure set aws_access_key_id $aws_access_key_id
+#   aws configure set aws_secret_access_key $aws_secret_access_key
+#   aws configure set default.region $aws_region
+#   cdp configure set cdp_access_key_id $cdp_access_key_id
+#   cdp configure set cdp_private_key $cdp_private_key
+#}
 #---------------------------------------------------------------------------------------------------------------------#
 # Function to verify AWS pre-requisites
 aws_prereq() {
@@ -355,7 +387,7 @@ aws_prereq() {
 check_aws_sg_exists() {
    sg_name="$1"
    # Checking if Security Group exists.
-   local sg_group_info=$(aws ec2 describe-security-groups --filters "Name=group-name,Values='$sg_name'" --output text 2>/dev/null)
+   local sg_group_info=$(aws ec2 describe-security-groups --filters "Name=group-name,Values='$sg_name'" --region $aws_region --output text 2>/dev/null)
    # Validating the output
    if [[ -n $sg_group_info ]]; then
       return 0
@@ -366,11 +398,36 @@ check_aws_sg_exists() {
 #---------------------------------------------------------------------------------------------------------------------#
 # Function to verify CDP pre-requisites i.e. num_of_grps and num_of_saml_prvdrs
 cdp_prereq() {
+   echo -e "\n               ==========================Initializing Parameter Values for CDP limits======================================"
+   echo "  cdp_group_limit: $cdp_group_limit"
+   # Default Values
+   DEFAULT_CDP_SAML_PROVIDER_LIMIT=10
+   DEFAULT_CDP_USER_LIMIT=1000
+   DEFAULT_CDP_GROUP_LIMIT=50  
+
+   #CDP_limit_variables
+   export cdp_saml_provider_limit="${cdp_saml_provider_limit:-$DEFAULT_CDP_SAML_PROVIDER_LIMIT}"
+   export cdp_user_limit="${cdp_user_limit:-$DEFAULT_CDP_USER_LIMIT}"
+   export cdp_group_limit="${cdp_group_limit:-$DEFAULT_CDP_GROUP_LIMIT}"
+ 
+    # Print Assigned Values for CDP_limits
+         echo "  cdp_saml_provider_limit: $cdp_saml_provider_limit"
+         echo "  cdp_user_limit: $cdp_user_limit"
+         echo "  cdp_group_limit: $cdp_group_limit"
+   
    # Check current CDP IAM Groups count
    cdp_group_count=$(cdp iam list-groups | jq -r '.groups[].groupName' | wc -l)
    echo -e "\nCurrent CDP Groups count: $cdp_group_count"
+   
+   remaining_groups=$(($cdp_group_limit - $cdp_group_count))
+   if [ "$remaining_groups" -lt 0 ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* The current group count exceeds the default quota. Kindly provide the correct CDP_GROUP_LIMIT to continue. *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
 
-   if [ $cdp_group_count -gt 48 ]; then
+   elif [ "$remaining_groups" -lt 2 ]; then
       echo
       echo "************************************************************************************************************************************************************"
       echo "* Fatal !! Can't Continue: The CDP IAM Group count limit has been reached on your CDP account. Either increase quota or remove unused CDP IAM Groups *"
@@ -385,10 +442,16 @@ cdp_prereq() {
    echo -e "\nCurrent CDP Users count: $cdp_user_count"
    echo -e "Number of Workshop Users count: $number_of_workshop_users"
 
-   remaining_users=$((1000 - $cdp_user_count))
+   remaining_users=$(($cdp_user_limit - $cdp_user_count))
    #echo -e "Number of Remaining Users count: $remaining_users"
+   if [ "$remaining_users" -lt 0 ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* The current user count exceeds the default quota. Kindly provide the correct CDP_USER_LIMIT to continue. *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
 
-   if [ $number_of_workshop_users -gt $remaining_users ]; then
+   elif [ "$number_of_workshop_users" -gt "$remaining_users" ]; then
       echo
       echo "************************************************************************************************************************************************************"
       echo "* Fatal !! Can't Continue: The CDP IAM Users count limit has been reached on your CDP account. Either increase quota or remove unused CDP IAM Users *"
@@ -402,7 +465,16 @@ cdp_prereq() {
    cdp_saml_provider_count=$(cdp iam list-saml-providers | jq -r '.samlProviders[].samlProviderName' | wc -l)
    echo -e "\nCurrent CDP SAML Identity Provider (IdP) count: $cdp_saml_provider_count"
 
-   if [ $cdp_saml_provider_count -ge 10 ]; then
+   remaining_saml=$(($cdp_saml_provider_limit - $cdp_saml_provider_count))
+
+   if [ "$remaining_saml" -lt 0 ]; then
+      echo
+      echo "************************************************************************************************************************************************************"
+      echo "* The current samlProviders count exceeds the default quota. Kindly provide the correct CDP_SAML_PROVIDER_LIMIT to continue. *"
+      echo "************************************************************************************************************************************************************"
+      exit 1
+
+   elif [ "$remaining_saml" -eq 0 ]; then
       echo
       echo "************************************************************************************************************************************************************"
       echo "* Fatal !! Can't Continue: The CDP SAML Providers count limit has been reached on your CDP account. Either increase quota or remove unused CDP SAML Providers *"
@@ -414,6 +486,50 @@ cdp_prereq() {
 }
 #-------------------------------------------------------------------------------------------------#
 # Function to provision EC2 Instance for Keycloak
+generate_keypair() {
+echo -e "\n               ==============================Generating keypair if not exists ========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$KEYGEN_TF_CONFIG_DIR" ]; then
+      cp -R "$KEYGEN_TF_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+
+   cd /userconfig/.$USER_NAMESPACE/keypair_gen
+     terraform init
+     terraform apply -auto-approve \
+         -var "keypair_name=$workshop_name" \
+         -var "aws_key_pair=$aws_key_pair" \
+         -var "aws_region=$aws_region"
+     RETURN=$?
+      if [ $RETURN -eq 0 ]; then
+         export aws_key_pair=$(terraform output -raw aws_key_pair_output) #updated the value of aws_key_pair if initially not exists         
+         echo "true" > keypair_generated.flag  # Store a flag to indicate the keypair was generated
+         cp -f ${workshop_name}-keypair.pem /userconfig/.$USER_NAMESPACE/
+         return 0
+      else
+         return 1
+      fi
+}
+
+destroy_keypair() {
+echo -e "\n               ==============================Destroying generated keypair========================================="
+   USER_NAMESPACE=$workshop_name
+   cd /userconfig/.$USER_NAMESPACE/keypair_gen
+     terraform init
+     terraform destroy -auto-approve \
+         -var "keypair_name=$workshop_name" \
+         -var "aws_key_pair=$aws_key_pair" \
+         -var "aws_region=$aws_region"
+RETURN=$?
+   if [ $RETURN -eq 0 ]; then
+      rm -rf /userconfig/.$USER_NAMESPACE/keypair_gen
+      return 0
+   else
+      return 1
+   fi
+}
+
 setup_keycloak_ec2() {
    echo -e "\n               ==============================Provisioning Keycloak========================================="
    USER_NAMESPACE=$workshop_name
@@ -427,20 +543,19 @@ setup_keycloak_ec2() {
       cp -R "$KC_ANS_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
    fi
 
-   cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
-   # local sg_name="$1"
-   instance_name="$workshop_name-keyc"
-   sg_name="$instance_name-sg"
+   cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config   
+   #local sg_name="$1"
+   local sg_name="$workshop_name-keyc-sg"
    if check_aws_sg_exists "$sg_name"; then
       echo "EC2 Security Group With the same name already exists. To avoid the failure the Security Group
 name is now updated to $sg_name-$workshop_name-sg"
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$instance_name" \
+         -var "workshop_name=$workshop_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
-         -var "kc_security_group=$sg_name-$workshop_name-sg" \
+         -var "kc_security_group=$sg_name-$workshop_name" \
          -var "keycloak_admin_password=$keycloak__admin_password"
       RETURN=$?
       if [ $RETURN -eq 0 ]; then
@@ -453,7 +568,7 @@ name is now updated to $sg_name-$workshop_name-sg"
    else
       terraform init
       terraform apply -auto-approve \
-         -var "instance_name=$instance_name" \
+         -var "workshop_name=$workshop_name" \
          -var "local_ip=$local_ip" \
          -var "instance_keypair=$aws_key_pair" \
          -var "aws_region=$aws_region" \
@@ -478,7 +593,7 @@ destroy_keycloak() {
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config
    terraform init
    terraform destroy -auto-approve \
-      -var "instance_name=$ec2_instance_name" \
+      -var "workshop_name=$workshop_name" \
       -var "local_ip=$local_ip" \
       -var "instance_keypair=$aws_key_pair" \
       -var "aws_region=$aws_region" \
@@ -580,14 +695,18 @@ destroy_cdp() {
 #--------------------------------------------------------------------------------------------------#
 # Function to destroy Complete HOL Infrastructure.
 destroy_hol_infra() {
+USER_NAMESPACE=$workshop_name
    destroy_cdp
    cdp_destroy_status=$?
-   if [ "$provision_keycloak" == "yes" ]; then
+   if [[ "$provision_keycloak" == "yes" && "$cdp_destroy_status" -eq 0 ]]; then
       destroy_keycloak
       keycloak_destroy_status=$?
    fi
 
    if [[ "$cdp_destroy_status" -eq 0 && "$keycloak_destroy_status" -eq 0 ]] || [[ "$cdp_destroy_status" -eq 0 && "$provision_keycloak" == "no" ]]; then
+      if [[ -f /userconfig/.$USER_NAMESPACE/keypair_gen/keypair_generated.flag && "$(cat /userconfig/.$USER_NAMESPACE/keypair_gen/keypair_generated.flag)" == "true" ]]; then
+         destroy_keypair
+      fi
       rm -rf "/userconfig/.$USER_NAMESPACE"
       rm -rf "/userconfig/$workshop_name.txt"
       return 0
