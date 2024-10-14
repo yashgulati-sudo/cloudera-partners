@@ -59,7 +59,9 @@ validating_variables() {
          REQUIRED_KEYS+=(
             # "KEYCLOAK_SERVER_NAME"
             "KEYCLOAK_ADMIN_PASSWORD"
+
             #"KEYCLOAK_SECURITY_GROUP_NAME"
+
          )
       fi
 
@@ -540,6 +542,7 @@ setup_keycloak_ec2() {
    if [ ! -d "/userconfig/.$USER_NAMESPACE/$KC_ANS_CONFIG_DIR" ]; then
       cp -R "$KC_ANS_CONFIG_DIR" "/userconfig/.$USER_NAMESPACE/"
    fi
+
    cd /userconfig/.$USER_NAMESPACE/keycloak_terraform_config   
    #local sg_name="$1"
    local sg_name="$workshop_name-keyc-sg"
