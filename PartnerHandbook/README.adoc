@@ -60,7 +60,7 @@ Course material is appropriate for those with limited technical knowledge.  Cour
 
 The CSP Accreditation is not intended for technical sellers (pre-sales engineers), data practitioners, platform administrators, architects nor alike.
 
-https://clouderaconnect.learnupon.com/catalog/learning-paths/52386[Take up the CSP]
+https://clouderapartneracademy.learnupon.com/catalog/learning-paths/79347[Take up the CSP]
 
 === Technical Accreditation Program
 
