@@ -91,7 +91,7 @@ image::build/images/gen_access_key_1.png[access_key1, 360, 240]
 ksahu@Kuldeeps-MacBook-Air build % cdp configure
 CDP Access Key ID [None]: CDPEXAMPLEACCESSKEY
 CDP Private Key [None]: myPSEcdpPrivateKEy/Sample123456xyz
-CDP Region [None]: <Enter>
+CDP Region [us-west-1]: <Enter_OR_Provide_Override_Value>
 CDP Endpoint URL (blank for public cloud) [None]: <Enter>
 ksahu@Kuldeeps-MacBook-Air build % 
 

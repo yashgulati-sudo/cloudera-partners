@@ -2,7 +2,7 @@
 # *************************************************************************************************************#
 # Setting required path and variables.
 
-TF_QUICKSTART_VERSION=0.8.0
+#TF_QUICKSTART_VERSION=v0.8.0
 USER_CONFIG_FILE="/userconfig/configfile"
 KEYGEN_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/keypair_gen
 KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraform_config
@@ -616,7 +616,7 @@ provision_cdp() {
    sleep 10
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
-   git clone https://github.com/cloudera-labs/cdp-tf-quickstarts.git -b v$TF_QUICKSTART_VERSION --single-branch --depth 1 /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts &>/dev/null
+   git clone https://github.com/cloudera-labs/cdp-tf-quickstarts.git -b $TF_QUICKSTART_VERSION --single-branch --depth 1 /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts &>/dev/null
    cd /userconfig/.$USER_NAMESPACE/cdp-tf-quickstarts
    git sparse-checkout init --cone
    git sparse-checkout set aws

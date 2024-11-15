@@ -3,12 +3,14 @@
 FROM ubuntu:22.04
 
 ARG TF_VER=1.9.3
+ARG TF_QUICKSTART_VERSION=v0.8.5
 # Directory for storing scripts.
 RUN mkdir -p /opt/cdp-public-cloud-automation
 
 # Setting Up Environment Variable.
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV HOME_DIR="/opt/cdp-public-cloud-automation"
+ENV TF_QUICKSTART_VERSION=${TF_QUICKSTART_VERSION}
 
 # Installing Required Packages.
 RUN apt-get update && \
