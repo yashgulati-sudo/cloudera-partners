@@ -13,11 +13,6 @@ Email: **aktiwari@cloudera.com**
 ---
 
 
-
-
-
-image::build/images/keycloak_login.png[keycloak_login,600,400]
-
 == Overview
 
 Hands-on Labs play a crucial role in showcasing the capabilities of Cloudera Data Platform Public Cloud form factor to partners and customers. They offer a practical and immersive learning experience that goes beyond mere overview. Hands-on Labs facilitate participant engagement and allow them to explore and interact with different PaaS offerings of Cloudera Data Platform.
@@ -34,7 +29,7 @@ Infrastructure components are important and play a vital role in achieving the g
 5. Users 
 
 
-
+image::build/images/Components.png[Components,600,400]
 
 == Technology Stack
 **Hands On Labs Infrastructure Provisioner** employs a robust toolchain consisting of:
@@ -248,6 +243,9 @@ The private key file is automatically downloaded by your browser. The base file 
 ////
 
 == How To Use
+
+image::build/images/HowToUse.png[HowToUse,600,400]
+
 === Step 1: Get the Docker Image
 The Docker image is available at Docker Hub. Once the `Docker` is installed and ready to use, pull the **cdp-public-cloud-hol-provisioner:latest** image by executing below command.
 
@@ -751,6 +749,8 @@ Keycloak URL: **http://<KeyCloak_Server_IP>/ **
 The same details can be found in `<workshop_name>.txt` file present under `userconfig` directory on your local machine from where you executed the provisioner.
 
 ====
+
+image::build/images/keycloak_login.png[keycloak_login,600,400]
 
 [NOTE]
 ====
