@@ -2,7 +2,7 @@
 
 Welcome to the Cloudera Repository for Partners! This repository is designed to provide all the resources, tools, and hands-on labs needed for Cloudera's Data Platform. Below, you'll find detailed descriptions of the folders within this repository, helping you quickly locate the resources you need based on your requirements.
 
-image::./PartnerResources/images/RepoDiagram.png[RepoDiagram,600,400]
+image::./PartnerResources/images/RepoDiagram.png[RepoDiagram,700,425]
 
 == Folders Overview
 
@@ -16,7 +16,7 @@ A comprehensive guide tailored for Cloudera partners. This folder contains every
 
 === 2. ClouderaSetup
 *Description:*
-This folder contains automation scripts and documentation for onboarding Cloudera Data Platform on public cloud, including AWS, Azure, GCP and on on-premise platforms like VMware and Openshift. It simplifies the deployment process and ensures a smooth setup experience.
+This folder contains automation scripts and documentation for onboarding Cloudera Data Platform on public cloud, including `AWS`, `Azure`, `GCP` and on on-premise platforms like `VMware` and `Openshift`. It simplifies the deployment process and ensures a smooth setup experience.
 
 *When to Use:*
 - If you need to set up Cloudera on a public cloud or on-premise platform for the first time.

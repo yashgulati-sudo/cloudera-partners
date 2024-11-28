@@ -1,4 +1,4 @@
-= Cloudera OnCloud: AutoClouderaDeploy Provisioner
+= AutoClouderaDeploy (Hands On Labs Infrastructure Provisioner)
 :toc:
 
 Author: **Kuldeep Sahu**
@@ -25,7 +25,7 @@ Hands-on Labs play a crucial role in showcasing the capabilities of Cloudera Dat
 
 Infrastructure components are important and play a vital role in achieving the goal of Hands-on Labs and in providing a better experience to the participants.
 
-**AutoClouderaDeploy** provisioner is a container-based solution that takes care of provisioning the required infrastructure components with minimal manual effort. By executing a single command, it creates a **disposable** on-demand stack consisting of:
+**AutoClouderaDeploy** is a container-based solution that takes care of provisioning the required infrastructure components with minimal manual effort. By executing a single command, it creates a **disposable** on-demand stack consisting of:
 
 1. Cloudera Environment
 2. Datalake
@@ -35,7 +35,7 @@ Infrastructure components are important and play a vital role in achieving the g
 
 
 == Technology Stack
-**Hands-On Labs Infrastructure Provisioner** employs a robust toolchain consisting of:
+**AutoClouderaDeploy** employs a robust toolchain consisting of:
 
 1. `Ansible`
 2. `Terraform`
@@ -55,7 +55,7 @@ Follow mentioned link for link:https://docs.docker.com/engine/install/[**install
 
 ---
 
-== How To Create `Docker` Image for **AutoClouderaDeploy** provisioner
+== How To Create `Docker` Image for **AutoClouderaDeploy**
 
 === Step 1: Clone the Code and CD into the build Directory
 
