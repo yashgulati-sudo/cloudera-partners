@@ -16,8 +16,8 @@ case $USER_ACTION in
            echo "No AWS Key Pair provided. Skipping SSH key file check."
         fi
         #setup_aws_and_cdp_profile
-        aws_prereq
-        cdp_prereq
+        #aws_prereq
+        #cdp_prereq
         check_key_pair
         if [ "$provision_keycloak" == "yes" ]; then
             # setup_keycloak_ec2 $keycloak_sg_name
