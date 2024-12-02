@@ -724,13 +724,16 @@ cdp_idp_setup_user() {
    cd /userconfig/.$USER_NAMESPACE/keycloak_ansible_config
    echo -e "\n               =========================Configuring IDP in CDP=============================================="
    sleep 5
+   cdp_region=$(cdp environments describe-environment --environment-name $workshop_name-cdp-env | jq -r .environment.crn | cut -d: -f4)
+   echo "cdp_region:$cdp_region"
    ansible-playbook create_keycloak_client.yml --extra-vars \
       "keycloak__admin_username=admin \
           keycloak__admin_password=$keycloak__admin_password \
           keycloak__domain=http://$KEYCLOAK_SERVER_IP \
           keycloak__cdp_idp_name=$workshop_name \
           keycloak__realm=master \
-          keycloak__auth_realm=master"
+          keycloak__auth_realm=master \
+          cdp_region=$cdp_region"
    echo -e "\n               =========================Creating Users & Groups=============================================="
    sleep 5
    ansible-playbook keycloak_hol_user_setup.yml --extra-vars \
