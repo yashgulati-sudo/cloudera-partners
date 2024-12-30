@@ -69,7 +69,7 @@
                   "enabled": true
                 }
               }
-              {% if enable_gpu %}
+              {% if enable_gpu | bool %}
               , {
                 "name": "gpu_settings",
                 "instanceType": "{{ gpu_instance_type }}",

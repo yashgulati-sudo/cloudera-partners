@@ -120,6 +120,24 @@ validating_variables() {
          echo "========================================================================================="
          exit 1
       fi
+
+      #workshop_name variable to validate
+      validate_workshop_name() {
+	if [[ ! "$workshop_name" =~ ^[a-z0-9-]+$ || ${#workshop_name} -gt 12 ]]; then
+	  echo "Error: workshop_name must be 12 characters or less and consist only of lowercase letters, numbers, and hyphens (-)."
+  	  exit 1
+	fi
+      }
+      validate_datalake_version() {
+  	if [[ -z "$datalake_version" || "$datalake_version" == "latest" || "$datalake_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    	  return 0  # Valid value
+        else
+    	  echo "Error: Valid values for datalake_version are 'latest' or a semantic version (e.g., 7.2.17)."
+    	  return 1  # Invalid value
+  	fi
+     }	
+   validate_workshop_name
+   validate_datalake_version
    }
 
    #--------------------------------------------------------------------------------------------------#
@@ -257,6 +275,9 @@ validating_variables() {
          CDP_GROUP_LIMIT)
             cdp_group_limit=$value
             ;;
+	 DATALAKE_VERSION)
+	    datalake_version=$value
+	    ;;
             # Can Add more cases if required.
          esac
       fi
@@ -264,7 +285,6 @@ validating_variables() {
 
    # Call the function with the user-provided config file as an argument
    check_config "$USER_CONFIG_FILE"
-
    echo
    echo "                     -------------------------------------------------------------------                 "
    echo "                     Validated the Configfile and Verified the Provided Input Parameters                 "
@@ -654,7 +674,8 @@ EOF
       -var "aws_region=${aws_region}" \
       -var "aws_key_pair=${aws_key_pair}" \
       -var "deployment_template=${deployment_template}" \
-      -var "ingress_extra_cidrs_and_ports={cidrs = ["${cdp_cidr}"],ports = [443, 22]}"
+      -var "ingress_extra_cidrs_and_ports={cidrs = ["${cdp_cidr}"],ports = [443, 22]}" \
+      -var "datalake_version=${datalake_version}"
    cdp_provision_status=$?
    if [ $cdp_provision_status -eq 0 ]; then
       export ENV_PUBLIC_SUBNETS=$(terraform output -json aws_public_subnet_ids)
