@@ -85,7 +85,7 @@
             --dbc-id "{{ dbcatalogstatus['database_catalogs'][0]['id'] }}" \
             --vw-type "hive" \
             --name "{{ workshop_name }}-hive-{{ item }}" \
-            --template "{{ vw_size }}" \
+            --t-shirt-size "{{ vw_size }}" \
             --autoscaling disableAutoSuspend="true"
           with_sequence: start=1 end="{{ number_vw_to_create | default(1) }}"
           #loop: "{{ range(1, number_vw_to_create | default(1) + 1) | list }}"
@@ -117,7 +117,7 @@
             --dbc-id "{{ dbcatalogstatus['database_catalogs'][0]['id'] }}" \
             --vw-type "impala" \
             --name "{{ workshop_name }}-impala-{{ item }}" \
-            --template "{{ vw_size }}" \
+            --t-shirt-size "{{ vw_size }}" \
             --impala-ha-settings highAvailabilityMode="DISABLED" \
             --autoscaling disableAutoSuspend="true"
           with_sequence: start=1 end="{{ number_vw_to_create | default(1) }}"
@@ -147,7 +147,7 @@
         cdp dw create-data-visualization \
         --cluster-id "{{ dwcluster['cluster']['id'] }}" \
         --name "{{ workshop_name }}-data-viz" \
-        --template-name "{{ cdvc_size }}" \
+        --resource-template "{{ cdvc_size }}" \
         --config adminGroups="{{ workshop_name }}-aw-cdp-user-group"
       when: not data_viz_exists
       ignore_errors: true
