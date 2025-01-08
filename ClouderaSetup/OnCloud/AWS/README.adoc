@@ -367,6 +367,19 @@ Only from the provided values
 |Only base name without .pem extension.
 |===
 
+==== Optional parameters for datalake_version
+
+[%header,cols="1,1,1"]
+|===
+|Parameter
+|Description
+|Remarks
+
+|DATALAKE_VERSION
+|By default the DATALAKE_VERSION is selected as per default version on CDP tenant.
+|To override the default value with current quota, kindly uncomment the corresponding entry in `configfile` and replace the override value e.g **7.2.18**
+|===
+
 ==== Optional parameters for CDP Quota
 
 [%header,cols="1,1,1"]

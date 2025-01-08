@@ -14,6 +14,9 @@ ENABLE_DATA_SERVICES:[CML,CDW,CDE]
 
 #AWS_KEY_PAIR:demo-keypair
 
+##Optional parameters for datalake_version
+#DATALAKE_VERSION:7.2.18
+
 ##Optional parameters for CDP Quota
 #CDP_SAML_PROVIDER_LIMIT:10
 #CDP_USER_LIMIT:1000
