@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.2] - 2025-02-06
+
+### Changed
+- Changed the CML service parameters.
+
+### Fixed
+- Fixed CML service deployment failure due to parameter definition changes in new CML runtime version.
+
 ## [2.3.1] - 2025-01-03
 
 ### Changed
