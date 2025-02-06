@@ -139,6 +139,7 @@ TBD !!! - Calendar
 
 * https://www.cloudera.com/about/customers.html[Customer Success Stories]
 * https://www.cloudera.com/solutions/gallery.html[Solutions Gallery]
+* https://www.cloudera.com/partners/partner-reference-architectures.html[Partner Reference Architectures]
 
 === Blogs
 
@@ -163,4 +164,5 @@ TBD !!! - Calendar
 | mailto:dipti.dash@cloudera.com[Dipti Dash] | META
 | mailto:mmehra@cloudera.com[Manick Mehra] | APAC
 | mailto:venky@cloudera.com[Venky Sellappa] | EMEA / APAC
+| mailto:sbalachandar@cloudera.com[Shreshta Balachandar] | AMER
 |===
