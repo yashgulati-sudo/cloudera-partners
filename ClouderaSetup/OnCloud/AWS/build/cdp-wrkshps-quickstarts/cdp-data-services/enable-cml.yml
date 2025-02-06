@@ -58,16 +58,6 @@
                   "maxInstances": {{ maximum_instances | int }},
                   "enabled": true
                 }
-              },
-              {
-                "name": "cpu_settings",
-                "instanceType": "{{ ws_instance_type }}",
-                "rootVolume": {"size": {{ root_volume_size | int }}},
-                "autoscaling": {
-                  "minInstances": {{ minimum_instances | int }},
-                  "maxInstances": {{ maximum_instances | int }},
-                  "enabled": true
-                }
               }
               {% if enable_gpu | bool %}
               , {
