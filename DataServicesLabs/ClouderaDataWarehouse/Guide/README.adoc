@@ -181,7 +181,7 @@ Below are the high-level steps for what we will be doing in the workshop.
 * {blank}
 +
 
-*[Lab 1 & 2]: General introduction to CDW* to get ourselves oriented for the workshop.
+*[Lab 1, 2 & 3]: General introduction to CDW* to get ourselves oriented for the workshop.
 ____
 ** {blank}
 +
@@ -198,37 +198,6 @@ ____
 
 ** {blank}
 +
-*As an Admin:* Monitor the VW and watch as it scales up and down, suspends, etc.
-
-** {blank}
-+
-
-*As a BI Analyst:* Start digging into the data - looking for “needle in a haystack” - running a complex query that will find which engines seem to be correlated to airplane delays for any reason.
-
-____
-
-* {blank}
-+
-*[Lab 3]: Set it up.*
-____
-** {blank}
-+
-
-*As an Admin:* Create and enable the BI analyst team with a Virtual Warehouse.
-
-** {blank}
-+
-
-*As a BI Analyst:* Get familiar with CDW on CDP, and set up our first VW to start working.
-
-** {blank}
-+
-
-*As a BI Analyst:* Wrangle our first set of data - sent to us as a series of .csv files exported from “somewhere else”.
-
-** {blank}
-+
-
 *As an Admin:* Monitor the VW and watch as it scales up and down, suspends, etc.
 
 ** {blank}
@@ -327,8 +296,8 @@ For this workshop you will use the following credentials and resources
 |===
 |*Workshop Login Username* |<Check with your instructor>
 |*Workshop Login Password* |<Check with your instructor>
-|*CDP Workload User (${user_id})* |<Check with your instructor>
-|*CDP Workload Password* |<Check with your instructor>
+|*CDP Workload User (${user_id})* |<Same as Workshop Login Username>
+|*CDP Workload Password* |<Setup password as per Step 1>
 |*Hive Virtual Warehouse Name* |<Check with your instructor>
 |*Impala Virtual Warehouse Name* |<Check with your instructor>
 |===
@@ -423,21 +392,6 @@ Create new databases. Enter the following query and then make sure that you ente
 CREATE DATABASE ${user_id}_airlines_raw;
 CREATE DATABASE ${user_id}_airlines;
 ----
-
-Example Query
-
-[source,sql]
-----
-CREATE DATABASE apac01_airlines_raw;
-CREATE DATABASE apac01_airlines;
-----
-
-++++
-<p align="center">
-  <img width="293" height="259" src="cdw-media/media/image115.png">
-</p>
-++++
-
 
 Verify if the database is created using the following query. Do not forget to replace the ${user-id} with your actual username
 
@@ -784,7 +738,7 @@ In the output look for the following.
 * {blank}
 +
 
-*Location:* s3a://handsonworkshop/my-data/warehouse/tablespace/external/hive/immiapac00_airlines.db/planes
+*Location:* s3a://<bucket_name>/data/warehouse/tablespace/external/hive/immiapac00_airlines.db/planes
 
 * {blank}
 +
