@@ -297,7 +297,7 @@ For this workshop you will use the following credentials and resources
 |*Workshop Login Username* |<Check with your instructor>
 |*Workshop Login Password* |<Check with your instructor>
 |*CDP Workload User (${user_id})* |<Same as Workshop Login Username>
-|*CDP Workload Password* |<Setup password as per Step 1>
+|*CDP Workload Password* |<Check with your instructor>
 |*Hive Virtual Warehouse Name* |<Check with your instructor>
 |*Impala Virtual Warehouse Name* |<Check with your instructor>
 |===
