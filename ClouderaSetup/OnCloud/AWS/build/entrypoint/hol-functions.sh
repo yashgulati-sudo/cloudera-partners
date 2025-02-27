@@ -831,7 +831,8 @@ aws_enhancements() {
    cd /userconfig/.$USER_NAMESPACE/aws_enhancements/s3_enhancements
      terraform init
      terraform apply -auto-approve \
-         -var="log_bucket_name=$BUCKET_NAME"
+         -var="log_bucket_name=$BUCKET_NAME" \
+         -var="aws_region=$aws_region"
 }
 #--------------------------------------------------------------------------------------------------#
 # Update the User Group.
