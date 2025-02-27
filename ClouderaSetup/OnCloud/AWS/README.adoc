@@ -446,6 +446,11 @@ No quotes, only string, only lowercase (with integers)
 |Default value is **SPARK3**. If you want to override, uncomment the corresponding entry in `configfile` and replace the override value with one of the given possible values.
 
 No quotes, Only from the provided values
+|CDE_VC_TIER
+|Possible values: **CORE, ALLP**
+|Default value is **CORE**. If you want to override, uncomment the corresponding entry in `configfile` and replace the override value with one of the given possible values.
+
+No quotes, Only from the provided values
 |CDE_INSTANCE_TYPE
 |Possible values: **m5.2xlarge, r5.4xlarge** etc.
 |Default value is **m5.2xlarge**. If you want to override, uncomment the corresponding entry in `configfile` and replace the override value with one of the CDE supported AWS instance types. Regarding supported instance types, kindly refer official documentation. 

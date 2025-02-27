@@ -267,6 +267,9 @@ validating_variables() {
          CDE_SPARK_VERSION)
             cde_spark_version=$value
             ;;
+         CDE_VC_TIER)
+            cde_vc_tier=$value
+            ;;
          CML_WS_INSTANCE_TYPE)
             cml_ws_instance_type=$(echo $value | tr '[:upper:]' '[:lower:]')
             ;;
@@ -1048,6 +1051,7 @@ deploy_cde() {
       minimum_instances=$cde_min_instances \
       maximum_instances=$cde_max_instances \
       spark_version=$cde_spark_version \
+      vc_tier=$cde_vc_tier \
       number_vc_to_create=$number_vc_to_create"
 
 }
@@ -1202,6 +1206,7 @@ enable_data_services() {
          DEFAULT_CDE_MIN_INSTANCES=10
          DEFAULT_CDE_MAX_INSTANCES=40
          DEFAULT_CDE_SPARK_VERSION="SPARK3"
+         DEFAULT_CDE_VC_TIER="CORE"
 
          # CDE (Cloudera Data Engineering) Variables
          cde_instance_type="${cde_instance_type:-$DEFAULT_CDE_INSTANCE_TYPE}"
@@ -1209,6 +1214,7 @@ enable_data_services() {
          cde_min_instances="${cde_min_instances:-$DEFAULT_CDE_MIN_INSTANCES}"
          cde_max_instances="${cde_max_instances:-$DEFAULT_CDE_MAX_INSTANCES}"
          cde_spark_version="${cde_spark_version:-$DEFAULT_CDE_SPARK_VERSION}"
+         cde_vc_tier="${cde_vc_tier:-$DEFAULT_CDE_VC_TIER}"
 
          # Print Assigned Values for CDE
          echo "CDE (Cloudera Data Engineering) Variables:"
@@ -1217,6 +1223,7 @@ enable_data_services() {
          echo "  Min Instances: $cde_min_instances"
          echo "  Max Instances: $cde_max_instances"
          echo "  Spark Version: $cde_spark_version"
+         echo "  Virtual Cluster Tier: $cde_vc_tier"
 
          deploy_cde
          resource_roles=("DEUser")

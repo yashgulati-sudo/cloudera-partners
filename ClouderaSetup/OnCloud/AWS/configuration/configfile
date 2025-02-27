@@ -14,10 +14,10 @@ HOSTEDZONEID:<VALUE>
 
 #AWS_KEY_PAIR:demo-keypair
 
-##Optional parameters for datalake_version
+## Optional parameters for datalake_version
 #DATALAKE_VERSION:7.2.18
 
-##Optional parameters for CDP Quota
+## Optional parameters for CDP Quota
 #CDP_SAML_PROVIDER_LIMIT:10
 #CDP_USER_LIMIT:1000
 #CDP_GROUP_LIMIT:50
@@ -37,6 +37,7 @@ HOSTEDZONEID:<VALUE>
 
 ## CDE
 #CDE_SPARK_VERSION:SPARK3
+#CDE_VC_TIER:CORE
 #CDE_INSTANCE_TYPE:m5.2xlarge
 #CDE_INITIAL_INSTANCES:10
 #CDE_MIN_INSTANCES:10
