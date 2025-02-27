@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-02-28
+
+### Added
+- Enabled HTTPS/SSL for Keycloak server deployment with Route53 domain integration.
+- Enabled S3 bucket lifecycle policy for logs cleanup.
+- Added a new parameter vc_tier for CDE service virtual cluster deployment.
+- Added a new folder for AWS_Enhancements.
+
+### Changed
+- Updated the Dockerfile i.e base image, Terraform, Ansible, Python3, Quickstart versions, layering optimizations.
+- Updated Readme documentations.
+- Updated sg_name logic for keycloak deployment.
+- Enhanced logging statements.
+
+### Fixed
+- Fixed CML deployment definition to include only one of default_settings and cpu_settings.
+
 ## [2.3.2] - 2025-02-06
 
 ### Changed
