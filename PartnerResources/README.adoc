@@ -32,7 +32,7 @@ https://cloudera-portal.force.com/clouderapartners[Accessing the Partner Portal]
 
 == Partner Developer License Program
 
-Selected partners can get access to Cloudera Product License at no cost. To request your CDP Partner Developer License, please complete the license request form https://cloudera.my.site.com/clouderapartners/s/developer-license-request[here].
+Selected partners can get access to Cloudera Product License at no cost. To request your Cloudera Partner Developer License, please complete the license request form https://cloudera.my.site.com/clouderapartners/s/developer-license-request[here].
 
 TIP: If you need access to multiple Cloudera products, raise a separate request for each product you want access to.
 
@@ -48,7 +48,7 @@ The Cloudera Partner Portal gives you access to Sales and Technical Accreditatio
 The Cloudera Sales Professional (CSP) Accreditation validates your general knowledge and understanding of the Cloudera Data Platform to include, 
 
     * Positioning the Hybrid Data Cloud,
-    * Cloudera Data Platform (CDP) deployment capabilities, personas, function, and competitive advantage
+    * Cloudera Data Platform deployment capabilities, personas, function, and competitive advantage
     * Cloudera Data Services, personas, function, value and competitive advantage
     * How Cloudera stacks against the competition.
 
@@ -86,13 +86,13 @@ https://clouderapartneracademy.learnupon.com/catalog/learning-paths/79360[Take u
 |===
 | CTP | CTS | CTE
 
-| Just Enough Tech | INTRODUCING CLOUDERA PUBLIC CLOUD ADMINISTRATION | ENABLING GENERATIVE AI FOR THE ENTERPRISE
+| Just Enough Tech | INTRODUCING CLOUDERA on cloud ADMINISTRATION | ENABLING GENERATIVE AI FOR THE ENTERPRISE
 
 | Cloudera Data Platform Technical Overview | CLOUDERA DATA SERVICES, A CDW, CDE and CDF DEEP-DIVE | SDX - ADVANCED CONCEPTS IN ENTERPRISE-GRADE SECURITY
 
-| Modern Data Architectures | INTRODUCTION TO UNIVERSAL DATA DISTRIBUTION WITH CLOUDERA DATA FLOW | BUILDING A MODERN DATA LAKEHOUSE WITH APACHE ICEBERG IN CDP
+| Modern Data Architectures | INTRODUCTION TO UNIVERSAL DATA DISTRIBUTION WITH CLOUDERA DATA FLOW | BUILDING A MODERN DATA LAKEHOUSE WITH APACHE ICEBERG IN Cloudera
 
-| CDP Hybrid Data Services | INTRODUCTION TO CLOUDERA MACHINE LEARNING | SIZING, LICENSING AND PRICING A CLOUDERA SOLUTION
+| Cloudera Hybrid Data Services | INTRODUCTION TO CLOUDERA AI | SIZING, LICENSING AND PRICING A CLOUDERA SOLUTION
 
 | Cloudera Data Services Online Guided Tour | CLOUDERA OPERATIONAL DATABASE FUNDAMENTALS | APACHE OZONE, THE MODERN BIG DATA OBJECT STORE
 
@@ -100,38 +100,38 @@ https://clouderapartneracademy.learnupon.com/catalog/learning-paths/79360[Take u
 
 | | CLOUDERA PRICING & LICENSING | SIMPLIFY SOLUTIONING AND BUILD REFERENCE ARCHITECTURES WITH CLOUDERA BLUEPRINTS
 
-| | | CDP PUBLIC CLOUD ARCHITECTURE AND ONBOARDING
+| | | Cloudera on cloud ARCHITECTURE AND ONBOARDING
 
 | | | INTRODUCING CLOUDERA OBSERVABILITY FOR TECHNICAL AUDIENCES
 |===
 
-== CDP Deployment 
+== Cloudera Data Platform Deployment 
 
-=== Public Cloud
+=== Cloudera on cloud
 
 * *AWS*
 
 . https://docs.cloudera.com/cdp-public-cloud/cloud/aws-quickstart/topics/mc-aws-quickstart.html#mc-aws-quickstart[AWS Quickstart (Deprecated)]
 
-. https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Deploy CDP using Terraform]
+. https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Deploy Cloudera using Terraform]
 
-. link:../ClouderaSetup/OnCloud/AWS/[Deploy CDP using **AutoClouderaDeploy** Automation]
+. link:../ClouderaSetup/OnCloud/AWS/[Deploy Cloudera using **AutoClouderaDeploy** Automation]
 
 * *AZURE*
 
 . https://docs.cloudera.com/cdp-public-cloud/cloud/azure-quickstart/topics/mc-azure-quickstart.html#mc-azure-quickstart[Azure Quickstart (Deprecated)]
 
-. https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Deploy CDP using Terraform]
+. https://docs.cloudera.com/cdp-public-cloud/cloud/getting-started/topics/cdp-deploy_cdp_using_terraform.html[Deploy Cloudera using Terraform]
 
 * *GCP*
 
 . https://docs.cloudera.com/cdp-public-cloud/cloud/gcp-quickstart/topics/mc-gcp-quickstart.html#mc-gcp-quickstart[GCP Quickstart]
 
-=== On-Prem
+=== Cloudera on premises
 
-. https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/installation/topics/cdpdc-installation.html[CDP Private Cloud Base Installation Guide]
+. https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/installation/topics/cdpdc-installation.html[Cloudera on premises Base Installation Guide]
 
-. https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.3/installation-ecs/topics/cdppvc-requirements-ecs.html[CDP Private Cloud Data Services Guide]
+. https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.3/installation-ecs/topics/cdppvc-requirements-ecs.html[Cloudera on premises Data Services Guide]
 
 == Live On-Demand Sessions 
 
@@ -147,12 +147,12 @@ TBD !!! - Calendar
 
 - https://blog.cloudera.com/cloudera-dataflow-designer-the-key-to-agile-data-pipeline-development/[Introducing Cloudera DataFlow Designer]
 - https://blog.cloudera.com/introducing-cloudera-data-engineering-in-cdp-private-cloud-1-3/[Make the leap to Hybrid with Cloudera Data Engineering]
-- https://blog.cloudera.com/apache-ozone-a-high-performance-object-store-for-cdp-private-cloud/[Apache Ozone – A High-Performance Object Store for CDP Private Cloud]
+- https://blog.cloudera.com/apache-ozone-a-high-performance-object-store-for-cdp-private-cloud/[Apache Ozone – A High-Performance Object Store for Cloudera on premises]
 - https://blog.cloudera.com/choosing-your-upgrade-or-migration-path-to-cloudera-data-platform/[Choosing Your Upgrade or Migration Path to Cloudera Data Platform]
-- https://blog.cloudera.com/migrate-to-cdp-private-cloud-base-a-step-by-step-guide/[Upgrade to CDP Private Cloud Base – A Step by Step Guide]
+- https://blog.cloudera.com/migrate-to-cdp-private-cloud-base-a-step-by-step-guide/[Upgrade to Cloudera on premises Base – A Step by Step Guide]
 - https://docs.cloudera.com/upgrade-companion/cdp_upgrade.html[Upgrade Companion]
-- https://blog.cloudera.com/a-reference-architecture-for-the-cloudera-private-cloud-base-data-platform/[A Reference Architecture for the Cloudera Private Cloud Base Data Platform]
-- https://blog.cloudera.com/5-reasons-to-use-apache-iceberg-on-cloudera-data-platform-cdp/[5 Reasons to Use Apache Iceberg on Cloudera Data Platform (CDP)]
+- https://blog.cloudera.com/a-reference-architecture-for-the-cloudera-private-cloud-base-data-platform/[A Reference Architecture for the Cloudera on premises Base Data Platform]
+- https://blog.cloudera.com/5-reasons-to-use-apache-iceberg-on-cloudera-data-platform-cdp/[5 Reasons to Use Apache Iceberg on cloudera Data Platform]
 - https://blog.cloudera.com/streaming-ingestion-for-apache-iceberg-with-cloudera-stream-processing/[Streaming Ingestion for Apache Iceberg With Cloudera Stream Processing]
 - https://blog.cloudera.com/moving-enterprise-data-from-anywhere-to-any-system-made-easy/[The Need for a Universal Data Distribution Service]
 
