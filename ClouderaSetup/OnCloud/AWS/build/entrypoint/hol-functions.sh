@@ -443,7 +443,7 @@ check_aws_sg_exists() {
 #---------------------------------------------------------------------------------------------------------------------#
 # Function to verify CDP pre-requisites i.e. num_of_grps and num_of_saml_prvdrs
 cdp_prereq() {
-   echo -e "\n               ==========================Initializing Parameter Values for CDP limits======================================"
+   echo -e "\n               ==========================Initializing Parameter Values for CDP limits=========================="
    # echo "  cdp_group_limit: $cdp_group_limit"
    # Default Values
    DEFAULT_CDP_SAML_PROVIDER_LIMIT=10
@@ -803,7 +803,33 @@ EOF
    if [ $cdp_provision_status -eq 0 ]; then
       export ENV_PUBLIC_SUBNETS=$(terraform output -json aws_public_subnet_ids)
       export ENV_PRIVATE_SUBNETS=$(terraform output -json aws_private_subnet_ids)
+
+      echo -e "\nSubnet values from Terraform:"
+      echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
+      echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
+
+      ENV_PUBLIC_SUBNETS=$(terraform output -json aws_public_subnet_ids | jq -c '.[0:3]')
+      echo "\nFirst 3 public subnets for CDW (If Applicable): $ENV_PUBLIC_SUBNETS"
+      ENV_PRIVATE_SUBNETS=$(terraform output -json aws_private_subnet_ids | jq -c '.[0:3]')
+      echo "First 3 private subnets for CDW (If Applicable): $ENV_PRIVATE_SUBNETS"
+
       export BUCKET_NAME=$(terraform output -raw log_storage_bucket_name)
+
+      # Count elements in ENV_PUBLIC_SUBNETS and ENV_PRIVATE_SUBNETS
+      count_public=$(count_elements "$ENV_PUBLIC_SUBNETS")
+      count_private=$(count_elements "$ENV_PRIVATE_SUBNETS")
+
+      # echo -e "\nCounts:"
+      # echo "ENV_PUBLIC_SUBNETS count: $count_public"
+      # echo "ENV_PRIVATE_SUBNETS count: $count_private"
+
+      # Using conditional expressions to assign values
+      ENV_PUBLIC_SUBNETS=$([ "$count_public" -ge 1 ] && echo "$ENV_PUBLIC_SUBNETS" || echo "$ENV_PRIVATE_SUBNETS")
+      ENV_PRIVATE_SUBNETS=$([ "$count_private" -ge 1 ] && echo "$ENV_PRIVATE_SUBNETS" || echo "$ENV_PUBLIC_SUBNETS")
+
+      echo -e "\nFinal values after assignment:"
+      echo "ENV_PUBLIC_SUBNETS for CDW (If Applicable): $ENV_PUBLIC_SUBNETS"
+      echo "ENV_PRIVATE_SUBNETS for CDW (If Applicable): $ENV_PRIVATE_SUBNETS"
 
       aws_enhancements #calling aws_enahancements function
       aws_enhancements_status=$?
@@ -993,26 +1019,6 @@ count_elements() {
 #--------------------------------------------------------------------------------------------------#
 deploy_cdw() {
    echo -e "\n               ==========================Deploying CDW======================================\n"
-   echo -e "\nConfiguring subnet values.. \nInitial values:"
-   echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
-   echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
-
-   # Count elements in ENV_PUBLIC_SUBNETS and ENV_PRIVATE_SUBNETS
-   count_public=$(count_elements "$ENV_PUBLIC_SUBNETS")
-   count_private=$(count_elements "$ENV_PRIVATE_SUBNETS")
-
-   echo -e "\nCounts:"
-   echo "ENV_PUBLIC_SUBNETS count: $count_public"
-   echo "ENV_PRIVATE_SUBNETS count: $count_private"
-
-   # Using conditional expressions to assign values
-   ENV_PUBLIC_SUBNETS=$([ "$count_public" -ge 3 ] && echo "$ENV_PUBLIC_SUBNETS" || echo "$ENV_PRIVATE_SUBNETS")
-   ENV_PRIVATE_SUBNETS=$([ "$count_private" -ge 3 ] && echo "$ENV_PRIVATE_SUBNETS" || echo "$ENV_PUBLIC_SUBNETS")
-
-   echo -e "\nFinal values after assignment:"
-   echo "ENV_PUBLIC_SUBNETS: $ENV_PUBLIC_SUBNETS"
-   echo "ENV_PRIVATE_SUBNETS: $ENV_PRIVATE_SUBNETS"
-
    number_vw_to_create=$((($number_of_workshop_users / 10) + ($number_of_workshop_users % 10 > 0)))
 
    ansible-playbook $DS_CONFIG_DIR/enable-cdw.yml --extra-vars \

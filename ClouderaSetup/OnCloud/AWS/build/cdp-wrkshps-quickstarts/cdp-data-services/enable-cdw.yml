@@ -11,6 +11,7 @@
     - name: Check and print variable status
       debug:
         msg:
+          - "cdp_env_name: {{ cdp_env_name }}"
           - "env_lb_public_subnet: {{ env_lb_public_subnet }}"
           - "env_wrkr_private_subnet: {{ env_wrkr_private_subnet }}"
           - "vw_size: {{ vw_size }}"
