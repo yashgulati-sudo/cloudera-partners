@@ -74,9 +74,10 @@
             ]
           }
 
-    - name: Debug generated JSON
+    - name: Debug generated JSON for Provision K8S request
       debug:
-        msg: "Provision K8S request JSON: {{ provision_k8s_request | to_json }}"
+        # msg: "Provision K8S request JSON: {{ provision_k8s_request | to_json }}"
+        var: provision_k8s_request
 
     - name: Provision CML Workspace with GPU support if it does not exist
       ansible.builtin.command: >
