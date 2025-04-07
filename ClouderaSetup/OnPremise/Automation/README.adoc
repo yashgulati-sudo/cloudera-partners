@@ -15,7 +15,7 @@ Automatically spins up a new VM(s) in AWS and sets up a Cloudera cluster.
 
 **Pre-requisites** 
 
-- **Cloudera License** – Log in to our [partner portal](https://cloudera-portal.force.com/clouderapartners) to obtain the Cloudera on-premises license if you don’t already have one.
+- **Cloudera License** – Log in to our [partner portal] (https://cloudera-portal.force.com/clouderapartners) to obtain the Cloudera on-premises license if you don’t already have one.
 - **Docker** – Ensure Docker is installed and running on your computer.
 - **AWS Profile** – Create an AWS profile using the AWS CLI.
 
@@ -46,9 +46,9 @@ Automatically sets up a Cloudera cluster on an existing VM.
 - Clone the [edge2ai-workshop](https://github.com/cloudera-labs/edge2ai-workshop) GitHub repository in your local machine.
 - Follow the steps given in the [Deploying on an existing VM](https://github.com/cloudera-labs/edge2ai-workshop/tree/trunk/setup#deploying-on-an-existing-vm).
 
-  > [!IMPORTANT]
   > Add your Cloudera license to /tmp/resources/.license before launching the setup script.
     Choose the stack that you want to use. `cdp731p` is for Cloudera's latest unified runtime release.
+
 - Want to terminate? Kill the VM or clean up resources manually before relaunching the automation.
 
 **Additional Notes**
