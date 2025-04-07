@@ -86,7 +86,7 @@ You may experiment with lighter instances, particularly if your stack file inclu
 
 ---
 
-## Workshop Details
+## The Perfect Addition: Hands-on Labs
 The edge2ai-workshop GitHub repository contains various https://github.com/cloudera-labs/edge2ai-workshop/tree/trunk?tab=readme-ov-file#workshops[workshops] to help you learn the Cloudera platform or demonstrate it to customers. Be sure to take advantage of these resources whenever possible.
 
 ---
