@@ -1,6 +1,7 @@
 # Fast-Track Your Single-Node Cloudera On-Premises Install
 angupta@cloudera.com
 v1.0, April 6, 2025:
+:imagesdir: .
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -26,12 +27,12 @@ TIP: Please read the entire article before starting the automation.
 ## Setup Options
 ### #1. Deploying on a New VM
 
-Automatically spins up a new VM in AWS and sets up a Cloudera cluster. 
+Automatically spin up a new VM in AWS and set up a Cloudera cluster. 
 
 **Pre-requisites** 
 
 * Cloudera License – Log in to our https://cloudera-portal.force.com/clouderapartners[partner portal] to obtain the Cloudera on-premises license if you don’t already have one.
-* Docker – Ensure Docker is installed and running on your computer.
+* https://docs.docker.com/engine/install/rhel/[Docker] – Ensure Docker is installed and running on your computer.
 * AWS Profile – Create an AWS profile using the AWS CLI.
 
 **Installation Instructions**
@@ -46,21 +47,21 @@ Automatically spins up a new VM in AWS and sets up a Cloudera cluster.
 
 ### #2. Deploying on an Existing VM
 
-Automatically sets up a Cloudera cluster on an existing VM.
+Automatically set up a Cloudera cluster on an existing VM.
 
 **Pre-requisites**
 
 * VM - Visit Cloudera https://supportmatrix.cloudera.com/[Support Matrix] to ensure you are using a Cloudera-supported OS version.
 * Cloudera License – Log in to our https://cloudera-portal.force.com/clouderapartners[partner portal] to obtain the Cloudera on-premises license if you don’t already have one.
-* Docker – Ensure Docker is installed and running on your VM.
+* https://docs.docker.com/engine/install/rhel/[Docker] – Ensure Docker is installed and running on your VM.
 
 **Installation Instructions**
 
 * Clone the https://github.com/cloudera-labs/edge2ai-workshop[edge2ai-workshop] GitHub repository in your local machine.
 * Follow the steps given in the https://github.com/cloudera-labs/edge2ai-workshop/tree/trunk/setup#deploying-on-an-existing-vm[Deploying on an existing VM section].
 * Critical Steps:
-  - Add your Cloudera license to /tmp/resources/.license before launching the setup script.
-  - Choose the stack that you want to use. `cdp731p` is for Cloudera's latest unified runtime release. Feel free to remove any services you don't need, but make sure all https://docs.cloudera.com/cdp-private-cloud-base/7.3.1/cdp-private-cloud-base-installation/topics/cdpdc-service-dependencies.html[service dependencies] are properly handled. All the stack files are available in `setup/terraform/resources` directory.
+  - Add your Cloudera license to `/tmp/resources/.license` before launching the setup script.
+  - Choose the stack that you want to use. `cdp731p` is for Cloudera's latest unified runtime release. Feel free to remove any services you don't need, but make sure all https://docs.cloudera.com/cdp-private-cloud-base/7.3.1/cdp-private-cloud-base-installation/topics/cdpdc-service-dependencies.html[service dependencies] are properly handled. All the stack files are available in the `setup/terraform/resources` directory for you to choose from.
 * Want to terminate? Kill the VM or clean up resources manually before relaunching the automation.
 
 **Additional Notes**
@@ -79,7 +80,7 @@ You may experiment with lighter instances, particularly if your stack file inclu
 
 ## Common Issues and Troubleshooting
 * User file & directory permission issues - set umask to `022`.
-* RHEL system registration issues -- refer to https://access.redhat.com/solutions/253273[this] article for assistance.
+* RHEL system registration issues - refer to https://access.redhat.com/solutions/253273[this] article for assistance.
 * Unauthorized (HTTP 403) to download Cloudera parcels - ensure you've added your **active** Cloudera license.
 * Insufficient AWS quota - Make sure you have enough AWS resources available for this automation. Example: if only 5 Elastic IPs are allowed and all are in use, either clean up unused resources or request a quota increase.
 
@@ -90,5 +91,9 @@ The edge2ai-workshop GitHub repository contains various https://github.com/cloud
 
 ---
 
-## Session Recording
-To be added soon
+## More Information
+A recording of this automation's walkthrough is available in the https://clouderapartneracademy.learnupon.com/catalog/courses/4346762[Deploy a Single-Node Cloudera Cluster with Ease] course on Cloudera's Partner Academy. Please enroll to get started.
+
+image::./cloudera-partner-academy.png[Cloudera Partner Academy]
+
+---
