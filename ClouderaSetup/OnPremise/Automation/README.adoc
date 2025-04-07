@@ -37,7 +37,7 @@ Automatically spin up a new VM in AWS and set up a Cloudera cluster.
 
 **Installation Instructions**
 
-* Clone the https://github.com/cloudera-labs/edge2ai-workshop[edge2ai-workshop] GitHub repository in your local machine.
+* Clone the https://github.com/cloudera-labs/edge2ai-workshop[edge2ai-workshop] GitHub repository to your local machine.
 * Follow the steps given in the https://github.com/cloudera-labs/edge2ai-workshop/tree/trunk/setup#setup[Setup section].
 * Critical Steps:
   - Create stack.sh. Use `stack.cdp731p.sh` for Cloudera's latest unified runtime release. Feel free to remove any services you don't need, but make sure all https://docs.cloudera.com/cdp-private-cloud-base/7.3.1/cdp-private-cloud-base-installation/topics/cdpdc-service-dependencies.html[service dependencies] are properly handled.
@@ -57,7 +57,7 @@ Automatically set up a Cloudera cluster on an existing VM.
 
 **Installation Instructions**
 
-* Clone the https://github.com/cloudera-labs/edge2ai-workshop[edge2ai-workshop] GitHub repository in your local machine.
+* Clone the https://github.com/cloudera-labs/edge2ai-workshop[edge2ai-workshop] GitHub repository to your VM.
 * Follow the steps given in the https://github.com/cloudera-labs/edge2ai-workshop/tree/trunk/setup#deploying-on-an-existing-vm[Deploying on an existing VM section].
 * Critical Steps:
   - Add your Cloudera license to `/tmp/resources/.license` before launching the setup script.
