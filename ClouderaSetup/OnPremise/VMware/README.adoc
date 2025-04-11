@@ -66,7 +66,7 @@ The edge2ai-workshop GitHub repository contains various https://github.com/cloud
 ---
 
 ## More Information
-A detailed step-by-step learning course on this setup's walkthrough is available in the https://clouderapartneracademy.learnupon.com/catalog/courses/4346762[Mastering Cloudera On-Premise Deployment: A Practical Guide to Private Cloud Installation] course on Cloudera's Partner Academy. Please enroll to get started.
+A detailed step-by-step learning course on this setup's walkthrough is available in the https://clouderapartneracademy.learnupon.com/catalog/courses/4347094[Mastering Cloudera On-Premise Deployment: A Practical Guide to Private Cloud Installation] course on Cloudera's Partner Academy. Please enroll to get started.
 
 image::./cloudera-partner-academy-pvc.png[Cloudera Partner Academy,width=840,height=540]
 
