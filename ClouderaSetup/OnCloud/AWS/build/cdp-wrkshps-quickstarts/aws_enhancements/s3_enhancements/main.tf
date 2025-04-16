@@ -42,7 +42,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "log_lifecycle_policy" {
     id     = "remove_expired_delete_markers"
     status = "Enabled"
 
-    filter {}
+    filter {
+      prefix = "logs/"
+    }
 
     expiration {
       expired_object_delete_marker = true
