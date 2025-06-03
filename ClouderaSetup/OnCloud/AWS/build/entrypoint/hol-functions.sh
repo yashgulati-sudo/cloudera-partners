@@ -304,6 +304,9 @@ validating_variables() {
          DATALAKE_VERSION)
             datalake_version=$value
             ;;
+         PROVISION_CAII)
+            provision_caii=$(echo $value | tr '[:upper:]' '[:lower:]')
+            ;;
          # Can Add more cases if required.
          esac
       fi
