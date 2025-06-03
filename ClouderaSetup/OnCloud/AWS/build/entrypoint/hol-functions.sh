@@ -9,6 +9,7 @@ KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraf
 KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansible_config
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
 ENHANCEMENTS_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/aws_enhancements/
+CAII_SCRIPTS_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/CAII
 USER_ACTION=$1
 validating_variables() {
    echo
@@ -860,7 +861,123 @@ aws_enhancements() {
          -var="log_bucket_name=$BUCKET_NAME" \
          -var="aws_region=$aws_region"
 }
+
 #--------------------------------------------------------------------------------------------------#
+provision_compute_cluster() {
+   echo -e "\n               ==============================Deploying AI Inference ========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR" ]; then
+      cp -R "$CAII_SCRIPTS_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+   cd /userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR
+
+   chmod +x ./convert_v2_env.sh
+   ./convert_v2_env.sh $ENV_PUBLIC_SUBNETS $workshop_name $local_ip
+   #Compute cluster initialization
+   cdp environments initialize-aws-compute-cluster --cli-input-json file://updated-convert-v2-env.json
+
+   #deploy Compute cluster
+   chmod +x ./compute_cluster_deploy.sh
+   ./compute_cluster_deploy.sh $workshop_name
+}
+
+enable_model_registry() { 
+   cd /userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR
+   environment_crn=$(cdp environments describe-environment --environment-name ${CDP_ENV_NAME} | jq -r .environment.crn)
+      # Check if ML Model Registry exists and is already installed
+   registry_status=$(cdp ml list-model-registries | jq -r --arg env_name "${workshop_name}-cdp-env" '
+     .registries[]
+     | select(.environmentName == $env_name)
+     | .status
+   ')
+
+   if [[ "$registry_status" == "installation:finished" ]]; then
+     echo "✅ ML Model Registry for environment '${workshop_name}-cdp-env' is already installed. Skipping creation."
+   else
+     echo "🚀 Proceeding with next step since registry is not installed"
+     cdp ml create-model-registry --environment-crn $environment_crn --environment-name $workshop_name-cdp-env --use-public-load-balancer 
+   fi
+
+}
+
+provision_caii_service_app() {
+
+   
+   echo -e "\n               ==============================Provisioning AI Inference Service ========================================="
+   
+   #Update template for serving app
+   chmod +x ./create-serving-app-input.sh
+   ./create-serving-app-input.sh $workshop_name
+   # Create model endpoint
+   cdp ml create-ml-serving-app --cli-input-json file://updated-serving-app-input.json
+}
+
+provision_cai_inference() {
+   echo -e "\n               ============================== Provisioning AI Inference ========================================="
+
+   # Set data service to enable
+   enable_data_services="cml"
+
+   provision_compute_cluster &   # Background process 1
+   pid1=$!
+
+   enable_model_registry &       # Background process 2
+   pid2=$!
+
+   enable_data_services &        # Background process 3 (CML)
+   pid3=$!
+
+   # Wait for all background processes
+   wait $pid1
+   status1=$?
+
+   wait $pid2
+   status2=$?
+
+   wait $pid3
+   status3=$?
+
+   if [[ $status1 -ne 0 || $status2 -ne 0 || $status3 -ne 0 ]]; then
+      echo "❌ Error: One or more provisioning steps failed (compute cluster, model registry, or CML)."
+      return 1
+   fi
+
+   provision_caii_service_app  # Final provisioning step
+}
+
+
+destroy_cai_inference() {
+   echo -e "\n               ==============================Destroying AI Inference ========================================="
+  
+   cd /userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR
+
+   # Delete ML Serving App first, extract CRN
+   serving_app_crn=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "${workshop_name}-cdp-env" '
+     .apps[] | select(.environmentName == $env_name) | .appCrn
+   ')
+
+   if [[ -n "$serving_app_crn" ]]; then
+     echo "🗑️ Deleting ML Serving App: $serving_app_crn"
+     cdp ml delete-ml-serving-app --app-crn "$serving_app_crn"
+   else
+     echo "✅ No ML Serving App found"
+   fi
+   
+   # Set the data service value for cleanup
+   enable_data_services="cml"
+   disable_data_services &  # Call the function that disables CML
+   pid_disable=$!
+
+   chmod +x ./destroy_caii_resources.sh
+   ./destroy_caii_resources.sh $workshop_name
+   
+   # Wait for disable_data_services to complete before exiting
+   wait $pid_disable
+}
+#--------------------------------------------------------------------------------------------------#
+
 # Update the User Group.
 update_cdp_user_group() {
    cdp iam update-group --group-name $workshop_name-aw-cdp-user-group --sync-membership-on-user-login
