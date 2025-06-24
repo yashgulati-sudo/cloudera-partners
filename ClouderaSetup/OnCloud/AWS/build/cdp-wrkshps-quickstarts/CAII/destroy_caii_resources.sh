@@ -4,13 +4,14 @@ set -e
 
 workshop_name="$1"
 env_name="${workshop_name}-cdp-env"
+cluster_name="${workshop_name}-compute-cluster"
 
 echo "🔁 Starting cleanup for environment: $env_name"
 
 # --- Delete ML Model Registry ---
 delete_model_registry() {
   model_registry_crn=$(cdp ml list-model-registries | jq -r --arg env_name "$env_name" '
-    .registries[] 
+    .modelRegistries[] 
     | select(.environmentName == $env_name and .status == "installation:finished") 
     | .crn
   ')
@@ -24,8 +25,8 @@ delete_model_registry() {
 
 # --- Delete Compute Cluster ---
 delete_compute_cluster() {
-  compute_cluster_crn=$(cdp compute list-clusters | jq -r --arg env_name "$env_name" '
-    .clusters[] | select(.envName == $env_name) | .clusterCrn
+  compute_cluster_crn=$(cdp compute list-clusters | jq -r --arg name "$cluster_name" '
+    .clusters[] | select(.isDefault == false and .clusterName == $name) | .clusterCrn
   ')
   if [[ -n "$compute_cluster_crn" ]]; then
     echo "🗑️ Deleting Compute Cluster: $compute_cluster_crn"
@@ -52,12 +53,12 @@ echo "🔍 Verifying deletion of all resources..."
 while true; do
   still_exists=0
 
-  if cdp ml list-model-registries | jq -e --arg env_name "$env_name" '.registries[] | select(.environmentName == $env_name)' > /dev/null; then
+  if cdp ml list-model-registries | jq -e --arg env_name "$env_name" '.modelRegistries[] | select(.environmentName == $env_name)' > /dev/null; then
     echo "⏳ Waiting: Model Registry still exists..."
     still_exists=1
   fi
 
-  if cdp compute list-clusters | jq -e --arg env_name "$env_name" '.clusters[] | select(.envName == $env_name)' > /dev/null; then
+  if cdp compute list-clusters | jq -e --arg name "$cluster_name" '.clusters[] | select(.isDefault == false and .clusterName == $name)' > /dev/null; then
     echo "⏳ Waiting: Compute Cluster still exists..."
     still_exists=1
   fi
