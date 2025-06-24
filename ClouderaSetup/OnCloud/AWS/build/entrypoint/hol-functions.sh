@@ -878,8 +878,8 @@ aws_enhancements() {
 }
 
 #--------------------------------------------------------------------------------------------------#
-provision_compute_cluster() {
-   echo -e "\n               ==============================Deploying AI Inference ========================================="
+initialize_compute_cluster() {
+   echo -e "\n               ==============================Initializing Compute Cluster=========================================="
    USER_NAMESPACE=$workshop_name
    mkdir -p /userconfig/.$USER_NAMESPACE
 
@@ -892,7 +892,24 @@ provision_compute_cluster() {
    ./convert_v2_env.sh $ENV_PUBLIC_SUBNETS $workshop_name $local_ip
 
    #deploy Compute cluster
+   chmod +x ./initialize_default_cluster.sh
+
+   ./initialize_default_cluster.sh $workshop_name
+}
+
+provision_compute_cluster() {
+echo -e "\n               ==============================Provisioning Compute Cluster=========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR" ]; then
+      cp -R "$CAII_SCRIPTS_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+   cd /userconfig/.$USER_NAMESPACE/CAII
+
+   #deploy Compute cluster
    chmod +x ./compute_cluster_deploy.sh
+
    ./compute_cluster_deploy.sh $workshop_name
 }
 
@@ -921,13 +938,14 @@ provision_caii_service_app() {
    USER_NAMESPACE=$workshop_name
    cd /userconfig/.$USER_NAMESPACE/CAII
    
-   echo -e "\n               ==============================Provisioning AI Inference Service ========================================="
+   echo -e "\n               ==============================Provisioning AI Inference Service App ========================================="
    
    #Update template for serving app
    chmod +x ./create_serving_app_input.sh
    ./create_serving_app_input.sh $workshop_name
-
-   caii_service_status=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "${workshop_name}-cdp-env" '
+   
+   local env_name="${workshop_name}-cdp-env"
+   caii_service_status=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "$env_name" '
      .apps[]
      | select(.environmentName == $env_name)
      | .status
@@ -939,40 +957,66 @@ provision_caii_service_app() {
      echo "🚀 Proceeding with CAII service deployment"
       # Create model endpoint
       cdp ml create-ml-serving-app --cli-input-json file://updated-serving-app-input.json
+      sleep 60
    fi
+
+   for i in {1..60}; do
+     caii_service_status=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "$env_name" '
+      .apps[]
+      | select(.environmentName == $env_name)
+      | .status
+     ')
+
+     echo "   ➤ Attempt $i: Status = $caii_service_status"
+
+   # Keep looping if it's still 'provision:started'
+     if [[ "$caii_service_status" == "provision:started" ]]; then
+         sleep 45
+         continue
+     fi
+
+      # Exit the loop when status is no longer 'provision:started'
+     echo "✅ Status changed to '$caii_service_status'. Exiting loop."
+     break
+   done  
 }
 
 provision_cai_inference() {
-   echo -e "\n               ============================== Provisioning AI Inference infrastructure e.g Compute cluster, workbench & Model registry ========================================="
+   echo -e "\n   ========= Provisioning AI Inference with other dependencies e.g Compute cluster, workbench & Model registry ========="
 
-   # Set data service to enable
-   enable_data_services="cml"
+  local enable_data_services="cml"
+  local env_name="${workshop_name}-cdp-env"
 
-   provision_compute_cluster &   # Background process 1
-   pid1=$!
+  # Step 1: Initialize compute cluster
+  initialize_compute_cluster
 
-   enable_model_registry &       # Background process 2
-   pid2=$!
+  # Step 2: Provision compute cluster, model registry and ai workbench in parallel
+  provision_compute_cluster &
+  pid_compute=$!
 
-   enable_data_services &        # Background process 3 (CML)
-   pid3=$!
+  enable_model_registry &
+  pid_model=$!
 
-   # Wait for all background processes
-   wait $pid1
-   status1=$?
+  enable_data_services &
+  pid_cml=$!
 
-   wait $pid2
-   status2=$?
+  # Step 4: Wait for all background tasks
+  wait $pid_compute
+  status_compute=$?
 
-   wait $pid3
-   status3=$?
+  wait $pid_model
+  status_model=$?
 
-   if [[ $status1 -ne 0 || $status2 -ne 0 || $status3 -ne 0 ]]; then
-      echo "❌ Error: One or more provisioning steps failed (compute cluster, model registry, or CML)."
-      return 1
-   fi
+  wait $pid_cml
+  status_cml=$?
 
-   provision_caii_service_app  # Final provisioning step
+  if [[ $status_compute -ne 0 || $status_model -ne 0 || $status_cml -ne 0 ]]; then
+    echo "❌ Error: One or more provisioning steps failed."
+    return 1
+  fi
+
+  # Step 5: Proceed to CAII service deployment
+  provision_caii_service_app
 }
 
 
@@ -995,10 +1039,11 @@ destroy_cai_inference() {
    fi
    
    # Set the data service value for cleanup
-   enable_data_services="cml"
+   local enable_data_services="cml"
    disable_data_services &  # Call the function that disables CML
    pid_disable=$!
-
+   sleep 30
+   
    chmod +x ./destroy_caii_resources.sh
    ./destroy_caii_resources.sh $workshop_name
    

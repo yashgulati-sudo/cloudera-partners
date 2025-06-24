@@ -55,21 +55,20 @@ provision)
         cdp_idp_setup_user
     fi
     if [ "$provision_caii" == "yes" ]; then
+        sleep 30
         echo -e "\n               =============================CAII Provisioning Started=============================="
         provision_cai_inference  
     fi
     enable_data_services
     echo -e "\n               ==============================Infrastructure Provisioned========================================="
-
     ;;
 destroy)
     validating_variables
-    #setup_aws_and_cdp_profile
-    disable_data_services
     if [ "$provision_caii" == "yes" ]; then
         echo -e "\n               =============================CAII deletion Started=============================="
         destroy_cai_inference  
     fi
+    disable_data_services
     if [ "$provision_keycloak" == "yes" ]; then
         cdp_idp_user_teardown
     fi
