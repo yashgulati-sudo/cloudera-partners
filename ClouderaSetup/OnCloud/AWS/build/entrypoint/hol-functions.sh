@@ -969,15 +969,16 @@ provision_caii_service_app() {
 
      echo "   ➤ Attempt $i: Status = $caii_service_status"
 
-   # Keep looping if it's still 'provision:started'
-     if [[ "$caii_service_status" == "provision:started" ]]; then
-         sleep 45
-         continue
+   # Keep looping until status is 'installation:finished'
+     if [[ "$caii_service_status" == "installation:finished" ]]; then
+         echo "✅ Installation finished."
+         break
+     elif [[ "$caii_service_status" == "installation:failed" ]]; then
+         echo "❌ Installation failed."
+         exit 1
      fi
 
-      # Exit the loop when status is no longer 'provision:started'
-     echo "✅ Status changed to '$caii_service_status'. Exiting loop."
-     break
+     sleep 45
    done  
 }
 
