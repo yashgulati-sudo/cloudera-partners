@@ -297,6 +297,8 @@ values of the parameters.
 [NOTE]
  Make Sure, you are providing a unique name for the variables i.e. WORKSHOP_USER_PREFIX, WORKSHOP_NAME etc. else there are chances to break in-between of execution of automation, in case there is already a resource present on account, with the same names.
 
+. Mandatory Parameters
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -368,8 +370,8 @@ Only from the provided values
 **Below are the optional parameters that should only be changed if any customization is needed. If you intend to proceed with the default configuration values for the data services, do not modify and/or uncomment the values. If you need to make changes, please refer to the table below for detailed instructions on providing the correct values. To override the default values for optional parameters for any of data services, uncomment the parameter Key and provide/update the values corresponding to them, if and when required.**
 
 
-==== Optional Parameters
-
+. Optional Parameters
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -381,8 +383,25 @@ Only from the provided values
 |Only base name without .pem extension.
 |===
 
-==== Optional parameters for datalake_version
+.. Optional parameters for `AI Inference Service` Deployment
++
+[%header,cols="1,1,1"]
+|===
+|Parameter
+|Description
+|Remarks
 
+|PROVISION_CAII
+|This is an optional parameter and should be uncommented only if you want to deploy `AI Inference Service` with other dependencies mentioned in the `Note` section below as part of a workshop.
+|No quotes 
+
+**YES** If `AI Inference` provisioning is required.
+|===
++
+Note: `This will deploy the **Cloudera on Cloud environment**, initialize **Compute Cluster**, create new **Compute Cluster**, deploy the **AI workbench** and **AI Registry** and at last deploy the **Cloudera AI Inference Service (CAII)**.`
+
+.. Optional parameters for datalake_version
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -394,8 +413,8 @@ Only from the provided values
 |To override the default value with current quota, kindly uncomment the corresponding entry in `configfile` and replace the override value e.g **7.2.18**
 |===
 
-==== Optional parameters for CDP Quota
-
+.. Optional parameters for CDP Quota
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -419,8 +438,8 @@ No quotes, only integer
 No quotes, only integer
 |===
 
-==== Optional parameters for CDW
-
+.. Optional parameters for CDW
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -439,8 +458,8 @@ No quotes, only string, only lowercase (with integers)
 No quotes, only string, only lowercase (with integers)
 |===
 
-==== Optional parameters for CDE
-
+.. Optional parameters for CDE
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -479,8 +498,8 @@ No quotes, only integer
 No quotes, only integer
 |===
 
-==== Optional parameters for CML
-
+.. Optional parameters for CML
++
 [%header,cols="1,1,1"]
 |===
 |Parameter
@@ -523,13 +542,11 @@ No quotes, only integer
 
 No quotes, only integer
 |===
-
-
++
 [NOTE]
  The availability of GPU instances is specific to AWS region and Quotas available to an AWS account and may vary for different accounts and region used for deployement. Please provide the correct/suitable values only, after referring to the official AWS and CDP public documentations.
 
-[NOTE]
- Please refer to the official AWS and CDP public documentations, for checking the correct and suitable values for AWS regions and Instance Types.
+Note: `Please refer to the official AWS and CDP public documentations, for checking the correct and suitable values for AWS regions and Instance Types.`
 
 ==== D):
 If the **AWS_KEY_PAIR** value is not defined in `configfile`, automation will generate a new keypair and place pem file inside **userconfig** directory.
