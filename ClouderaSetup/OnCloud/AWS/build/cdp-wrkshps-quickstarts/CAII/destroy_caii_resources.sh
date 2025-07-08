@@ -30,7 +30,7 @@ delete_compute_cluster() {
   ')
   if [[ -n "$compute_cluster_crn" ]]; then
     echo "🗑️ Deleting Compute Cluster: $compute_cluster_crn"
-    cdp compute delete-cluster --cluster-crn "$compute_cluster_crn"
+    cdp compute delete-cluster --cluster-crn "$compute_cluster_crn" --skip-validation
   else
     echo "✅ No Compute Cluster found"
   fi
