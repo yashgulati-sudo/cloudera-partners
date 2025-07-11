@@ -9,6 +9,7 @@ KC_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_terraf
 KC_ANS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-kc-config/keycloak_ansible_config
 DS_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/cdp-data-services
 ENHANCEMENTS_TF_CONFIG_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/aws_enhancements/
+CAII_SCRIPTS_DIR=$HOME_DIR/cdp-wrkshps-quickstarts/CAII
 USER_ACTION=$1
 validating_variables() {
    echo
@@ -65,6 +66,18 @@ validating_variables() {
             #"KEYCLOAK_SECURITY_GROUP_NAME"
          )
       fi
+
+            # Conditionally validate LOCAL_MACHINE_IP for CAII
+      if [[ "$provision_caii" == "yes" ]]; then
+         if [[ "$local_ip" == "0.0.0.0/0" ]]; then
+            echo "=================================================================================="
+            echo "FATAL: LOCAL_MACHINE_IP cannot be '0.0.0.0/0' when PROVISION_CAII is set to 'yes'."
+            echo "Please update the 'configfile' and provide a more restrictive IP or CIDR range."
+            echo "=================================================================================="
+            exit 1
+         fi
+      fi
+
 
       # Check if user-provided config file exists
       if [ ! -f "$USER_CONFIG_FILE" ]; then
@@ -302,6 +315,9 @@ validating_variables() {
             ;;
          DATALAKE_VERSION)
             datalake_version=$value
+            ;;
+         PROVISION_CAII)
+            provision_caii=$(echo $value | tr '[:upper:]' '[:lower:]')
             ;;
          # Can Add more cases if required.
          esac
@@ -860,7 +876,183 @@ aws_enhancements() {
          -var="log_bucket_name=$BUCKET_NAME" \
          -var="aws_region=$aws_region"
 }
+
 #--------------------------------------------------------------------------------------------------#
+initialize_compute_cluster() {
+   echo -e "\n               ==============================Initializing Compute Cluster=========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR" ]; then
+      cp -R "$CAII_SCRIPTS_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+   cd /userconfig/.$USER_NAMESPACE/CAII
+
+   chmod +x ./convert_v2_env.sh
+   ./convert_v2_env.sh $ENV_PUBLIC_SUBNETS $workshop_name $local_ip
+
+   #deploy Compute cluster
+   chmod +x ./initialize_default_cluster.sh
+
+   ./initialize_default_cluster.sh $workshop_name
+}
+
+provision_compute_cluster() {
+echo -e "\n               ==============================Provisioning Compute Cluster=========================================="
+   USER_NAMESPACE=$workshop_name
+   mkdir -p /userconfig/.$USER_NAMESPACE
+
+   if [ ! -d "/userconfig/.$USER_NAMESPACE/$CAII_SCRIPTS_DIR" ]; then
+      cp -R "$CAII_SCRIPTS_DIR" "/userconfig/.$USER_NAMESPACE/"
+   fi
+   cd /userconfig/.$USER_NAMESPACE/CAII
+
+   #deploy Compute cluster
+   chmod +x ./compute_cluster_deploy.sh
+
+   ./compute_cluster_deploy.sh $workshop_name
+}
+
+enable_model_registry() { 
+      echo -e "\n               =============================Deploying Model Registry ========================================="
+   USER_NAMESPACE=$workshop_name   
+   cd /userconfig/.$USER_NAMESPACE/CAII
+   environment_crn=$(cdp environments describe-environment --environment-name ${workshop_name}-cdp-env | jq -r .environment.crn)
+      # Check if ML Model Registry exists and is already installed
+   registry_status=$(cdp ml list-model-registries | jq -r --arg env_name "${workshop_name}-cdp-env" '
+     .modelRegistries[]
+     | select(.environmentName == $env_name)
+     | .status
+   ')
+
+   if [[ "$registry_status" == "installation:finished" ]]; then
+     echo "✅ ML Model Registry for environment '${workshop_name}-cdp-env' is already installed. Skipping creation."
+   else
+     echo "🚀 Proceeding with model registry deployment"
+     cdp ml create-model-registry --environment-crn $environment_crn --environment-name $workshop_name-cdp-env --use-public-load-balancer 
+   fi
+
+}
+
+provision_caii_service_app() {
+   USER_NAMESPACE=$workshop_name
+   cd /userconfig/.$USER_NAMESPACE/CAII
+   
+   echo -e "\n               ==============================Provisioning AI Inference Service App ========================================="
+   
+   #Update template for serving app
+   chmod +x ./create_serving_app_input.sh
+   ./create_serving_app_input.sh $workshop_name
+   
+   local env_name="${workshop_name}-cdp-env"
+   caii_service_status=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "$env_name" '
+     .apps[]
+     | select(.environmentName == $env_name)
+     | .status
+   ')
+
+   if [[ "$caii_service_status" == "installation:finished" ]]; then
+     echo "✅ CAII service for environment '${workshop_name}-cdp-env' is already installed. Skipping creation."
+   else
+     echo "🚀 Proceeding with CAII service deployment"
+      # Create model endpoint
+      cdp ml create-ml-serving-app --cli-input-json file://updated-serving-app-input.json
+      sleep 60
+   fi
+
+   for i in {1..60}; do
+     caii_service_status=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "$env_name" '
+      .apps[]
+      | select(.environmentName == $env_name)
+      | .status
+     ')
+
+     echo "   ➤ Attempt $i: Status = $caii_service_status"
+
+   # Keep looping until status is 'installation:finished'
+     if [[ "$caii_service_status" == "installation:finished" ]]; then
+         echo "✅ Installation finished."
+         break
+     elif [[ "$caii_service_status" == "installation:failed" ]]; then
+         echo "❌ Installation failed."
+         exit 1
+     fi
+
+     sleep 45
+   done  
+}
+
+provision_cai_inference() {
+   echo -e "\n   ========= Provisioning AI Inference with other dependencies e.g Compute cluster, workbench & Model registry ========="
+
+  local enable_data_services="cml"
+  local env_name="${workshop_name}-cdp-env"
+
+  # Step 1: Initialize compute cluster
+  initialize_compute_cluster
+
+  # Step 2: Provision compute cluster, model registry and ai workbench in parallel
+  provision_compute_cluster &
+  pid_compute=$!
+
+  enable_model_registry &
+  pid_model=$!
+
+  enable_data_services &
+  pid_cml=$!
+
+  # Step 4: Wait for all background tasks
+  wait $pid_compute
+  status_compute=$?
+
+  wait $pid_model
+  status_model=$?
+
+  wait $pid_cml
+  status_cml=$?
+
+  if [[ $status_compute -ne 0 || $status_model -ne 0 || $status_cml -ne 0 ]]; then
+    echo "❌ Error: One or more provisioning steps failed."
+    return 1
+  fi
+
+  # Step 5: Proceed to CAII service deployment
+  provision_caii_service_app
+}
+
+
+destroy_cai_inference() {
+   echo -e "\n               ==============================Destroying AI Inference ========================================="
+   
+   USER_NAMESPACE=$workshop_name
+   cd /userconfig/.$USER_NAMESPACE/CAII
+
+   # Delete ML Serving App first, extract CRN
+   serving_app_crn=$(cdp ml list-ml-serving-apps | jq -r --arg env_name "${workshop_name}-cdp-env" '
+     .apps[] | select(.environmentName == $env_name) | .appCrn
+   ')
+
+   if [[ -n "$serving_app_crn" ]]; then
+     echo "🗑️ Deleting ML Serving App: $serving_app_crn"
+     cdp ml delete-ml-serving-app --app-crn "$serving_app_crn"
+   else
+     echo "✅ No ML Serving App found"
+   fi
+   
+   # Set the data service value for cleanup
+   local enable_data_services="cml"
+   disable_data_services &  # Call the function that disables CML
+   pid_disable=$!
+   sleep 30
+   
+   chmod +x ./destroy_caii_resources.sh
+   ./destroy_caii_resources.sh $workshop_name
+   
+   # Wait for disable_data_services to complete before exiting
+   wait $pid_disable
+}
+#--------------------------------------------------------------------------------------------------#
+
 # Update the User Group.
 update_cdp_user_group() {
    cdp iam update-group --group-name $workshop_name-aw-cdp-user-group --sync-membership-on-user-login
