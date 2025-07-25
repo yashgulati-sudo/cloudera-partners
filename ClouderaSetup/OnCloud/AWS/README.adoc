@@ -92,7 +92,7 @@ ksahu@Kuldeeps-MacBook-Air build % cdp iam get-user
 
 ==== AWS
 
-There are three ways you can authenticate with AWS Account:
+There are three ways you can authenticate with AWS Account (use only one of them , preferrable to you out of these):
 
 a) Normal Way: *Using AWS ACCESS_KEY_ID and SECRET_ACCESS_KEY*
 
@@ -265,7 +265,7 @@ step of this section.
 [NOTE]
 ====
 To complete this setup, you must have a registered domain on `Route53` and a corresponding `Hosted Zone` linked to it.
-If you are unsure about the steps or don’t have a registered domain or hosted zone set up on `AWS Route53`, refer to the guide link:https://github.com/cloudera/cloudera-partners/blob/keycloak-ssl-le/ClouderaSetup/OnCloud/AWS/Route53.adoc[**here**] for detailed instructions.
+If you are unsure about the steps or don’t have a registered domain or hosted zone set up on `AWS Route53`, refer to the guide link:https://github.com/cloudera/cloudera-partners/blob/main/ClouderaSetup/OnCloud/AWS/Route53.adoc[**here**] for detailed instructions.
 ====
 
 ==== A): 
@@ -567,17 +567,22 @@ Once the `configfile` is created as outlined in **Step 2** . The provisioning of
 
 
 
-**For Mac/Linux/Windows Users:**
+**For Mac/Linux Users:**
 
 [.shell]
 ----
-docker run -it \
--v ~/userconfig:/userconfig \
--v ~/.aws/:/root/.aws -v ~/.cdp/:/root/.cdp \
-clouderapartners/cdp-public-cloud-hol-provisioner:latest \
-provision
+docker run -it    -v ~/userconfig:/userconfig    -v ~/.aws/:/root/.aws -v ~/.cdp/:/root/.cdp    clouderapartners/cdp-public-cloud-hol-provisioner:latest    provision
 
 ----
+
+**For Windows Users:**
+
+[.shell]
+----
+docker run -it    -v %USERPROFILE%\userconfig:/userconfig    -v %USERPROFILE%\.aws:/root/.aws    -v %USERPROFILE%\.cdp:/root/.cdp    clouderapartners/cdp-public-cloud-hol-provisioner:latest    provision
+
+----
+
 
 [NOTE]
 The above commands will start the `Docker` container in interactive mode and will display the process output and messages on the terminal. Make sure you don't close the terminal or your machine does not go to into sleep mode because of inactivity. 
