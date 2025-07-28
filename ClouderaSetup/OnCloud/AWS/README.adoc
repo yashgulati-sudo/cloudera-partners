@@ -55,7 +55,7 @@ To use this, you should have:
 
 Follow this link for: link:https://docs.docker.com/engine/install/[**installing Docker**] on your machine.
 
-=== Install `AWS CLI` (v1 or v2) [if not already installed]
+=== Install `awscli` (v1 or v2) [if not already installed]
 
 You only need to install `AWS CLI` if it's not already available on your system.
 
@@ -67,10 +67,10 @@ aws --version
 
 *If not installed, follow one of the below links:*
 
-- **AWS CLI v2** (Recommended): link:https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html[Install AWS CLI v2]
-- **AWS CLI v1** (Legacy): link:https://docs.aws.amazon.com/cli/v1/userguide/install-cliv1.html[Install AWS CLI v1]
+- **AWS CLI v2** (Recommended): link:https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html[Install AWS CLI v2]
+- **AWS CLI v1** (Legacy): link:https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-install.html[Install AWS CLI v1]
 
-=== Install `CDP CLI` [if not already installed]
+=== Install `cdpcli` [if not already installed]
 
 You only need to install `CDP CLI` if it's not already installed.
 
@@ -82,7 +82,7 @@ cdp --version
 
 *If not installed, follow the official installation instructions:*
 
-- **Install CDP CLI**: link:https://docs.cloudera.com/cdp/latest/cli/topics/cdp-cli-installing.html[Installing the CDP CLI]
+- **Install CDP CLI**: link:https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-installing-cdp-client.html[Installing the CDP CLI]
 
 Make sure Python and `pip` are available before installing `cdpcli`:
 
