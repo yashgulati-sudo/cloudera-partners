@@ -53,7 +53,7 @@ To use this, you should have:
 
 === How to install `Docker` on your local machine
 
-Follow this link for: link:https://docs.docker.com/engine/install/[**installing Docker**] on your machine.
+Follow this link for: link:https://docs.docker.com/engine/install/[**Installing Docker**] on your machine.
 
 === Install `awscli` (v1 or v2) [if not already installed]
 
@@ -69,6 +69,13 @@ aws --version
 
 - **AWS CLI v2** (Recommended): link:https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html[Install AWS CLI v2]
 - **AWS CLI v1** (Legacy): link:https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-install.html[Install AWS CLI v1]
+
+NOTE: Once installed, you can use `aws configure` command to set up credentials. (More details are covered in the <<aws-auth,AWS>> section.)
+
+[source,shell]
+----
+aws configure
+----
 
 === Install `cdpcli` [if not already installed]
 
@@ -91,18 +98,17 @@ Make sure Python and `pip` are available before installing `cdpcli`:
 pip install cdpcli --upgrade
 ----
 
-Once installed, you can configure it using:
+NOTE: Once installed, you can use `cdp configure` command to set up credentials. (More details are covered in the <<cdp-auth,CDP>> section.)
 
 [source,shell]
 ----
 cdp configure
 ----
 
-NOTE: Use `cdp configure` after installation to set up credentials.
-
 === Generate Keys
 
-==== CDP
+==== [[cdp-auth]]CDP
+
 * On the CDP Portal, click at the left bottom corner and click on Profile as shown below. 
 
 image::build/images/profile.png[profile, 120, 120]
@@ -132,9 +138,9 @@ ksahu@Kuldeeps-MacBook-Air build %
 ksahu@Kuldeeps-MacBook-Air build % cdp iam get-user
 ----
 
-==== AWS
+==== [[aws-auth]]AWS
 
-There are three ways you can authenticate with AWS Account (use only one of them , preferrable to you out of these):
+There are three ways you can authenticate with AWS Account (use only one of them, whichever is preferable to you):
 
 a) Normal Way: *Using AWS ACCESS_KEY_ID and SECRET_ACCESS_KEY*
 
