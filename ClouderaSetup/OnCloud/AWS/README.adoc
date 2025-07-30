@@ -590,11 +590,15 @@ No quotes, only integer
 
 No quotes, only integer
 |===
-+
-[NOTE]
- The availability of GPU instances is specific to AWS region and Quotas available to an AWS account and may vary for different accounts and region used for deployement. Please provide the correct/suitable values only, after referring to the official AWS and CDP public documentations.
 
-Note: `Please refer to the official AWS and CDP public documentations, for checking the correct and suitable values for AWS regions and Instance Types.`
+[NOTE]
+The availability of GPU instances is specific to AWS region and Quotas available to an AWS account and may vary for different accounts and region used for deployement. Please provide the correct/suitable values only, after referring to the official AWS and CDP public documentations.
+
+[NOTE]
+Please refer to the official AWS and https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-aws/topics/mc-aws-req-region.html[CDP Public Documentation], for checking the correct and suitable values for AWS regions and Instance Types.
+
+[NOTE]
+Please make sure sufficient resource quota is available in your region for provisioning CDP resources. Refer to the official https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-aws/topics/mc-aws-resources-list.html[documentation] for more details.
 
 ==== D):
 If the **AWS_KEY_PAIR** value is not defined in `configfile`, automation will generate a new keypair and place pem file inside **userconfig** directory.
@@ -617,18 +621,26 @@ Once the `configfile` is created as outlined in **Step 2** . The provisioning of
 
 **For Mac/Linux Users:**
 
-[.shell]
+[source,shell]
 ----
-docker run -it    -v ~/userconfig:/userconfig    -v ~/.aws/:/root/.aws -v ~/.cdp/:/root/.cdp    clouderapartners/cdp-public-cloud-hol-provisioner:latest    provision
-
+docker run -it \
+  -v ~/userconfig:/userconfig \
+  -v ~/.aws/:/root/.aws \
+  -v ~/.cdp/:/root/.cdp \
+  clouderapartners/cdp-public-cloud-hol-provisioner:latest \
+  provision
 ----
 
 **For Windows Users:**
 
-[.shell]
+[source,shell]
 ----
-docker run -it    -v %USERPROFILE%\userconfig:/userconfig    -v %USERPROFILE%\.aws:/root/.aws    -v %USERPROFILE%\.cdp:/root/.cdp    clouderapartners/cdp-public-cloud-hol-provisioner:latest    provision
-
+docker run -it ^
+  -v %USERPROFILE%\userconfig:/userconfig ^
+  -v %USERPROFILE%\.aws:/root/.aws ^
+  -v %USERPROFILE%\.cdp:/root/.cdp ^
+  clouderapartners/cdp-public-cloud-hol-provisioner:latest ^
+  provision
 ----
 
 
@@ -790,16 +802,28 @@ After succesful delivery of your HOL/Workshop the complete stack can be destroye
 
 
 
-**For Mac/Linux/Windows Users:**
- 
-[.shell]
+**For Mac/Linux Users:**
+
+[source,shell]
 ----
 docker run -it \
--v ~/userconfig:/userconfig \
--v ~/.aws/:/root/.aws -v ~/.cdp/:/root/.cdp \
-clouderapartners/cdp-public-cloud-hol-provisioner:latest \
-destroy
+  -v ~/userconfig:/userconfig \
+  -v ~/.aws/:/root/.aws \
+  -v ~/.cdp/:/root/.cdp \
+  clouderapartners/cdp-public-cloud-hol-provisioner:latest \
+  destroy
+----
 
+**For Windows Users:**
+
+[source,shell]
+----
+docker run -it ^
+  -v %USERPROFILE%\userconfig:/userconfig ^
+  -v %USERPROFILE%\.aws:/root/.aws ^
+  -v %USERPROFILE%\.cdp:/root/.cdp ^
+  clouderapartners/cdp-public-cloud-hol-provisioner:latest ^
+  destroy
 ----
 
 [NOTE]
