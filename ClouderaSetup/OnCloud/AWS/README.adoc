@@ -27,6 +27,11 @@ Infrastructure components are important and play a vital role in achieving the g
 
 image::build/images/Components.png[Components,600,400]
 
+[NOTE]
+====
+For a detailed walkthrough of the automated provisioning process, check out the course on Cloudera LMS titled https://clouderapartneracademy.learnupon.com/content-details/268793819/2[CDP Public Cloud Architecture and Onboarding]. It covers step-by-step setup using **AutoClouderaDeploy**.
+====
+
 == Technology Stack
 
 **AutoClouderaDeploy** employs a robust toolchain consisting of:
