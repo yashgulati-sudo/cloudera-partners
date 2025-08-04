@@ -1,9 +1,11 @@
-# Fast-Track Your Multi-Node Cloudera On-Premises Install
-
-ksahu@cloudera.com
-v1.0, April 8, 2025:
-
+= Fast-Track Your Multi-Node Cloudera On-Premises Install
+Kuldeep Sahu <ksahu@cloudera.com>
+v1.0, April 8, 2025
 :imagesdir: .
+:toc: left
+:toc-title: 📑 Table of Contents
+:toclevels: 3
+:numbered:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -22,9 +24,9 @@ TIP: Please read the entire article before starting the setup.
 
 The detailed and **step-by-step setup guide** used in this tutorial is available here:
 
-👉 link:./Cloudera_On-Premise_Deployment_Guide(ECS).pdf[Cloudera On-Premise Deployment Guide (ECS)]
+**👉 link:./Cloudera_On-Premise_Deployment_Guide(ECS).pdf[Cloudera On-Premise Deployment Guide (ECS)]**
 
-Make sure to review the entire guide **before beginning your installation** to avoid issues.
+Make sure to review the entire guide **before beginning your installation** to avoid any possible issues.
 ====
 
 ---
@@ -38,9 +40,9 @@ Make sure to review the entire guide **before beginning your installation** to a
 ---
 
 ## Setup Options
-### #1. Deploying on a New VM
+### Deploying on fresh set of VMs
 
-Spin up new VMs on-premises or on AWS (or any other cloud, but not tested yet) and set up a Cloudera cluster. 
+Spin up new VMs on-premises or on AWS (or any other cloud, !!!not tested yet) and set up a Cloudera cluster. 
 
 **Pre-requisites** 
 
@@ -48,7 +50,7 @@ Spin up new VMs on-premises or on AWS (or any other cloud, but not tested yet) a
 
 **Installation Instructions**
 
-* (Yet to be release)
+* **👉 link:./Cloudera_On-Premise_Deployment_Guide(ECS).pdf[Cloudera On-Premise Deployment Guide (ECS)]**
 
 
 **Additional Notes**
@@ -77,9 +79,10 @@ The edge2ai-workshop GitHub repository contains various https://github.com/cloud
 ---
 
 ## More Information
-A detailed step-by-step learning course on this setup's walkthrough is available in the https://clouderapartneracademy.learnupon.com/catalog/courses/4347094[Mastering Cloudera On-Premise Deployment: A Practical Guide to Private Cloud Installation] course on Cloudera's Partner Academy. Please enroll to get started.
+A detailed step-by-step learning course on this setup's walkthrough is available in the **https://clouderapartneracademy.learnupon.com/catalog/courses/4347094[Mastering Cloudera On-Premise Deployment: A Practical Guide to Private Cloud Installation]** course on Cloudera's Partner Academy. Please enroll to get started.
 
 image::./cloudera-partner-academy-pvc.png[Cloudera Partner Academy,width=840,height=540]
 
 ---
+
 
