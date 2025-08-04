@@ -16,6 +16,17 @@ Learn to effortlessly set up a multi-node Cloudera on-premises cluster.
 
 TIP: Please read the entire article before starting the setup.
 
+[IMPORTANT]
+====
+📘 **Complete Setup Guide**
+
+The detailed and **step-by-step setup guide** used in this tutorial is available here:
+
+👉 link:./Cloudera_On-Premise_Deployment_Guide(ECS).pdf[Cloudera On-Premise Deployment Guide (ECS)]
+
+Make sure to review the entire guide **before beginning your installation** to avoid issues.
+====
+
 ---
 
 ## Useful to begin with Cloudera's stack primarily for:
@@ -71,3 +82,4 @@ A detailed step-by-step learning course on this setup's walkthrough is available
 image::./cloudera-partner-academy-pvc.png[Cloudera Partner Academy,width=840,height=540]
 
 ---
+
