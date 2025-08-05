@@ -4,3 +4,6 @@
 [submodule "DataServicesLabs"]
 	path = DataServicesLabs
 	url = https://github.com/yashgulati-sudo/DataServicesLabs.git
+[submodule "End2EndLabs"]
+	path = End2EndLabs
+	url = https://github.com/yashgulati-sudo/End2EndLabs.git
