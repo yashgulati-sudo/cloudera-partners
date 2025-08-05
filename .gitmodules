@@ -1,0 +1,3 @@
+[submodule "K8SOperators"]
+	path = K8SOperators
+	url = https://github.com/yashgulati-sudo/K8SOperators.git
